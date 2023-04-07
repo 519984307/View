@@ -43,7 +43,7 @@ else()
     set(Widgets_LIBRARY  ${TargetName})
 endif()
 
-add_subdirectory(Source)
+add_subdirectory(Widgets)
 
 if (Widgets_BUILD_TEST)
     if (NOT Widgets_ExternalTarget)

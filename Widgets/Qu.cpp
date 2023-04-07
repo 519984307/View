@@ -1,25 +1,24 @@
 #include "Qu.h"
 #include <QLabel>
-#include <QLayout>
+#include "Metrics.h"
 #include "Utils/Console.h"
 #include "Utils/Definitions.h"
 #include "Utils/StreamConverters/Tab.h"
 
 namespace Rt2::Qt
 {
+    using Mt = Metrics;
+
     void Qu::fit(QWidget* widget)
     {
         RT_ASSERT(widget)
-        widget->setContentsMargins(gm, gm, gm, gm);
+        widget->setContentsMargins(Mt::gm, Mt::gm, Mt::gm, Mt::gm);
     }
 
     QWidget* Qu::box(QWidget* parent, const QColor& col)
     {
-        RT_ASSERT(parent)
-
         QWidget* box = new QWidget(parent);
         fit(box);
-
         box->setAutoFillBackground(true);
         setColor(box, QPalette::Window, col);
         return box;
@@ -79,8 +78,8 @@ namespace Rt2::Qt
     void Qu::fit(QLayout* layout)
     {
         RT_ASSERT(layout)
-        layout->setContentsMargins(gm, gm, gm, gm);
-        layout->setSpacing(gs);
+        layout->setContentsMargins(Mt::gm, Mt::gm, Mt::gm, Mt::gm);
+        layout->setSpacing(Mt::gs);
     }
 
     QVBoxLayout* Qu::vertical(QWidget* parent)
