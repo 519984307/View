@@ -11,7 +11,7 @@ include_directories(
 )
 
 
-add_executable(
+add_library(
     ${TargetName} 
     ${TargetName_SRC}
 )
