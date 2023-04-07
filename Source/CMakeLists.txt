@@ -1,0 +1,30 @@
+include(GroupSet)
+
+set_group(
+    TargetName_SRC 
+    Source:*.cpp
+    Header:*.h
+)
+
+include_directories(
+    ${Utils_INCLUDE} 
+)
+
+
+add_executable(
+    ${TargetName} 
+    ${TargetName_SRC}
+)
+
+target_link_libraries(
+    ${TargetName} 
+    Qt6::Widgets 
+    Qt6::Core 
+    Qt6::Gui 
+    ${Utils_LIBRARY}
+)
+
+set_target_properties(
+    ${TargetName} 
+    PROPERTIES FOLDER "${TargetGroup}"
+)
