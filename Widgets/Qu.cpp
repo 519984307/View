@@ -5,7 +5,7 @@
 #include "Utils/Definitions.h"
 #include "Utils/StreamConverters/Tab.h"
 
-namespace Rt2::Qt
+namespace Rt2::Widgets
 {
     using Mt = Metrics;
 

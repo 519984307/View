@@ -6,7 +6,7 @@
 class QLabel;
 class QHBoxLayout;
 
-namespace Rt2::Qt
+namespace Rt2::Widgets
 {
     class Qu
     {

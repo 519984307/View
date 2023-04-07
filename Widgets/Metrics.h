@@ -1,15 +1,15 @@
 #pragma once
 #include <QSize>
 
-namespace Rt2::Qt
+namespace Rt2::Widgets
 {
     class Metrics
     {
     public:
-        static constexpr QSize mw{320, 240};
-        static constexpr int   mch = 24;
-        static constexpr int   mcw = 24;
-        static constexpr QSize cm{mcw, mch};
+        static constexpr QSize minWindow{320, 240};
+        static constexpr int   minHeight{24};
+        static constexpr int   minWidth{24};
+        static constexpr QSize ctrlMin{minWidth, minHeight};
         static constexpr int   ts{10};
         static constexpr int   gm{0};
         static constexpr int   gs{0};
