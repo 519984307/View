@@ -1,4 +1,4 @@
-# QtTemplate
+# Widgets
 
 This template defines the CMake layout for a stand-alone / embedded project. The primary purpose for this structure is to have sub-modules that stand on their own, or included into larger projects as a component piece. If the module itself requires extra dependencies then they should be included into the module as sub-modules. 
 
@@ -95,6 +95,6 @@ Optional defines.
 
 | Option                      | Description                                          | Default |
 |:----------------------------|:-----------------------------------------------------|:-------:|
-| QtTemplate_BUILD_TEST         | Build the unit test program.                         |   ON    |
-| QtTemplate_AUTO_RUN_TEST      | Automatically run the test program.                  |   OFF   |
-| QtTemplate_USE_STATIC_RUNTIME | Build with the MultiThreaded(Debug) runtime library. |   ON    |
+| Widgets_BUILD_TEST         | Build the unit test program.                         |   ON    |
+| Widgets_AUTO_RUN_TEST      | Automatically run the test program.                  |   OFF   |
+| Widgets_USE_STATIC_RUNTIME | Build with the MultiThreaded(Debug) runtime library. |   ON    |

@@ -31,11 +31,11 @@ include(ConfigureQt)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(GLOBAL PROPERTY AUTOGEN_TARGETS_FOLDER "CMakePredefinedTargets/Qt")
 
-option(QtTemplate_BUILD_TEST          "Build the unit test program." ON)
-option(QtTemplate_AUTO_RUN_TEST       "Automatically run the test program." ON)
-option(QtTemplate_USE_STATIC_RUNTIME  "Build with the MultiThreaded(Debug) runtime library." ON)
+option(Widgets_BUILD_TEST          "Build the unit test program." ON)
+option(Widgets_AUTO_RUN_TEST       "Automatically run the test program." ON)
+option(Widgets_USE_STATIC_RUNTIME  "Build with the MultiThreaded(Debug) runtime library." ON)
 
-if (QtTemplate_USE_STATIC_RUNTIME)
+if (Widgets_USE_STATIC_RUNTIME)
     set_static_runtime()
 else()
     set_dynamic_runtime()
@@ -43,14 +43,14 @@ endif()
 
 DefineExternalTargetEx(
     Utils Extern
-    ${QtTemplate_SOURCE_DIR}/Internal/Utils 
-    ${QtTemplate_SOURCE_DIR}/Internal/Utils
-    ${QtTemplate_BUILD_TEST}
-    ${QtTemplate_AUTO_RUN_TEST}
+    ${Widgets_SOURCE_DIR}/Internal/Utils 
+    ${Widgets_SOURCE_DIR}/Internal/Utils
+    ${Widgets_BUILD_TEST}
+    ${Widgets_AUTO_RUN_TEST}
 )
 
-configure_gtest(${QtTemplate_SOURCE_DIR}/Test/googletest 
-                ${QtTemplate_SOURCE_DIR}/Test/googletest/googletest/include)
+configure_gtest(${Widgets_SOURCE_DIR}/Test/googletest 
+                ${Widgets_SOURCE_DIR}/Test/googletest/googletest/include)
 
 configure_qt_windows(Core Widgets Gui Test)
 qt_standard_project_setup()

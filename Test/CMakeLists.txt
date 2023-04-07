@@ -29,7 +29,7 @@ set_target_properties(
 )
 
 
-if (QtTemplate_AUTO_RUN_TEST)
+if (Widgets_AUTO_RUN_TEST)
     run_test(${TestTargetName})
 endif()
 
@@ -37,5 +37,5 @@ endif()
 add_qt_test_file(
     Test2 
     ${TestTargetName}.Test2
-    ${QtTemplate_AUTO_RUN_TEST}
+    ${Widgets_AUTO_RUN_TEST}
 )
