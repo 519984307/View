@@ -37,7 +37,7 @@ namespace Rt2::Widgets
             const QColor& value);
 
         static void setForeground(
-            QWidget* widget, 
+            QWidget*      widget,
             const QColor& value);
 
         static void clearMargins(const QObject* top);
@@ -47,8 +47,15 @@ namespace Rt2::Widgets
         static bool isWidget(const QObject* obj);
 
         static bool isLayout(const QObject* obj);
-
         static void logRecursive(const QObject* root, int depth);
     };
 
-}  // namespace Rt2::Qt
+    class Qsu
+    {
+    public:
+        static String from(const QString& str);
+        static String from(const QVariant& str);
+
+        static QString to(const String& str);
+    };
+}  // namespace Rt2::Widgets

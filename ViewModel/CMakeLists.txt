@@ -1,3 +1,4 @@
+set(TargetName ViewModel)
 include(GroupSet)
 
 set_group(
@@ -8,7 +9,6 @@ set_group(
 
 include_directories(
     ${Utils_INCLUDE} 
-    ${Widgets_INCLUDE} 
 )
 
 
@@ -19,9 +19,6 @@ add_library(
 
 target_link_libraries(
     ${TargetName} 
-    Qt6::Widgets 
-    Qt6::Core 
-    Qt6::Gui 
     ${Utils_LIBRARY}
 )
 

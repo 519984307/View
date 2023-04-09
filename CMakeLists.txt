@@ -44,6 +44,7 @@ else()
 endif()
 
 add_subdirectory(Widgets)
+add_subdirectory(ViewModel)
 
 if (Widgets_BUILD_TEST)
     if (NOT Widgets_ExternalTarget)

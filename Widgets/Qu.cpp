@@ -1,5 +1,6 @@
 #include "Qu.h"
 #include <QLabel>
+#include <QLineEdit>
 #include "Metrics.h"
 #include "Utils/Console.h"
 #include "Utils/Definitions.h"
@@ -44,11 +45,13 @@ namespace Rt2::Widgets
     {
         widget->setAutoFillBackground(true);
         setColor(widget, QPalette::Window, value);
+        setColor(widget, QPalette::Base, value);
     }
 
     void Qu::setForeground(QWidget* widget, const QColor& value)
     {
         setColor(widget, QPalette::WindowText, value);
+        setColor(widget, QPalette::Text, value);
     }
 
     void Qu::clearMargins(const QObject* top)
@@ -122,4 +125,18 @@ namespace Rt2::Widgets
             '>');
     }
 
-}  // namespace Rt2::Qt
+    String Qsu::from(const QString& str)
+    {
+        return str.toStdString();
+    }
+
+    String Qsu::from(const QVariant& str)
+    {
+        return str.toString().toStdString();
+    }
+
+    QString Qsu::to(const String& str)
+    {
+        return QString::fromStdString(str);
+    }
+}  // namespace Rt2::Widgets
