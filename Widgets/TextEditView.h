@@ -13,7 +13,7 @@ namespace Rt2::Widgets
     {
         Q_OBJECT
     public:
-        using ObserverType = StringModel::ObserverType;
+        using ObserverType = StringModel::Observer;
 
     private:
         QLineEdit*             _edit{nullptr};

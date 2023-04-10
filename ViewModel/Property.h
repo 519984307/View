@@ -4,7 +4,6 @@
 
 namespace Rt2::ViewModel
 {
-
     using BoolModel       = ViewModel<bool>;
     using IntModel        = ViewModel<int>;
     using FloatModel      = ViewModel<float>;

@@ -8,40 +8,88 @@ namespace Rt2::ViewModel
     class ViewModel
     {
     public:
-        using ModelType    = Model<T>;
-        using ObserverType = typename ModelType::ObserverType;
+        using Observer  = std::function<void(const T&)>;
+        using Observers = SimpleArray<Observer>;
+        using ModelType = Model<T>;
+        using SelfType  = ViewModel<T>;
 
     protected:
+        Observers _inputs;
+        Observers _outputs;
         ModelType _model{};
+        bool      _callLock{false};
 
-    public:
-        ViewModel() = default;
+        void dispatchInput();
 
-        virtual ~ViewModel();
-
-        void setValue(const T& val, ObserverDirection direction = INPUT);
-
-        const T& value() const;
+        void dispatchOutput();
 
         T& ref();
 
-        void addInput(const ObserverType& ot);
+        void invoke(Direction dir);
 
-        void addOutput(const ObserverType& ot);
-        
+    private:
+        ViewModel(const SelfType& rhs) :
+            _inputs(rhs._inputs),
+            _outputs(rhs._outputs),
+            _model(rhs._model)
+        {
+            // For now, don't allow explicit copy
+        }
+
+        SelfType& operator=(const SelfType& rhs)
+        {
+            // For now, don't allow explicit assignment
+
+            if (&rhs != this)
+            {
+                _inputs  = rhs._inputs;
+                _outputs = rhs._outputs;
+                _model   = rhs._model;
+            }
+            return *this;
+        }
+
+    public:
+        ViewModel() = default;
+        virtual ~ViewModel();
+
+        void setValue(const T&  val,
+                      Direction dir = INPUT);
+
+        const T& value() const;
+
+        void addInput(const Observer& ot);
+
+        void addOutput(const Observer& ot);
+
         void clear();
     };
 
     template <typename T>
     ViewModel<T>::~ViewModel()
     {
-        _model.clear();
+        clear();
     }
 
     template <typename T>
-    void ViewModel<T>::setValue(const T& val, ObserverDirection direction)
+    void ViewModel<T>::dispatchInput()
     {
-        _model.setValue(val, direction);
+        for (const auto& input : _inputs)
+            input(_model.value());
+    }
+
+    template <typename T>
+    void ViewModel<T>::dispatchOutput()
+    {
+        for (const auto output : _outputs)
+            output(_model.value());
+    }
+
+    template <typename T>
+    void ViewModel<T>::setValue(const T& val, const Direction dir)
+    {
+        _model.setValue(val);
+        invoke(dir);
     }
 
     template <typename T>
@@ -57,21 +105,81 @@ namespace Rt2::ViewModel
     }
 
     template <typename T>
-    void ViewModel<T>::addInput(const ObserverType& ot)
+    void ViewModel<T>::invoke(const Direction dir)
     {
-        _model.addInput(ot);
+        if (_callLock)
+            return;
+
+        switch (dir)
+        {
+        case INPUT:  // src to data
+            _callLock = true;
+            dispatchInput();
+            break;
+        case OUTPUT:  // data to src
+            _callLock = true;
+            dispatchOutput();
+            break;
+        case BOTH:
+            _callLock = true;
+            dispatchInput();
+            dispatchOutput();
+            break;
+        default:  // nadda
+            break;
+        }
+        _callLock = false;
     }
 
     template <typename T>
-    void ViewModel<T>::addOutput(const ObserverType& ot)
+    void ViewModel<T>::addInput(const Observer& ot)
     {
-        _model.addOutput(ot);
+        _inputs.push_back(ot);
+    }
+
+    template <typename T>
+    void ViewModel<T>::addOutput(const Observer& ot)
+    {
+        _outputs.push_back(ot);
     }
 
     template <typename T>
     void ViewModel<T>::clear()
     {
-        _model.clear();
+        _inputs.clear();
+        _outputs.clear();
     }
 
+    template <typename  T>
+    using TFunction = std::function<void(const T&)>;
+
+
+    template <typename T>
+    class FunctionViewModel final : public ViewModel<TFunction<T>>
+    {
+    public:
+        void dispatch(const T& v, Direction dir = INPUT)
+        {
+            if (const TFunction<T>& function = this->value())
+            {
+                function(v);
+                this->invoke(dir);
+            }
+        }
+    };
+
+    using VoidFunction = std::function<void()>;
+
+    class VoidFunctionViewModel final : public ViewModel<VoidFunction>
+    {
+    public:
+        void dispatch(const Direction dir = INPUT)
+        {
+            if (const VoidFunction& function = this->value())
+            {
+                function();
+                invoke(dir);
+            }
+        }
+    };
 }  // namespace Rt2::ViewModel

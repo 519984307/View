@@ -4,7 +4,7 @@
 
 namespace Rt2::Widgets
 {
-    using ObserverDirection = ViewModel::ObserverDirection;
+    using ObserverDirection = ViewModel::Direction;
 
 
     using BoolModel       = ViewModel::BoolModel;

@@ -13,7 +13,7 @@ namespace Rt2::Widgets
     {
         Q_OBJECT
     public:
-        using ObserverType = StringListModel::ObserverType;
+        using ObserverType = StringListModel::Observer;
 
     signals:
         void itemDoubleClicked(const int idx, const String& data);
