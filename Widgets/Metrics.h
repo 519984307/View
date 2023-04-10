@@ -9,8 +9,11 @@ namespace Rt2::Widgets
         static constexpr QSize minWindow{320, 240};
         static constexpr int   minHeight{24};
         static constexpr int   minWidth{24};
+        static constexpr int   iconHeight{18};
+        static constexpr int   iconWidth{18};
         static constexpr int   indent{6};
         static constexpr QSize ctrlMin{minWidth, minHeight};
+        static constexpr QSize iconMin{iconWidth, iconWidth};
         static constexpr int   ts{10};
         static constexpr int   gm{0};
         static constexpr int   gs{0};

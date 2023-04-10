@@ -1,5 +1,7 @@
 #pragma once
 #include <QWidget>
+
+#include "Widgets/Definitions.h"
 #include "ViewModel/Property.h"
 #include "ViewModel/ViewModel.h"
 
@@ -11,12 +13,11 @@ namespace Rt2::Widgets
     {
         Q_OBJECT
     public:
-        using ObserverType = ViewModel::StringProperty::ObserverType;
+        using ObserverType = StringModel::ObserverType;
 
     private:
-        QLineEdit*                _edit{nullptr};
-        ViewModel::StringProperty _viewModel;
-
+        QLineEdit*             _edit{nullptr};
+        ViewModel::StringModel _viewModel;
 
     public:
         explicit TextEditView(QWidget* parent = nullptr);

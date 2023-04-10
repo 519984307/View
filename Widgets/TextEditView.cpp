@@ -17,7 +17,7 @@ namespace Rt2::Widgets
 
     void TextEditView::setText(const String& text)
     {
-        _viewModel.setValue(ViewModel::INPUT, text);
+        _viewModel.setValue(text);
     }
 
     String TextEditView::text() const
@@ -66,7 +66,7 @@ namespace Rt2::Widgets
 
     void TextEditView::textChanged(const QString& val)
     {
-        _viewModel.setValue(ViewModel::OUTPUT, Qsu::from(val));
+        _viewModel.setValue(Qsu::from(val), ViewModel::OUTPUT);
     }
 
 }  // namespace Rt2::Widgets
