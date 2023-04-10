@@ -1,6 +1,11 @@
 #include "Qu.h"
+#include <QApplication>
 #include <QLabel>
 #include <QLineEdit>
+#include <QPushButton>
+#include <QFontDatabase>
+
+#include "IconButtonView.h"
 #include "Metrics.h"
 #include "Utils/Console.h"
 #include "Utils/Definitions.h"
@@ -9,6 +14,12 @@
 namespace Rt2::Widgets
 {
     using Mt = Metrics;
+
+    void Qu::initResources()
+    {
+        Q_INIT_RESOURCE(icons);
+        QFontDatabase::addApplicationFont(":/fonts/IconFont.ttf");
+    }
 
     void Qu::fit(QWidget* widget)
     {
@@ -97,6 +108,15 @@ namespace Rt2::Widgets
         const auto layout = new QHBoxLayout(parent);
         fit(layout);
         return layout;
+    }
+
+    QPushButton* Qu::flatButton(QWidget* parent)
+    {
+        const auto button = new QPushButton(parent);
+        fit(button);
+        button->setMaximumSize(Metrics::ctrlMin);
+        button->setFlat(true);
+        return button;
     }
 
     void Qu::logRecursive(const QObject* root, const int depth)

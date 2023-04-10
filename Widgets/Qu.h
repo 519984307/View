@@ -3,6 +3,7 @@
 #include <QWidget>
 #include "Utils/String.h"
 
+class QPushButton;
 class QLabel;
 class QHBoxLayout;
 
@@ -11,12 +12,17 @@ namespace Rt2::Widgets
     class Qu
     {
     public:
+        static void initResources();
+
         static void fit(QWidget* widget);
+
         static void fit(QLayout* layout);
 
         static QVBoxLayout* vertical(QWidget* parent = nullptr);
 
         static QHBoxLayout* horizontal(QWidget* parent = nullptr);
+
+        static QPushButton* flatButton(QWidget* parent = nullptr);
 
         static QWidget* box(
             QWidget*      parent = nullptr,

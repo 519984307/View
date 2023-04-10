@@ -4,6 +4,12 @@ set_group(
     TargetName_SRC 
     Source:*.cpp
     Header:*.h
+    Resource:Icons/*.qrc
+)
+
+qt_add_resources(
+    TargetName_RES 
+    Icons/icons.qrc
 )
 
 include_directories(
@@ -15,6 +21,7 @@ include_directories(
 add_library(
     ${TargetName} 
     ${TargetName_SRC}
+    ${TargetName_RES}
 )
 
 target_link_libraries(
