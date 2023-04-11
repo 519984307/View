@@ -1,9 +1,10 @@
-#include "Widgets/StringListView.h"
+#include "View/StringListView.h"
 #include <QListView>
+#include <QBoxLayout>
 #include <QStringListModel>
-#include "Colors.h"
-#include "Metrics.h"
-#include "Qu.h"
+#include "View/Colors.h"
+#include "View/Metrics.h"
+#include "View/Qu.h"
 
 class QLineEdit;
 
@@ -30,7 +31,7 @@ namespace Rt2::View
         Qu::setBackground(_listing, Colors::Background);
         Qu::setForeground(_listing, Colors::Foreground);
         Qu::setColor(_listing, QPalette::AlternateBase, Colors::CtrlBackgroundLight);
-        
+
         _listing->setFrameShape(QFrame::NoFrame);
 
         layout->addWidget(_listing, 1);
@@ -86,4 +87,4 @@ namespace Rt2::View
                 this,
                 &StringListView::itemDoubleClickedImpl);
     }
-}  // namespace Rt2::Widgets
+}  // namespace Rt2::View

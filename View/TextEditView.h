@@ -1,9 +1,6 @@
 #pragma once
 #include <QWidget>
-
-#include "Widgets/Definitions.h"
-#include "ViewModel/Property.h"
-#include "ViewModel/ViewModel.h"
+#include "View/Definitions.h"
 
 class QLineEdit;
 
@@ -28,11 +25,10 @@ namespace Rt2::View
 
         void addOutput(const ObserverType& type);
 
-    public:
+    private:
         void construct();
 
         void bind();
-
         void textChanged(const QString&);
     };
 

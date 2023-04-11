@@ -1,11 +1,13 @@
 #pragma once
-#include <QBoxLayout>
-#include <QWidget>
+#include <QPalette>
 #include "Utils/String.h"
 
+class QLayout;
 class QPushButton;
 class QLabel;
 class QHBoxLayout;
+class QVBoxLayout;
+class QWidget;
 
 namespace Rt2::View
 {
@@ -48,8 +50,6 @@ namespace Rt2::View
             QWidget*      widget,
             const QColor& value);
 
-        static void clearMargins(const QObject* top);
-
         static void clearSpace(QObject* top);
 
         static bool isWidget(const QObject* obj);
@@ -66,4 +66,4 @@ namespace Rt2::View
 
         static QString to(const String& str);
     };
-}  // namespace Rt2::Widgets
+}  // namespace Rt2::View

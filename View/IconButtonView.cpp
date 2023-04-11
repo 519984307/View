@@ -1,9 +1,10 @@
-#include "IconButtonView.h"
+#include "View/IconButtonView.h"
+#include <QBoxLayout>
 #include <QPushButton>
 #include <QWidget>
-#include "Colors.h"
-#include "Metrics.h"
-#include "Qu.h"
+#include "View/Colors.h"
+#include "View/Metrics.h"
+#include "View/Qu.h"
 
 namespace Rt2::View
 {

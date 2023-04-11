@@ -1,9 +1,10 @@
-#include "TextEditView.h"
+#include "View/TextEditView.h"
 #include <QLineEdit>
+#include <QBoxLayout>
 #include <QWidget>
-#include "Colors.h"
-#include "Metrics.h"
-#include "Qu.h"
+#include "View/Colors.h"
+#include "View/Metrics.h"
+#include "View/Qu.h"
 #include "ViewModel/ViewModel.h"
 
 class QLineEdit;
@@ -38,11 +39,10 @@ namespace Rt2::View
 
         const auto layout = Qu::horizontal();
 
-        _edit = new QLineEdit(this);
+        _edit     = new QLineEdit(this);
         QFont fnt = _edit->font();
-        //fnt.setPointSize(Metrics::iconFontSize-2);
+        // fnt.setPointSize(Metrics::iconFontSize-2);
         _edit->setFont(fnt);
-
 
         _edit->setFrame(false);
 
@@ -75,4 +75,4 @@ namespace Rt2::View
         _viewModel.setValue(Qsu::from(val), ViewModel::OUTPUT);
     }
 
-}  // namespace Rt2::Widgets
+}  // namespace Rt2::View

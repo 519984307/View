@@ -6,11 +6,14 @@ namespace Rt2::View
 {
     using ObserverDirection = ViewModel::Direction;
 
-
     using BoolModel       = ViewModel::BoolModel;
     using IntModel        = ViewModel::IntModel;
     using FloatModel      = ViewModel::FloatModel;
     using StringModel     = ViewModel::StringModel;
     using StringListModel = ViewModel::StringListModel;
 
-}  // namespace Rt2::Widgets
+    class IconButtonView;
+    class TextEditView;
+    class StringListView;
+
+}  // namespace Rt2::View

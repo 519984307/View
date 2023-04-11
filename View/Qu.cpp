@@ -1,15 +1,16 @@
-#include "Qu.h"
+#include "View/Qu.h"
 #include <QApplication>
+#include <QBoxLayout>
 #include <QFontDatabase>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
-#include "IconButtonView.h"
-#include "Metrics.h"
-#include "Style.h"
 #include "Utils/Console.h"
 #include "Utils/Definitions.h"
 #include "Utils/StreamConverters/Tab.h"
+#include "View/IconButtonView.h"
+#include "View/Metrics.h"
+#include "View/Style.h"
 
 namespace Rt2::View
 {
@@ -19,7 +20,6 @@ namespace Rt2::View
     {
         Q_INIT_RESOURCE(icons);
         QFontDatabase::addApplicationFont(":/fonts/IconFont.ttf");
-        QFontDatabase::addApplicationFont(":/fonts/fonts/Roboto/Roboto.ttf");
     }
 
     void Qu::fit(QWidget* widget)
@@ -60,6 +60,7 @@ namespace Rt2::View
                       const QPalette::ColorRole role,
                       const QColor&             value)
     {
+        RT_ASSERT(widget)
         QPalette pal = widget->palette();
         pal.setColor(role, value);
         widget->setPalette(pal);
@@ -67,6 +68,7 @@ namespace Rt2::View
 
     void Qu::setBackground(QWidget* widget, const QColor& value)
     {
+        RT_ASSERT(widget)
         widget->setAutoFillBackground(true);
         setColor(widget, QPalette::Window, value);
         setColor(widget, QPalette::Base, value);
@@ -76,14 +78,6 @@ namespace Rt2::View
     {
         setColor(widget, QPalette::WindowText, value);
         setColor(widget, QPalette::Text, value);
-    }
-
-    void Qu::clearMargins(const QObject* top)
-    {
-        if (isWidget(top))
-            ((QWidget*)top)->setContentsMargins(0, 0, 0, 0);
-        else if (isLayout(top))
-            ((QLayout*)top)->setContentsMargins(0, 0, 0, 0);
     }
 
     void Qu::clearSpace(QObject* top)
@@ -172,4 +166,4 @@ namespace Rt2::View
     {
         return QString::fromStdString(str);
     }
-}  // namespace Rt2::Widgets
+}  // namespace Rt2::View
