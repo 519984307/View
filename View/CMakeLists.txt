@@ -14,7 +14,7 @@ qt_add_resources(
 
 include_directories(
     ${Utils_INCLUDE} 
-    ${Widgets_INCLUDE} 
+    ${View_INCLUDE} 
 )
 
 

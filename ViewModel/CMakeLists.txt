@@ -9,7 +9,7 @@ set_group(
 
 include_directories(
     ${Utils_INCLUDE} 
-    ${Widgets_INCLUDE} 
+    ${View_INCLUDE} 
 )
 
 
