@@ -2,6 +2,7 @@
 #include <QListView>
 #include <QStringListModel>
 #include "Colors.h"
+#include "Metrics.h"
 #include "Qu.h"
 
 class QLineEdit;
@@ -16,8 +17,8 @@ namespace Rt2::Widgets
 
     void StringListView::construct()
     {
-        Qu::setBackground(this, Colors::GreyM1);
-        setContentsMargins(5, 5, 5, 5);
+        Qu::setBackground(this, Colors::Border);
+        setContentsMargins(Metrics::BorderThick);
 
         const auto layout = Qu::horizontal();
 
@@ -26,11 +27,10 @@ namespace Rt2::Widgets
         _listing->setAlternatingRowColors(true);
         _listing->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
-        Qu::setBackground(_listing, Colors::Grey01);
-        Qu::setForeground(_listing, Colors::Text00);
-        Qu::setColor(_listing, QPalette::AlternateBase, Colors::Grey00);
-        Qu::setColor(_listing, QPalette::Highlight, Colors::Empty);
-
+        Qu::setBackground(_listing, Colors::Background);
+        Qu::setForeground(_listing, Colors::Foreground);
+        Qu::setColor(_listing, QPalette::AlternateBase, Colors::CtrlBackgroundLight);
+        
         _listing->setFrameShape(QFrame::NoFrame);
 
         layout->addWidget(_listing, 1);

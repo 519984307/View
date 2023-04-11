@@ -2,6 +2,7 @@
 #include <QLineEdit>
 #include <QWidget>
 #include "Colors.h"
+#include "Metrics.h"
 #include "Qu.h"
 #include "ViewModel/ViewModel.h"
 
@@ -32,16 +33,16 @@ namespace Rt2::Widgets
 
     void TextEditView::construct()
     {
-        Qu::setBackground(this, Colors::GreyM2);
-        setContentsMargins(1,1,1,1);
+        Qu::setBackground(this, Colors::Border);
+        setContentsMargins(Metrics::BorderThin);
 
         const auto layout = Qu::horizontal();
 
         _edit = new QLineEdit(this);
         _edit->setFrame(false);
 
-        Qu::setBackground(_edit, Colors::GreyM1);
-        Qu::setForeground(_edit, Colors::Text00);
+        Qu::setBackground(_edit, Colors::CtrlBackground);
+        Qu::setForeground(_edit, Colors::Foreground);
 
         layout->addWidget(_edit, 1);
         setLayout(layout);
