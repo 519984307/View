@@ -1,7 +1,7 @@
 #pragma once
 #include <QSize>
 
-namespace Rt2::Widgets
+namespace Rt2::View
 {
     class Metrics
     {
@@ -11,6 +11,7 @@ namespace Rt2::Widgets
         static constexpr int   minWidth{24};
         static constexpr int   iconHeight{24};
         static constexpr int   iconWidth{24};
+        static constexpr int   iconFontSize{iconWidth>>1};
         static constexpr int   indent{6};
         static constexpr QSize ctrlMin{minWidth, minHeight};
         static constexpr QSize iconMin{iconWidth, iconWidth};

@@ -2,7 +2,7 @@
 #include "Utils/Definitions.h"
 #include "ViewModel/Property.h"
 
-namespace Rt2::Widgets
+namespace Rt2::View
 {
     using ObserverDirection = ViewModel::Direction;
 

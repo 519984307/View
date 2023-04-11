@@ -7,7 +7,7 @@ class QPushButton;
 class QLabel;
 class QHBoxLayout;
 
-namespace Rt2::Widgets
+namespace Rt2::View
 {
     class Qu
     {
@@ -15,6 +15,8 @@ namespace Rt2::Widgets
         static void initResources();
 
         static void fit(QWidget* widget);
+
+        static QString defaultStyle();
 
         static void fit(QLayout* layout);
 

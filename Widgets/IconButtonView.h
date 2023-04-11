@@ -3,7 +3,7 @@
 
 class QPushButton;
 
-namespace Rt2::Widgets
+namespace Rt2::View
 {
     enum IconMap
     {
@@ -36,4 +36,4 @@ namespace Rt2::Widgets
         void construct(IconMap icon);
     };
 
-}  // namespace Rt2::Widgets
+}  // namespace Rt2::View

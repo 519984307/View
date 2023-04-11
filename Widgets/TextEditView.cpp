@@ -8,7 +8,7 @@
 
 class QLineEdit;
 
-namespace Rt2::Widgets
+namespace Rt2::View
 {
     TextEditView::TextEditView(QWidget* parent) :
         QWidget(parent)
@@ -39,6 +39,11 @@ namespace Rt2::Widgets
         const auto layout = Qu::horizontal();
 
         _edit = new QLineEdit(this);
+        QFont fnt = _edit->font();
+        //fnt.setPointSize(Metrics::iconFontSize-2);
+        _edit->setFont(fnt);
+
+
         _edit->setFrame(false);
 
         Qu::setBackground(_edit, Colors::CtrlBackground);

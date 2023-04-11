@@ -1,17 +1,17 @@
 #include "Qu.h"
 #include <QApplication>
+#include <QFontDatabase>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
-#include <QFontDatabase>
-
 #include "IconButtonView.h"
 #include "Metrics.h"
+#include "Style.h"
 #include "Utils/Console.h"
 #include "Utils/Definitions.h"
 #include "Utils/StreamConverters/Tab.h"
 
-namespace Rt2::Widgets
+namespace Rt2::View
 {
     using Mt = Metrics;
 
@@ -19,12 +19,25 @@ namespace Rt2::Widgets
     {
         Q_INIT_RESOURCE(icons);
         QFontDatabase::addApplicationFont(":/fonts/IconFont.ttf");
+        QFontDatabase::addApplicationFont(":/fonts/fonts/Roboto/Roboto.ttf");
     }
 
     void Qu::fit(QWidget* widget)
     {
         RT_ASSERT(widget)
         widget->setContentsMargins(Mt::gm, Mt::gm, Mt::gm, Mt::gm);
+    }
+
+    QString Qu::defaultStyle()
+    {
+        String str;
+        Window::Resource::getStyle(str);
+
+        String swap;
+        Su::replaceAll(swap, str, "${grey01}", "#222222");
+        Su::replaceAll(str, swap, "${grey07}", "#222222");
+        Su::replaceAll(swap, str, "${grey00}", "#222222");
+        return Qsu::to(swap);
     }
 
     QWidget* Qu::box(QWidget* parent, const QColor& col)

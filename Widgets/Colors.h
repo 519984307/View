@@ -1,7 +1,7 @@
 #pragma once
 #include <QColor>
 
-namespace Rt2::Widgets
+namespace Rt2::View
 {
     namespace C
     {

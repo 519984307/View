@@ -6,7 +6,7 @@
 
 class QLineEdit;
 
-namespace Rt2::Widgets
+namespace Rt2::View
 {
 
     class StringListView final : public QWidget

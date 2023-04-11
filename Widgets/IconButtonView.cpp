@@ -5,7 +5,7 @@
 #include "Metrics.h"
 #include "Qu.h"
 
-namespace Rt2::Widgets
+namespace Rt2::View
 {
     IconButtonView::IconButtonView(IconMap icon, QWidget* parent) :
         QWidget(parent)
@@ -25,9 +25,9 @@ namespace Rt2::Widgets
         Qu::setColor(_button, QPalette::ButtonText, Colors::Foreground);
 
         QFont fnt("ViewIcon");
+        fnt.setPointSize(Metrics::iconFontSize);
         _button->setFont(fnt);
 
-        fnt.setPointSize(2*Metrics::iconWidth);
         String ico;
         ico.push_back(icon);
         _button->setText(Qsu::to(ico));
@@ -39,4 +39,4 @@ namespace Rt2::Widgets
                 { emit clicked(); });
     }
 
-}  // namespace Rt2::Widgets
+}  // namespace Rt2::View

@@ -7,7 +7,7 @@
 
 class QLineEdit;
 
-namespace Rt2::Widgets
+namespace Rt2::View
 {
     StringListView::StringListView(QWidget* parent) :
         QWidget(parent)
