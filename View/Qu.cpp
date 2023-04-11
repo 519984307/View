@@ -152,6 +152,13 @@ namespace Rt2::View
             '>');
     }
 
+    QFont Qu::iconFont()
+    {
+        QFont font("ViewIcon");
+        font.setPointSize(Metrics::iconFontSize);
+        return font;
+    }
+
     String Qsu::from(const QString& str)
     {
         return str.toStdString();

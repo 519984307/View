@@ -55,7 +55,10 @@ namespace Rt2::View
         static bool isWidget(const QObject* obj);
 
         static bool isLayout(const QObject* obj);
+
         static void logRecursive(const QObject* root, int depth);
+
+        static QFont iconFont();
     };
 
     class Qsu

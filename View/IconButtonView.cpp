@@ -14,7 +14,7 @@ namespace Rt2::View
         construct(icon);
     }
 
-    void IconButtonView::construct(IconMap icon)
+    void IconButtonView::construct(const IconMap icon)
     {
         Qu::setBackground(this, Colors::Border);
         setContentsMargins(Metrics::BorderThin);
@@ -25,13 +25,8 @@ namespace Rt2::View
         Qu::setColor(_button, QPalette::Button, Colors::CtrlBackground);
         Qu::setColor(_button, QPalette::ButtonText, Colors::Foreground);
 
-        QFont fnt("ViewIcon");
-        fnt.setPointSize(Metrics::iconFontSize);
-        _button->setFont(fnt);
-
-        String ico;
-        ico.push_back(icon);
-        _button->setText(Qsu::to(ico));
+        _button->setFont(Qu::iconFont());
+        _button->setText(QChar(icon));
 
         layout->addWidget(_button, 0);
         setLayout(layout);
