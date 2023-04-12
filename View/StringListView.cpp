@@ -11,31 +11,25 @@ class QLineEdit;
 namespace Rt2::View
 {
     StringListView::StringListView(QWidget* parent) :
-        QWidget(parent)
+        View(parent)
     {
+        _listing = new QListView(this);
         construct();
     }
 
     void StringListView::construct()
     {
-        Qu::setBackground(this, Colors::Border);
-        setContentsMargins(Metrics::BorderThick);
+        constructView(_listing);
+        setBorderColor(Colors::BorderLight);
+        setColor(QPalette::AlternateBase, Colors::CtrlBackgroundLight);
+        setColor(QPalette::AlternateBase, Colors::CtrlBackground);
+        setPadding(1);
 
-        const auto layout = Qu::horizontal();
-
-        _listing = new QListView(this);
         _listing->setSelectionRectVisible(false);
         _listing->setAlternatingRowColors(true);
         _listing->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
-        Qu::setBackground(_listing, Colors::Background);
-        Qu::setForeground(_listing, Colors::Foreground);
-        Qu::setColor(_listing, QPalette::AlternateBase, Colors::CtrlBackgroundLight);
-
         _listing->setFrameShape(QFrame::NoFrame);
-
-        layout->addWidget(_listing, 1);
-        setLayout(layout);
         bind();
     }
 

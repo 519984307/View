@@ -9,9 +9,9 @@ namespace Rt2::View
         static constexpr QSize minWindow{320, 240};
         static constexpr int   minHeight{24};
         static constexpr int   minWidth{24};
-        static constexpr int   iconHeight{24};
-        static constexpr int   iconWidth{24};
-        static constexpr int   iconFontSize{iconWidth>>1};
+        static constexpr int   iconHeight{32};
+        static constexpr int   iconWidth{32};
+        static constexpr int   iconFontSize{iconWidth >> 1};
         static constexpr int   indent{6};
         static constexpr QSize ctrlMin{minWidth, minHeight};
         static constexpr QSize iconMin{iconWidth, iconWidth};
@@ -24,14 +24,50 @@ namespace Rt2::View
         static constexpr int   h4{18};
         static constexpr int   h5{16};
         static constexpr int   h6{15};
-        static constexpr int   bl{4};
-        static constexpr int   bs{1};
+        static constexpr int   borderSizeThick{3};
+        static constexpr int   borderSizeThin{2};
 
-        static constexpr QMargins BorderThick    = {bl, bl, bl, bl};
-        static constexpr QMargins BorderThickTrb = {0, bl, bl, bl};
-        static constexpr QMargins BorderThickTr  = {0, bl, bl, 0};
-        static constexpr QMargins BorderThickTb  = {0, bl, 0, bl};
-        static constexpr QMargins BorderThin     = {bs, bs, bs, bs};
+        static constexpr QMargins borderThick = {
+            borderSizeThick,
+            borderSizeThick,
+            borderSizeThick,
+            borderSizeThick,
+        };
+
+        static constexpr QMargins borderThickTrb = {
+            0,
+            borderSizeThick,
+            borderSizeThick,
+            borderSizeThick,
+        };
+
+        static constexpr QMargins borderThickTr = {
+            0,
+            borderSizeThick,
+            borderSizeThick,
+            0,
+        };
+
+        static constexpr QMargins borderThickTb = {
+            0,
+            borderSizeThick,
+            0,
+            borderSizeThick,
+        };
+
+        static constexpr QMargins borderThickLr = {
+            borderSizeThick,
+            0,
+            borderSizeThick,
+            0,
+        };
+
+        static constexpr QMargins borderThin = {
+            borderSizeThin,
+            borderSizeThin,
+            borderSizeThin,
+            borderSizeThin,
+        };
     };
 
-}  // namespace Rt2::Widgets
+}  // namespace Rt2::View

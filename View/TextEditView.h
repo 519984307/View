@@ -1,12 +1,14 @@
 #pragma once
 #include <QWidget>
+
+#include "View.h"
 #include "View/Definitions.h"
 
 class QLineEdit;
 
 namespace Rt2::View
 {
-    class TextEditView final : public QWidget
+    class TextEditView final : public View
     {
         Q_OBJECT
     public:
@@ -19,9 +21,9 @@ namespace Rt2::View
     public:
         explicit TextEditView(QWidget* parent = nullptr);
 
-        void setText(const String& text);
-
         String text() const;
+
+        void setText(const String& text);
 
         void addOutput(const ObserverType& type);
 
@@ -29,7 +31,10 @@ namespace Rt2::View
         void construct();
 
         void bind();
+
         void textChanged(const QString&);
+
+        void paintEvent(QPaintEvent* event) override;
     };
 
-}  // namespace Rt2::Widgets
+}  // namespace Rt2::View

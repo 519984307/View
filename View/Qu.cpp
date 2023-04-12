@@ -5,6 +5,8 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
+
+#include "Palette.h"
 #include "Utils/Console.h"
 #include "Utils/Definitions.h"
 #include "Utils/StreamConverters/Tab.h"
@@ -20,6 +22,7 @@ namespace Rt2::View
     {
         Q_INIT_RESOURCE(icons);
         QFontDatabase::addApplicationFont(":/fonts/IconFont.ttf");
+        Palette::Palette::applyInternal();
     }
 
     void Qu::fit(QWidget* widget)

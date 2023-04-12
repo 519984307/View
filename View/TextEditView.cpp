@@ -1,19 +1,20 @@
 #include "View/TextEditView.h"
-#include <QLineEdit>
 #include <QBoxLayout>
+#include <QLineEdit>
+#include <QPainter>
+#include <QPainterPath>
 #include <QWidget>
 #include "View/Colors.h"
 #include "View/Metrics.h"
 #include "View/Qu.h"
 #include "ViewModel/ViewModel.h"
 
-class QLineEdit;
-
 namespace Rt2::View
 {
     TextEditView::TextEditView(QWidget* parent) :
-        QWidget(parent)
+        View(parent)
     {
+        _edit = new QLineEdit(this);
         construct();
     }
 
@@ -34,24 +35,13 @@ namespace Rt2::View
 
     void TextEditView::construct()
     {
-        Qu::setBackground(this, Colors::Border);
-        setContentsMargins(Metrics::BorderThin);
+        constructView(_edit);
 
-        const auto layout = Qu::horizontal();
-
-        _edit     = new QLineEdit(this);
-        QFont fnt = _edit->font();
-        // fnt.setPointSize(Metrics::iconFontSize-2);
-        _edit->setFont(fnt);
+        setBorderColor(Colors::BorderDark);
+        setBackgroundColor(Colors::Transparent);
+        setColor(QPalette::Highlight, Colors::Ac00);
 
         _edit->setFrame(false);
-
-        Qu::setBackground(_edit, Colors::CtrlBackground);
-        Qu::setForeground(_edit, Colors::Foreground);
-
-        layout->addWidget(_edit, 1);
-        setLayout(layout);
-
         bind();
     }
 
@@ -75,4 +65,21 @@ namespace Rt2::View
         _viewModel.setValue(Qsu::from(val), ViewModel::OUTPUT);
     }
 
+    void TextEditView::paintEvent(QPaintEvent* event)
+    {
+        QPainter paint(this);
+        paint.setRenderHint(QPainter::Antialiasing);
+
+        QRectF ctx = {0, 0, (qreal)width(), (qreal)height()};
+
+        ctx = ctx.marginsRemoved(contentsMargins());
+
+        QLinearGradient gradient(ctx.topLeft(), ctx.bottomLeft());
+        gradient.setColorAt(0.0, Colors::G00);
+        gradient.setColorAt(0.3, Colors::G01);
+        gradient.setColorAt(1.0, Colors::G01);
+
+        paint.fillRect(ctx, gradient);
+        paint.setPen(QPen(Colors::G03, Metrics::borderSizeThin));
+    }
 }  // namespace Rt2::View

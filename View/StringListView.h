@@ -1,5 +1,7 @@
 #pragma once
 #include <QListView>
+
+#include "View.h"
 #include "View/Definitions.h"
 
 class QLineEdit;
@@ -7,7 +9,7 @@ class QLineEdit;
 namespace Rt2::View
 {
 
-    class StringListView final : public QWidget
+    class StringListView final : public View
     {
         Q_OBJECT
     public:
