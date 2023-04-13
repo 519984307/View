@@ -1,7 +1,7 @@
 #pragma once
 #include <QPalette>
 
-namespace Rt2::View::Palette
+namespace Rt2::View
 {
     class Palette
     {
@@ -9,6 +9,8 @@ namespace Rt2::View::Palette
         static void applyInternal();
 
         static void clearPalette(QPalette& palette);
+
+        static void applyCtrlPalette(QWidget *widget);
     };
 
-}  // namespace Rt2::View::Palette
+}  // namespace Rt2::View

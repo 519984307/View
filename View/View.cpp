@@ -98,6 +98,11 @@ namespace Rt2::View
     {
         _content = content;
         _layout  = Qu::vertical();
+        RT_ASSERT(_content)
+
+        Palette::applyCtrlPalette(this);
+        Palette::applyCtrlPalette(_content);
+
         setBackgroundColor(Colors::Background);
         setForegroundColor(Colors::Foreground);
         setBorder(1);

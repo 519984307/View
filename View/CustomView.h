@@ -1,20 +1,32 @@
 #pragma once
 #include <QWidget>
-#include "View/Definitions.h"
 
 class QVBoxLayout;
 
 namespace Rt2::View
 {
+    enum CustomViewFlags
+    {
+        CvFullView         = 0x01,
+        CvMargin           = 0x02,
+        CvPadding          = 0x04,
+        CvHighLightContent = 0x08,
+        CvDefaultFlags     = CvMargin | CvHighLightContent,
+    };
+
     class CustomView : public QWidget
     {
         Q_OBJECT
     protected:
         QMargins _padding{0, 0, 0, 0};
-        void     constructView();
+        int      _flags{CvDefaultFlags};
+
+        void constructView();
 
     public:
         explicit CustomView(QWidget* parent = nullptr);
+
+        void setFlags(int vf);
 
         void setColor(QPalette::ColorRole role, const QColor& col);
 
@@ -22,13 +34,13 @@ namespace Rt2::View
 
         void setBorderColor(const QColor& col);
 
-        void setBorder(const QMargins& border);
+        void setMargin(const QMargins& border);
 
-        void setBorder(int v);
+        void setMargin(int v);
 
-        void setBorder(int start, int end);
+        void setMargin(int start, int end);
 
-        void setBorder(int left, int top, int right, int bottom);
+        void setMargin(int left, int top, int right, int bottom);
 
         void setPadding(const QMargins& margins);
 

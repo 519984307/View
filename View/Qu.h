@@ -16,6 +16,11 @@ namespace Rt2::View
     public:
         static void initResources();
 
+        static void dropShadow(
+            QLinearGradient& gradient,
+            const QRectF&    into,
+            const QColor&    base);
+
         static void fit(QWidget* widget);
 
         static QString defaultStyle();
@@ -49,6 +54,8 @@ namespace Rt2::View
         static void setForeground(
             QWidget*      widget,
             const QColor& value);
+
+        static QColor opacity(const QColor& value, int alpha);
 
         static void clearSpace(QObject* top);
 

@@ -14,6 +14,12 @@ namespace Rt2::View
     {
     }
 
+    void CustomView::setFlags(int vf)
+    {
+        _flags = vf;
+        refresh();
+    }
+
     void CustomView::setColor(const QPalette::ColorRole role, const QColor& col)
     {
         Qu::setColor(this, role, col);
@@ -21,32 +27,32 @@ namespace Rt2::View
 
     void CustomView::setBackgroundColor(const QColor& col)
     {
-        setColor(QPalette::PlaceholderText, col);
+        setColor(Colors::CustomViewBackground, col);
     }
 
     void CustomView::setBorderColor(const QColor& col)
     {
-        setColor(QPalette::AlternateBase, col);
+        setColor(Colors::CustomViewBorder, col);
     }
 
-    void CustomView::setBorder(const QMargins& border)
+    void CustomView::setMargin(const QMargins& border)
     {
         setContentsMargins(border);
     }
 
-    void CustomView::setBorder(int v)
+    void CustomView::setMargin(int v)
     {
-        setBorder({v, v, v, v});
+        setMargin({v, v, v, v});
     }
 
-    void CustomView::setBorder(int start, int end)
+    void CustomView::setMargin(int start, int end)
     {
-        setBorder({start, 0, end, 0});
+        setMargin({start, 0, end, 0});
     }
 
-    void CustomView::setBorder(int left, int top, int right, int bottom)
+    void CustomView::setMargin(int left, int top, int right, int bottom)
     {
-        setBorder({left, top, right, bottom});
+        setMargin({left, top, right, bottom});
     }
 
     void CustomView::setPadding(const QMargins& margins)
@@ -59,12 +65,12 @@ namespace Rt2::View
         setPadding({v, v, v, v});
     }
 
-    void CustomView::setPadding(int start, int end) 
+    void CustomView::setPadding(int start, int end)
     {
         setPadding({start, 0, end, 0});
     }
 
-    void CustomView::setPadding(int left, int top, int right, int bottom) 
+    void CustomView::setPadding(int left, int top, int right, int bottom)
     {
         setPadding({left, top, right, bottom});
     }
@@ -77,10 +83,14 @@ namespace Rt2::View
     void CustomView::constructView()
     {
         setUpdatesEnabled(true);
-        setBorder(Metrics::borderSizeThin);
-        setBorderColor(Colors::Border);
-        setBackgroundColor(Colors::Background);
-        setPadding(Metrics::borderSizeThick);
+
+        Palette::applyCtrlPalette(this);
+
+        setMargin(1);
+        setPadding(0);
+
+        setBorderColor(Colors::CtrlBackgroundLight);
+        setBackgroundColor(Colors::CtrlBackground);
     }
 
     void CustomView::paintEvent(QPaintEvent* event)
@@ -88,17 +98,36 @@ namespace Rt2::View
         QPainter paint(this);
         paint.setRenderHint(QPainter::Antialiasing);
 
-        QRectF   root{0, 0, (qreal)width(), (qreal)height()};
+        const QRectF base{0, 0, (qreal)width(), (qreal)height()};
 
-        QPalette pal = palette();
-        paint.fillRect(root, pal.color(QPalette::AlternateBase));
+        const QPalette colors = palette();
 
+        QRectF modRect = base;
 
-        QRectF bg = root.marginsRemoved(contentsMargins());
-        paint.fillRect(bg, pal.color(QPalette::PlaceholderText));
+        if ((_flags & CvFullView) != 0)
+            render(paint, modRect);
+        else
+        {
+            if ((_flags & CvMargin) != 0)
+            {
+                paint.fillRect(modRect, colors.color(Colors::CustomViewBorder));
+                modRect = modRect.marginsRemoved(contentsMargins());
+            }
 
-        const QRectF ctx = bg.marginsRemoved(_padding);
-        render(paint, ctx);
+            if ((_flags & CvPadding) != 0)
+            {
+                paint.fillRect(modRect, colors.color(Colors::CustomViewBackground));
+                modRect = modRect.marginsRemoved(_padding);
+            }
+
+            render(paint, modRect);
+        }
+
+        if (_flags & CvHighLightContent)
+        {
+            paint.setPen(QPen(colors.color(Colors::Extra2), 1));
+            paint.drawRect(modRect);
+        }
     }
 
 }  // namespace Rt2::View

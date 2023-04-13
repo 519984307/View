@@ -1,13 +1,15 @@
 #pragma once
+#include <qpalette.h>
+#include <qpen.h>
 #include <QColor>
 
 namespace Rt2::View
 {
     namespace C
     {
-        constexpr int RedShift   = 0;
-        constexpr int GreenShift = 0;
-        constexpr int BlueShift  = 0;
+        constexpr int RedShift   = 0x00;
+        constexpr int GreenShift = 0x00;
+        constexpr int BlueShift  = 0x03;
 
         constexpr QColor Grey(const int o)
         {
@@ -15,6 +17,44 @@ namespace Rt2::View
         }
 
     }  // namespace C
+
+    template <int R = 0x00, int G = 0x00, int B = 0x00>
+    struct ConstMix
+    {
+        static constexpr QColor grey(const int o)
+        {
+            return {R + o, G + o, B + o, 0xFF};
+        }
+
+        static constexpr int term0(const int v, int s, double f)
+        {
+            return int((1 - f) * double(s + v));
+        }
+
+        static constexpr int term1(const int v, int s, double f)
+        {
+            return int(f * double(s + v));
+        }
+
+        static constexpr QColor mix(const int    a,
+                                    const int    r,
+                                    const int    g,
+                                    const int    b,
+                                    const double fac)
+        {
+            return {
+                term0(a, R, fac) + term1(r, R, fac),
+                term0(a, G, fac) + term1(g, G, fac),
+                term0(a, B, fac) + term1(b, B, fac),
+                0xFF,
+            };
+        }
+
+    };  // namespace ConstMix
+
+    using BlueMix = ConstMix<0x00,0x00,0x03>;
+
+
 
     class Colors
     {
@@ -35,20 +75,21 @@ namespace Rt2::View
         static constexpr QColor Empty       = {0xFF, 0x00, 0xFF, 0xFF};
         static constexpr QColor Transparent = {0xFF, 0x00, 0xFF, 0x00};
 
-        static constexpr QColor G00 = C::Grey(0x18);
-        static constexpr QColor G01 = C::Grey(0x1d);
-        static constexpr QColor G02 = C::Grey(0x2E);
-        static constexpr QColor G03 = C::Grey(0x33);
-        static constexpr QColor G04 = C::Grey(0x3A);
-        static constexpr QColor G05 = C::Grey(0x3F);
-        static constexpr QColor G06 = C::Grey(0x48);
-        static constexpr QColor G07 = C::Grey(0x5A);
-        static constexpr QColor G08 = C::Grey(0x66);
-        static constexpr QColor G09 = C::Grey(0x6B);
-        static constexpr QColor G10 = C::Grey(0x7B);
-        static constexpr QColor G11 = C::Grey(0x93);
-        static constexpr QColor G12 = C::Grey(0x98);
-        static constexpr QColor G13 = C::Grey(0xA7);
+        static constexpr QColor G00 = BlueMix::grey(0x18);
+        static constexpr QColor G01 = BlueMix::grey(0x1d);
+        static constexpr QColor G02 = BlueMix::grey(0x2E);
+        static constexpr QColor G03 = BlueMix::grey(0x33);
+        static constexpr QColor G04 = BlueMix::grey(0x3A);
+        static constexpr QColor G05 = BlueMix::grey(0x3F);
+        static constexpr QColor G06 = BlueMix::grey(0x48);
+        static constexpr QColor G07 = BlueMix::grey(0x5A);
+        static constexpr QColor G08 = BlueMix::grey(0x66);
+        static constexpr QColor G09 = BlueMix::grey(0x6B);
+        static constexpr QColor G10 = BlueMix::grey(0x7B);
+        static constexpr QColor G11 = BlueMix::grey(0x93);
+        static constexpr QColor G12 = BlueMix::grey(0x98);
+        static constexpr QColor G13 = BlueMix::grey(0xA7);
+        static constexpr QColor G14 = BlueMix::grey(0xD7);
 
         static constexpr QColor BorderDark          = G01;
         static constexpr QColor Border              = G02;
@@ -56,7 +97,15 @@ namespace Rt2::View
         static constexpr QColor Background          = G02;
         static constexpr QColor CtrlBackground      = G03;
         static constexpr QColor CtrlBackgroundLight = G04;
-        static constexpr QColor Foreground          = G12;
+        static constexpr QColor Foreground          = G13;
+        static constexpr QColor ForegroundLight     = G14;
+
+        static constexpr QPalette::ColorRole CustomViewBackground = QPalette::ColorRole::ToolTipBase;
+        static constexpr QPalette::ColorRole CustomViewBorder     = QPalette::ColorRole::ToolTipText;
+
+        static constexpr QPalette::ColorRole Extra0 = QPalette::ColorRole::Link;
+        static constexpr QPalette::ColorRole Extra1 = QPalette::ColorRole::LinkVisited;
+        static constexpr QPalette::ColorRole Extra2 = QPalette::ColorRole::PlaceholderText;
     };
 
 }  // namespace Rt2::View

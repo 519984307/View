@@ -23,7 +23,7 @@ namespace Rt2::View
         setBorderColor(Colors::BorderLight);
         setColor(QPalette::AlternateBase, Colors::CtrlBackgroundLight);
         setColor(QPalette::AlternateBase, Colors::CtrlBackground);
-        setPadding(1);
+        setPadding(Metrics::borderSizeThin);
 
         _listing->setSelectionRectVisible(false);
         _listing->setAlternatingRowColors(true);

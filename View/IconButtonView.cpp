@@ -29,6 +29,7 @@ namespace Rt2::View
         setBackgroundColor(Colors::Transparent);
         setBorderColor(Colors::Transparent);
         setMinimumSize(Metrics::iconMin);
+        setMaximumSize(Metrics::iconMin);
 
         _button->setUpdatesEnabled(true);
         _button->setFont(Qu::iconFont());
@@ -82,13 +83,12 @@ namespace Rt2::View
         if (_state & PRESSED)
         {
             gradient.setColorAt(0.0, Colors::G00);
-            gradient.setColorAt(0.8, Colors::CtrlBackgroundLight);
-            gradient.setColorAt(1.0, Colors::Ac11);
+            gradient.setColorAt(1.0, Colors::BorderLight);
         }
         else
         {
             gradient.setColorAt(0.0, Colors::Border);
-            gradient.setColorAt(1.0, Colors::CtrlBackgroundLight);
+            gradient.setColorAt(1.0, Colors::BorderLight);
         }
 
         paint.fillRect(ctx, gradient);

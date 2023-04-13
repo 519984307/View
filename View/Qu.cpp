@@ -5,7 +5,6 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
-
 #include "Palette.h"
 #include "Utils/Console.h"
 #include "Utils/Definitions.h"
@@ -23,6 +22,21 @@ namespace Rt2::View
         Q_INIT_RESOURCE(icons);
         QFontDatabase::addApplicationFont(":/fonts/IconFont.ttf");
         Palette::Palette::applyInternal();
+    }
+
+    void Qu::dropShadow(QLinearGradient &gradient, const QRectF& into, const QColor& base)
+    {
+        qreal r;
+        if (into.height() > 0)
+            r = 20.0 * (1.0 / into.height());
+        else
+            r = 0.001;
+
+        gradient.setStart(into.topLeft());
+        gradient.setFinalStop(into.bottomLeft());
+        gradient.setColorAt(0.000, base.darker(150));
+        gradient.setColorAt(r, base);
+        gradient.setColorAt(1.000, base);
     }
 
     void Qu::fit(QWidget* widget)
@@ -81,6 +95,13 @@ namespace Rt2::View
     {
         setColor(widget, QPalette::WindowText, value);
         setColor(widget, QPalette::Text, value);
+    }
+
+    QColor Qu::opacity(const QColor& value, int alpha)
+    {
+        QColor color = value;
+        color.setAlpha(alpha);
+        return color;
     }
 
     void Qu::clearSpace(QObject* top)

@@ -19,7 +19,7 @@ namespace Rt2::View
 
     void LayoutView::setBorderColor(const QColor& col)
     {
-        Qu::setBackground(this, col);
+        Qu::setBackground(this, col); // this->Window
     }
 
     void LayoutView::setBorder(const QMargins& border)
@@ -73,6 +73,8 @@ namespace Rt2::View
     void LayoutView::constructView(QLayout* content, int stretch)
     {
         _content = content;
+
+        setMinimumSize(Metrics::ctrlMin);
         setBorder(Metrics::borderSizeThin);
         setBorderColor(Colors::Background);
         setPadding(Metrics::borderSizeThick);
