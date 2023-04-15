@@ -66,8 +66,6 @@ namespace Rt2::View
     void LayoutView::refresh()
     {
         update();
-        if (_content)
-            _content->invalidate();
     }
 
     void LayoutView::constructView(QLayout* content, int stretch)
