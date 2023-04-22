@@ -183,6 +183,15 @@ namespace Rt2::View
         return font;
     }
 
+    void Qu::textStyle(QLabel* label, int size, const QColor& color, bool bold)
+    {
+        setColor(label, QPalette::WindowText, color);
+        QFont fnt = label->font();
+        fnt.setPointSize(size);
+        fnt.setBold(bold);
+        label->setFont(fnt);
+    }
+
     String Qsu::from(const QString& str)
     {
         return str.toStdString();

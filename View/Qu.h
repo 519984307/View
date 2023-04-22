@@ -66,6 +66,8 @@ namespace Rt2::View
         static void logRecursive(const QObject* root, int depth);
 
         static QFont iconFont();
+
+        static void textStyle(QLabel* label, int size, const QColor& color, bool bold=false);
     };
 
     class Qsu
