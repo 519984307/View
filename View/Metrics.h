@@ -26,6 +26,7 @@ namespace Rt2::View
         static constexpr int   h6{15};
         static constexpr int   borderSizeThick{3};
         static constexpr int   borderSizeThin{2};
+        static constexpr int   borderSizeTiny{1};
 
         static constexpr QMargins borderThick = {
             borderSizeThick,

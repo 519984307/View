@@ -22,7 +22,7 @@ namespace Rt2::View
         constructView(_listing);
         setBorderColor(Colors::BorderLight);
         setColor(QPalette::AlternateBase, Colors::CtrlBackgroundLight);
-        setColor(QPalette::AlternateBase, Colors::CtrlBackground);
+        //setColor(QPalette::AlternateBase, Colors::CtrlBackground);
         setPadding(Metrics::borderSizeThin);
 
         _listing->setSelectionRectVisible(false);

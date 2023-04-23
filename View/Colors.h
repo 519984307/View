@@ -91,10 +91,10 @@ namespace Rt2::View
         static constexpr QColor G13 = BlueMix::grey(0x97);
         static constexpr QColor G14 = BlueMix::grey(0xC7);
 
-        static constexpr QColor BorderDark          = G01;
-        static constexpr QColor Border              = G02;
-        static constexpr QColor BorderLight         = G05;
-        static constexpr QColor Background          = G02;
+        static constexpr QColor BorderDark          = G00;
+        static constexpr QColor Border              = G01;
+        static constexpr QColor BorderLight         = G02;
+        static constexpr QColor Background          = G03;
         static constexpr QColor CtrlBackground      = G03;
         static constexpr QColor CtrlBackgroundLight = G04;
         static constexpr QColor Foreground          = G13;

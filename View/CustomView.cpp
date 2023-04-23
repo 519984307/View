@@ -25,6 +25,21 @@ namespace Rt2::View
         Qu::setColor(this, role, col);
     }
 
+    void CustomView::setHighlightColor(const QColor& col)
+    {
+        Qu::setColor(this, Colors::Extra2, col);
+    }
+
+    QColor CustomView::backgroundColor() const
+    {
+        return palette().color(Colors::CustomViewBackground);
+    }
+
+    QColor CustomView::borderColor() const
+    {
+        return palette().color(Colors::CustomViewBorder);
+    }
+
     void CustomView::setBackgroundColor(const QColor& col)
     {
         setColor(Colors::CustomViewBackground, col);
@@ -120,13 +135,15 @@ namespace Rt2::View
                 modRect = modRect.marginsRemoved(_padding);
             }
 
+            paint.setClipRect(modRect);
             render(paint, modRect);
+            paint.setClipRect(base);
         }
 
         if (_flags & CvHighLightContent)
         {
             paint.setPen(QPen(colors.color(Colors::Extra2), 1));
-            paint.drawRect(modRect);
+            paint.drawRect(modRect.adjusted(1, 1, -1, -1));
         }
     }
 

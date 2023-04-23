@@ -28,7 +28,13 @@ namespace Rt2::View
 
         void setFlags(int vf);
 
+        QColor backgroundColor() const;
+
+        QColor borderColor() const;
+
         void setColor(QPalette::ColorRole role, const QColor& col);
+
+        void setHighlightColor(const QColor& col);
 
         void setBackgroundColor(const QColor& col);
 

@@ -74,12 +74,15 @@ namespace Rt2::View
 
         ctx = ctx.marginsRemoved(contentsMargins());
 
+        QColor col = palette().color(QPalette::Window);
+
+
         QLinearGradient gradient(ctx.topLeft(), ctx.bottomLeft());
-        gradient.setColorAt(0.0, Colors::G00);
-        gradient.setColorAt(0.3, Colors::G01);
-        gradient.setColorAt(1.0, Colors::G01);
+        gradient.setColorAt(0.0, col.darker());
+        gradient.setColorAt(0.2, col);
+        gradient.setColorAt(1.0, col);
 
         paint.fillRect(ctx, gradient);
-        paint.setPen(QPen(Colors::G03, Metrics::borderSizeThin));
+        paint.setPen(QPen(col.lighter(), Metrics::borderSizeThin));
     }
 }  // namespace Rt2::View
