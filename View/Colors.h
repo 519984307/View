@@ -75,21 +75,21 @@ namespace Rt2::View
         static constexpr QColor Empty       = {0xFF, 0x00, 0xFF, 0xFF};
         static constexpr QColor Transparent = {0xFF, 0x00, 0xFF, 0x00};
 
-        static constexpr QColor G00 = BlueMix::grey(0x18);
-        static constexpr QColor G01 = BlueMix::grey(0x1d);
-        static constexpr QColor G02 = BlueMix::grey(0x2E);
-        static constexpr QColor G03 = BlueMix::grey(0x33);
-        static constexpr QColor G04 = BlueMix::grey(0x3A);
-        static constexpr QColor G05 = BlueMix::grey(0x3F);
-        static constexpr QColor G06 = BlueMix::grey(0x48);
-        static constexpr QColor G07 = BlueMix::grey(0x5A);
-        static constexpr QColor G08 = BlueMix::grey(0x66);
-        static constexpr QColor G09 = BlueMix::grey(0x6B);
-        static constexpr QColor G10 = BlueMix::grey(0x7B);
-        static constexpr QColor G11 = BlueMix::grey(0x93);
-        static constexpr QColor G12 = BlueMix::grey(0x98);
-        static constexpr QColor G13 = BlueMix::grey(0xA7);
-        static constexpr QColor G14 = BlueMix::grey(0xD7);
+        static constexpr QColor G00 = BlueMix::grey(0x02);
+        static constexpr QColor G01 = BlueMix::grey(0x0F);
+        static constexpr QColor G02 = BlueMix::grey(0x1E);
+        static constexpr QColor G03 = BlueMix::grey(0x22);
+        static constexpr QColor G04 = BlueMix::grey(0x2A);
+        static constexpr QColor G05 = BlueMix::grey(0x2F);
+        static constexpr QColor G06 = BlueMix::grey(0x38);
+        static constexpr QColor G07 = BlueMix::grey(0x4A);
+        static constexpr QColor G08 = BlueMix::grey(0x56);
+        static constexpr QColor G09 = BlueMix::grey(0x5B);
+        static constexpr QColor G10 = BlueMix::grey(0x6B);
+        static constexpr QColor G11 = BlueMix::grey(0x83);
+        static constexpr QColor G12 = BlueMix::grey(0x88);
+        static constexpr QColor G13 = BlueMix::grey(0x97);
+        static constexpr QColor G14 = BlueMix::grey(0xC7);
 
         static constexpr QColor BorderDark          = G01;
         static constexpr QColor Border              = G02;

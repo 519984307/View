@@ -2,6 +2,14 @@
 #include <QPalette>
 #include "Utils/String.h"
 
+namespace Rt2
+{
+    namespace Math
+    {
+        class Rect;
+    }
+}  // namespace Rt2
+
 class QLayout;
 class QPushButton;
 class QLabel;
@@ -67,7 +75,7 @@ namespace Rt2::View
 
         static QFont iconFont();
 
-        static void textStyle(QLabel* label, int size, const QColor& color, bool bold=false);
+        static void textStyle(QLabel* label, int size, const QColor& color, bool bold = false);
     };
 
     class Qsu
@@ -78,4 +86,5 @@ namespace Rt2::View
 
         static QString to(const String& str);
     };
+
 }  // namespace Rt2::View

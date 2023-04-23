@@ -206,4 +206,5 @@ namespace Rt2::View
     {
         return QString::fromStdString(str);
     }
+    
 }  // namespace Rt2::View
