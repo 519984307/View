@@ -19,6 +19,21 @@ namespace Rt2::View
             Qu::setColor(_content, role, col);
     }
 
+    QColor View::backgroundColor() const
+    {
+        return palette().color(QPalette::Window);
+    }
+
+    QColor View::borderColor() const
+    {
+        return palette().color(QPalette::Base);
+    }
+
+    void View::setHighlightColor(const QColor& col)
+    {
+        _highlight = col;
+    }
+
     void View::setBorderColor(const QColor& col)
     {
         Qu::setBackground(this, col);
@@ -94,7 +109,7 @@ namespace Rt2::View
             _content->update();
     }
 
-    void View::constructView(QWidget* content, int stretch, const Qt::Alignment& al)
+    void View::constructView(QWidget* content, const int stretch, const Qt::Alignment& al)
     {
         _content = content;
         _layout  = Qu::vertical();
@@ -108,6 +123,7 @@ namespace Rt2::View
         setBorder(1);
         setBorderColor(Colors::Border);
         setPadding(0);
+        _highlight = Colors::Accent;
 
         _layout->addWidget(_content, stretch, al);
         setLayout(_layout);

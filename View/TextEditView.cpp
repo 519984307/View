@@ -39,9 +39,10 @@ namespace Rt2::View
 
         setBorderColor(Colors::BorderDark);
         setBackgroundColor(Colors::Transparent);
-        setColor(QPalette::Highlight, Colors::Ac00);
+        setColor(QPalette::Highlight, Colors::Accent);
 
         _edit->setFrame(false);
+        Qu::setBackground(_edit, Colors::Transparent);
         bind();
     }
 
@@ -76,13 +77,13 @@ namespace Rt2::View
 
         QColor col = palette().color(QPalette::Window);
 
-
         QLinearGradient gradient(ctx.topLeft(), ctx.bottomLeft());
-        gradient.setColorAt(0.0, col.darker());
-        gradient.setColorAt(0.2, col);
+        gradient.setColorAt(0.0, col.darker(Colors::Drk050));
+        gradient.setColorAt(0.2, col.darker(Colors::Drk010));
         gradient.setColorAt(1.0, col);
 
-        paint.fillRect(ctx, gradient);
-        paint.setPen(QPen(col.lighter(), Metrics::borderSizeThin));
+        paint.fillRect(ctx, col.darker(150));
+        paint.setPen(QPen(col.lighter(), Metrics::borderSizeTiny));
+        paint.drawRect(ctx);
     }
 }  // namespace Rt2::View

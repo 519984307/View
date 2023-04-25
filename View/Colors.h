@@ -52,9 +52,9 @@ namespace Rt2::View
 
     };  // namespace ConstMix
 
-    using BlueMix = ConstMix<0x00,0x00,0x03>;
-
-
+    using BlueMix   = ConstMix<0x00, 0x00, 0x03>;
+    using GreenMix  = ConstMix<0x00, 0x03, 0x00>;
+    using OrangeMix = ConstMix<0x03, 0x01, 0x00>;
 
     class Colors
     {
@@ -80,16 +80,16 @@ namespace Rt2::View
         static constexpr QColor G02 = BlueMix::grey(0x1E);
         static constexpr QColor G03 = BlueMix::grey(0x22);
         static constexpr QColor G04 = BlueMix::grey(0x2A);
-        static constexpr QColor G05 = BlueMix::grey(0x2F);
-        static constexpr QColor G06 = BlueMix::grey(0x38);
-        static constexpr QColor G07 = BlueMix::grey(0x4A);
-        static constexpr QColor G08 = BlueMix::grey(0x56);
-        static constexpr QColor G09 = BlueMix::grey(0x5B);
-        static constexpr QColor G10 = BlueMix::grey(0x6B);
-        static constexpr QColor G11 = BlueMix::grey(0x83);
-        static constexpr QColor G12 = BlueMix::grey(0x88);
-        static constexpr QColor G13 = BlueMix::grey(0x97);
-        static constexpr QColor G14 = BlueMix::grey(0xC7);
+        static constexpr QColor G05 = OrangeMix::grey(0x2F);
+        static constexpr QColor G06 = OrangeMix::grey(0x38);
+        static constexpr QColor G07 = OrangeMix::grey(0x4A);
+        static constexpr QColor G08 = OrangeMix::grey(0x56);
+        static constexpr QColor G09 = OrangeMix::grey(0x5B);
+        static constexpr QColor G10 = OrangeMix::grey(0x6B);
+        static constexpr QColor G11 = OrangeMix::grey(0x83);
+        static constexpr QColor G12 = OrangeMix::grey(0x88);
+        static constexpr QColor G13 = OrangeMix::grey(0x97);
+        static constexpr QColor G14 = OrangeMix::grey(0xC7);
 
         static constexpr QColor BorderDark          = G00;
         static constexpr QColor Border              = G01;
@@ -99,6 +99,31 @@ namespace Rt2::View
         static constexpr QColor CtrlBackgroundLight = G04;
         static constexpr QColor Foreground          = G13;
         static constexpr QColor ForegroundLight     = G14;
+        static constexpr QColor Accent              = OrangeMix::mix(0x38, 0x54, 0x63, 0xA2, 0.7);
+
+        static constexpr int Drk100 = 300;
+        static constexpr int Drk090 = 280;
+        static constexpr int Drk080 = 260;
+        static constexpr int Drk070 = 240;
+        static constexpr int Drk060 = 220;
+        static constexpr int Drk050 = 200;
+        static constexpr int Drk040 = 180;
+        static constexpr int Drk030 = 160;
+        static constexpr int Drk020 = 140;
+        static constexpr int Drk010 = 120;
+        static constexpr int Drk000 = 100;
+
+        static constexpr int Lgt100 = 200;
+        static constexpr int Lgt090 = 190;
+        static constexpr int Lgt080 = 180;
+        static constexpr int Lgt070 = 170;
+        static constexpr int Lgt060 = 160;
+        static constexpr int Lgt050 = 150;
+        static constexpr int Lgt040 = 140;
+        static constexpr int Lgt030 = 130;
+        static constexpr int Lgt020 = 120;
+        static constexpr int Lgt010 = 110;
+        static constexpr int Lgt000 = 100;
 
         static constexpr QPalette::ColorRole CustomViewBackground = QPalette::ColorRole::ToolTipBase;
         static constexpr QPalette::ColorRole CustomViewBorder     = QPalette::ColorRole::ToolTipText;

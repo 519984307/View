@@ -12,6 +12,7 @@ namespace Rt2::View
     protected:
         QWidget*     _content{nullptr};
         QVBoxLayout* _layout{nullptr};
+        QColor       _highlight;
 
         void constructView(
             QWidget*             content,
@@ -22,6 +23,12 @@ namespace Rt2::View
         explicit View(QWidget* parent = nullptr);
 
         void setColor(QPalette::ColorRole role, const QColor& col) const;
+
+        QColor backgroundColor() const;
+
+        QColor borderColor() const;
+
+        void setHighlightColor(const QColor& col);
 
         void setBorderColor(const QColor& col);
 
@@ -49,5 +56,5 @@ namespace Rt2::View
 
         void refresh();
     };
-    
+
 }  // namespace Rt2::View

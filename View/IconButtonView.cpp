@@ -3,9 +3,8 @@
 #include <QBoxLayout>
 #include <QLabel>
 #include <QPainter>
-#include <QPushButton>
 #include <QWidget>
-#include "Palette.h"
+#include "StyleSheetWriter.h"
 #include "View/Colors.h"
 #include "View/Metrics.h"
 #include "View/Qu.h"
@@ -16,23 +15,27 @@ namespace Rt2::View
     IconButtonView::IconButtonView(IconMap icon, QWidget* parent) :
         View(parent)
     {
-        setUpdatesEnabled(true);
-        setMouseTracking(true);
-
-        _button = new QLabel(this);
         construct(icon);
     }
 
     void IconButtonView::construct(const IconMap icon)
     {
+        _button = new QLabel(this);
         constructView(_button);
+        setPadding(0);
+        setBorder(0);
         setBackgroundColor(Colors::Transparent);
-        setBorderColor(Colors::Transparent);
-        setMinimumSize(Metrics::iconMin);
-        setMaximumSize(Metrics::iconMin);
+        setMinimumSize(Metrics::iconPadding);
+        setMaximumSize(Metrics::iconPadding);
 
-        _button->setUpdatesEnabled(true);
         _button->setFont(Qu::iconFont());
+
+        StyleSheetWriter ssw;
+        ssw.backgroundColor(Colors::CtrlBackground);
+        _button->setStyleSheet(ssw.toString());
+
+        _button->setFrameShape(QFrame::Shape::NoFrame);
+
         _button->setText(QChar(icon));
         _button->setAlignment(Qt::AlignCenter);
         _button->setMinimumSize(Metrics::iconMin);
@@ -43,6 +46,12 @@ namespace Rt2::View
         _state |= PRESSED;
         _state &= ~RELEASED;
         refresh();
+
+        StyleSheetWriter ssw;
+        ssw.noBackground();
+        ssw.noBorder();
+        ssw.color(Colors::ForegroundLight.lighter(200));
+        _button->setStyleSheet(ssw.toString());
     }
 
     void IconButtonView::mouseReleaseEvent(QMouseEvent* event)
@@ -53,7 +62,9 @@ namespace Rt2::View
 
         if (event->button() == Qt::LeftButton)
         {
-            if (geometry().contains(QPoint(event->x(), event->y())))
+            QPoint pt = Qmc::point(event->position());
+
+            if (geometry().contains(pt) || _button->geometry().contains(pt))
                 emit clicked();
         }
     }
@@ -62,46 +73,21 @@ namespace Rt2::View
     {
         _state |= ENTER;
         refresh();
+
+        StyleSheetWriter ssw;
+        ssw.noBackground();
+        ssw.border(_highlight.darker(), 1);
+        ssw.color(_highlight.lighter(200));
+        _button->setStyleSheet(ssw.toString());
     }
 
     void IconButtonView::leaveEvent(QEvent* event)
     {
         _state &= ~ENTER;
         refresh();
+        StyleSheetWriter ssw;
+        ssw.backgroundColor(Colors::CtrlBackground);
+        _button->setStyleSheet(ssw.toString());
     }
-
-    void IconButtonView::paintEvent(QPaintEvent* event)
-    {
-        QPainter paint(this);
-        paint.setRenderHint(QPainter::Antialiasing);
-
-        QRectF ctx = {0, 0, (qreal)width(), (qreal)height()};
-
-        ctx = ctx.marginsRemoved(contentsMargins());
-
-        QLinearGradient gradient(ctx.topLeft(), ctx.bottomLeft());
-        if (_state & PRESSED)
-        {
-            gradient.setColorAt(0.0, Colors::G00);
-            gradient.setColorAt(1.0, Colors::BorderLight);
-        }
-        else
-        {
-            gradient.setColorAt(0.0, Colors::Border);
-            gradient.setColorAt(1.0, Colors::BorderLight);
-        }
-
-        paint.fillRect(ctx, gradient);
-
-        if (_state & ENTER)
-        {
-            paint.setPen(QPen(Colors::BorderLight, 1));
-            paint.drawRect(ctx);
-        }
-        else
-        {
-            paint.setPen(QPen(Colors::Border, 1));
-            paint.drawRect(ctx);
-        }
-    }
+    
 }  // namespace Rt2::View

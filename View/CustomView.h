@@ -20,6 +20,7 @@ namespace Rt2::View
     protected:
         QMargins _padding{0, 0, 0, 0};
         int      _flags{CvDefaultFlags};
+        QColor   _highlight;
 
         void constructView();
 

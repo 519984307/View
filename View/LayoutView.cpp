@@ -1,8 +1,9 @@
+#include "View/LayoutView.h"
 #include <QVBoxLayout>
 #include "Colors.h"
 #include "Metrics.h"
+#include "Palette.h"
 #include "Qu.h"
-#include "View/LayoutView.h"
 
 namespace Rt2::View
 {
@@ -19,7 +20,7 @@ namespace Rt2::View
 
     void LayoutView::setBorderColor(const QColor& col)
     {
-        Qu::setBackground(this, col); // this->Window
+        Qu::setBackground(this, col);  // this->Window
     }
 
     void LayoutView::setBorder(const QMargins& border)
@@ -71,7 +72,7 @@ namespace Rt2::View
     void LayoutView::constructView(QLayout* content, int stretch)
     {
         _content = content;
-
+        Palette::applyCtrlPalette(this);
         setMinimumSize(Metrics::ctrlMin);
         setBorder(Metrics::borderSizeThin);
         setBorderColor(Colors::Background);

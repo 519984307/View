@@ -27,7 +27,7 @@ namespace Rt2::View
 
     void CustomView::setHighlightColor(const QColor& col)
     {
-        Qu::setColor(this, Colors::Extra2, col);
+        _highlight = col;
     }
 
     QColor CustomView::backgroundColor() const
@@ -106,6 +106,7 @@ namespace Rt2::View
 
         setBorderColor(Colors::CtrlBackgroundLight);
         setBackgroundColor(Colors::CtrlBackground);
+        _highlight = Colors::BorderLight;
     }
 
     void CustomView::paintEvent(QPaintEvent* event)
@@ -115,9 +116,8 @@ namespace Rt2::View
 
         const QRectF base{0, 0, (qreal)width(), (qreal)height()};
 
-        const QPalette colors = palette();
-
-        QRectF modRect = base;
+        const QPalette colors  = palette();
+        QRectF         modRect = base;
 
         if ((_flags & CvFullView) != 0)
             render(paint, modRect);
@@ -142,7 +142,7 @@ namespace Rt2::View
 
         if (_flags & CvHighLightContent)
         {
-            paint.setPen(QPen(colors.color(Colors::Extra2), 1));
+            paint.setPen(QPen(_highlight, 1));
             paint.drawRect(modRect.adjusted(1, 1, -1, -1));
         }
     }

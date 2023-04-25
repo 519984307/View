@@ -21,8 +21,11 @@ namespace Rt2::View
 {
     class Qu
     {
+    private:
+        static void writeStyleSheet(QApplication& app);
+
     public:
-        static void initResources();
+        static void initResources(QApplication& app);
 
         static void dropShadow(
             QLinearGradient& gradient,
@@ -30,8 +33,6 @@ namespace Rt2::View
             const QColor&    base);
 
         static void fit(QWidget* widget);
-
-        static QString defaultStyle();
 
         static void fit(QLayout* layout);
 
@@ -45,10 +46,19 @@ namespace Rt2::View
             QWidget*      parent = nullptr,
             const QColor& col    = QColor(0xFF, 0x00, 0xFF));
 
+        static QWidget* separator(
+            const QColor& col    = QColor(0xFF, 0x00, 0xFF),
+            QWidget*      parent = nullptr);
+
         static QLabel* text(
             const String& str,
             QWidget*      parent = nullptr,
             const QColor& col    = QColor(0xFF, 0x00, 0xFF));
+
+        static QLabel* title(
+            const String& str,
+            const QColor& col    = QColor(0xFF, 0x00, 0xFF),
+            QWidget*      parent = nullptr);
 
         static void setColor(
             QWidget*            widget,
@@ -85,6 +95,13 @@ namespace Rt2::View
         static String from(const QVariant& str);
 
         static QString to(const String& str);
+    };
+
+    class Qmc
+    {
+    public:
+        static QPoint  point(const QPointF& pt);
+        static QPointF point(const QPoint& pt);
     };
 
 }  // namespace Rt2::View
