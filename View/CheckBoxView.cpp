@@ -67,7 +67,8 @@ namespace Rt2::View
         _button->setFont(Qu::iconFont());
         _button->setAlignment(Qt::AlignCenter);
         _button->setMinimumSize(Metrics::iconMin);
-        _states->unchecked(_button);
+
+        CheckBoxStates::unchecked(_button);
         _states->inactive(_button);
     }
 

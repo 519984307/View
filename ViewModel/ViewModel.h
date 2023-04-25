@@ -51,7 +51,8 @@ namespace Rt2::ViewModel
 
     public:
         ViewModel() = default;
-        virtual ~ViewModel();
+        explicit ViewModel(const T& v);
+        virtual  ~ViewModel();
 
         void setValue(const T&  val,
                       Direction dir = INPUT);
@@ -64,6 +65,12 @@ namespace Rt2::ViewModel
 
         void clear();
     };
+
+    template <typename T>
+    ViewModel<T>::ViewModel(const T& v)
+    {
+        _model.setValue(v);
+    }
 
     template <typename T>
     ViewModel<T>::~ViewModel()
@@ -81,7 +88,7 @@ namespace Rt2::ViewModel
     template <typename T>
     void ViewModel<T>::dispatchOutput()
     {
-        for (const auto output : _outputs)
+        for (const auto &output : _outputs)
             output(_model.value());
     }
 

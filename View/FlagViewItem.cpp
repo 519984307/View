@@ -8,10 +8,11 @@
 
 namespace Rt2::View
 {
-    FlagViewItem::FlagViewItem(bool state, QWidget* parent) :
-        CustomView(parent)
+    FlagViewItem::FlagViewItem(const bool on, int index, QWidget* parent) :
+        CustomView(parent),
+        _index(index)
     {
-        if (state)
+        if (on)
             _state |= ON;
         construct();
     }
@@ -26,34 +27,41 @@ namespace Rt2::View
         update();
     }
 
+    void FlagViewItem::setState(bool state)
+    {
+        if (state)
+            _state |= ON;
+        else
+            _state &= ~ON;
+        refresh();
+    }
+
     void FlagViewItem::render(QPainter& paint, const QRectF& rect)
     {
         if (!isOn())
         {
-            QLinearGradient g;
-            g.setStart(rect.topLeft());
-            g.setFinalStop(rect.bottomLeft());
-
-            g.setColorAt(0, Colors::CtrlBackground.darker(Colors::Drk030));
-            g.setColorAt(1, Colors::CtrlBackground.darker(Colors::Drk010));
-
             if (_state & ENTER)
             {
-                paint.fillRect(rect, g);
+                paint.fillRect(rect, Colors::CtrlBackgroundLight.darker(Colors::Drk030));
                 paint.setPen(QPen(Colors::Accent, 1));
                 paint.drawRect(rect.adjusted(1, 1, -1, -1));
             }
             else
-                paint.fillRect(rect, Colors::CtrlBackgroundLight);
+            {
+                paint.fillRect(rect, Colors::CtrlBackgroundLight.lighter(Colors::Lgt020));
+                paint.setPen(QPen(Colors::BorderLight, 1));
+                paint.drawRect(rect.adjusted(1, 1, -1, -1));
+            }
         }
         else
         {
             QLinearGradient g;
             g.setStart(rect.topLeft());
-            g.setFinalStop(rect.bottomLeft());
+            g.setFinalStop(rect.bottomRight());
 
-            g.setColorAt(0, Colors::Accent.darker(Colors::Drk040));
-            g.setColorAt(1, Colors::Accent.darker(Colors::Drk010));
+            g.setColorAt(0, Colors::CtrlBackground.darker(Colors::Drk070));
+            g.setColorAt(1, Colors::CtrlBackground.darker(Colors::Drk010));
+            paint.fillRect(rect, g);
 
             if (_state & ENTER)
             {
@@ -61,7 +69,10 @@ namespace Rt2::View
                 paint.drawRect(rect.adjusted(1, 1, -1, -1));
             }
             else
-                paint.fillRect(rect, g);
+            {
+                paint.setPen(QPen(Colors::BorderLight, 1));
+                paint.drawRect(rect.adjusted(1, 1, -1, -1));
+            }
         }
     }
 
@@ -83,7 +94,6 @@ namespace Rt2::View
             rect.setTopLeft(mapFromParent(geometry().topLeft()));
             rect.setBottomRight(mapFromParent(geometry().bottomRight()));
 
-
             if (const QPointF pt = event->position();
                 rect.contains(Qmc::point(pt)))
             {
@@ -91,6 +101,8 @@ namespace Rt2::View
                     _state &= ~ON;
                 else
                     _state |= ON;
+
+                emit stateChanged(isOn(), _index);
             }
         }
     }

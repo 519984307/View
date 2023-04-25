@@ -9,18 +9,31 @@ namespace Rt2::View
 {
     enum IconMap
     {
-        IconCheck  = 1,
-        IconCircle = 't',
         IconAdd    = ' ',
         IconEdit,
         IconDelete,
-        IconClear   = '$',
-        IconExit    = '&',
-        IconRefresh = '0',
-        IconBack    = 'G',
+        IconClear,
+        IconHome,
+        IconSettings,
+        IconMenu1,
+        IconMenu2,
+        IconBack,
         IconUp,
         IconForward,
         IconDown,
+        IconRefresh,
+        IconUndo,
+        IconRedo,
+        IconCheck1,
+        IconCheck,
+        IconBox,
+        IconFile,
+        IconFolderClose,
+        IconFolderOpen,
+        IconGraphLine,
+        IconGraphArea,
+        IconGraphBar,
+        IconGraphScatter,
 
     };
 

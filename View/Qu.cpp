@@ -74,6 +74,7 @@ namespace Rt2::View
         ssw.borderBottom(col, 1);
         ssw.height(2);
         ssw.minHeight(2);
+        ssw.margin(2);
         box->setStyleSheet(ssw.toString());
         return box;
     }

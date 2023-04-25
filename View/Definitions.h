@@ -15,5 +15,7 @@ namespace Rt2::View
     class IconButtonView;
     class TextEditView;
     class StringListView;
+    class FlagView;
+    class CheckBoxView;
 
 }  // namespace Rt2::View
