@@ -20,19 +20,34 @@ namespace Rt2::View
 
     FlagView::~FlagView() = default;
 
-    void FlagView::setMax(const int max)
+    void FlagView::addFlag(const bool state, const String& text)
     {
-        _max = max;
-        if (_content->count() != max)
-            onCountChange();
+        const auto box = new FlagViewItem(state,
+                                          _content->count(),
+                                          Qsu::to(text),
+                                          this);
+
+        const auto stateChanged = [this](const bool st, const int index)
+        {
+            int v = _bits.value();
+            if (st)
+                v |= (1 << index);
+            else
+                v &= ~(1 << index);
+            _bits.setValue(v, ViewModel::OUTPUT);
+        };
+
+        connect(box, &FlagViewItem::stateChanged, this, stateChanged);
+        _content->addWidget(box);
     }
 
     void FlagView::setBits(int bits) const
     {
-        for (int i = 0; i < _max; ++i)
+        for (int i = 0; i < _content->count(); ++i)
         {
             QLayoutItem* item = _content->itemAt(i);
             QWidget*     wdg  = item->widget();
+
             if (wdg && wdg->inherits("Rt2::View::FlagViewItem"))
             {
                 FlagViewItem* fv = (FlagViewItem*)wdg;
@@ -56,36 +71,6 @@ namespace Rt2::View
         setBorder(1);
         setBorderColor(Colors::CtrlBackgroundLight.lighter(Colors::Lgt090));
         setPadding(0);
-    }
-
-    void FlagView::onCountChange()
-    {
-        while (const QLayoutItem* item = _content->takeAt(0))
-        {
-            delete item->widget();
-            delete item;
-        }
-
-        for (int i = 0; i < _max; ++i)
-        {
-            const auto box = new FlagViewItem(false, i, this);
-
-            const auto stateChanged = [this](const bool state, const int index)
-            {
-                int v = _bits.value();
-                if (state)
-                    v |= (1 << index);
-                else
-                    v &= ~(1 << index);
-                _bits.setValue(v, ViewModel::OUTPUT);
-            };
-
-            connect(box, &FlagViewItem::stateChanged, this, stateChanged);
-
-            _content->addWidget(box);
-        }
-        _content->invalidate();
-        refresh();
     }
 
 }  // namespace Rt2::View

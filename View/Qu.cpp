@@ -58,7 +58,6 @@ namespace Rt2::View
         QWidget* box = new QWidget(parent);
         fit(box);
 
-
         StyleSheetWriter w;
         w.backgroundColor(col);
         w.noBorder();
@@ -69,7 +68,8 @@ namespace Rt2::View
 
     QWidget* Qu::separator(const QColor& col, QWidget* parent)
     {
-        QWidget*         box = new QWidget(parent);
+        QWidget* box = new QWidget(parent);
+
         StyleSheetWriter ssw;
         ssw.borderBottom(col, 1);
         ssw.height(2);
@@ -79,16 +79,23 @@ namespace Rt2::View
         return box;
     }
 
-    QLabel* Qu::text(const String& str, QWidget* parent, const QColor& col)
+    QLabel* Qu::text(const String& str, const QColor& col, QWidget* parent)
     {
         QLabel* la = new QLabel(QString::fromStdString(str), parent);
-        setColor(la, QPalette::WindowText, col);
+
+        
+        StyleSheetWriter writer;
+        writer.fontSize(Metrics::defaultTextSize);
+        writer.noBackground();
+        writer.color(col);
+        la->setStyleSheet(writer.toString());
+
         return la;
     }
 
     QLabel* Qu::title(const String& str, const QColor& col, QWidget* parent)
     {
-        QLabel* la = new QLabel(QString::fromStdString(str), parent);
+        QLabel*          la = new QLabel(QString::fromStdString(str), parent);
         StyleSheetWriter ssw;
         ssw.color(col);
         ssw.fontSize(Metrics::h6);
@@ -253,13 +260,21 @@ namespace Rt2::View
             style.end();
 
             style.begin("QMenu");
-            style.backgroundColor(Colors::CtrlBackground.lighter(125));
+            style.backgroundColor(Colors::CtrlBackground.lighter(Colors::Lgt020));
             style.color(Colors::ForegroundLight);
+            style.end();
+
+            style.begin("QToolTip");
+            style.backgroundColor(Colors::CtrlBackground.lighter(Colors::Lgt030));
+            style.color(Colors::ForegroundLight);
+            style.border(Colors::CtrlBackground.lighter(Colors::Lgt090), 1);
+            style.borderRadius(4);
+            style.padding(2);
             style.end();
 
             style.begin("QMenu::separator");
             style.margin(Mt::indent);
-            style.borderBottom(Colors::CtrlBackgroundLight.lighter(), 1);
+            style.borderBottom(Colors::CtrlBackgroundLight.lighter(Colors::Lgt090), 1);
             style.height(Mt::defaultTextSize);
             style.end();
 
@@ -351,6 +366,20 @@ namespace Rt2::View
             style.borderRadius(1);
             style.minHeight(Mt::scrollbarSize);
             style.margin(Mt::borderSizeTiny);
+            style.end();
+
+            style.begin("QCheckBox");
+            style.backgroundColor(Colors::CtrlBackgroundLight);
+            style.border(Colors::BorderLight, 1);
+            style.end();
+            style.begin("QCheckBox::indicator:unchecked ");
+            style.backgroundColor(Colors::CtrlBackgroundLight);
+            style.border(Colors::BorderLight, 1);
+            style.end();
+            style.begin("QCheckBox::indicator:checked ");
+            style.backgroundColor(Colors::Accent);
+            style.color(Colors::CtrlBackgroundLight);
+            style.border(Colors::BorderLight, 1);
             style.end();
         }
         app.setStyleSheet(Qsu::to(stream.str()));

@@ -12,10 +12,37 @@
 namespace Rt2::View
 {
 
+    class IconButtonStates
+    {
+    private:
+        QString _active;
+        QString _inactive;
+        QString _pressed;
+
+    public:
+        IconButtonStates();
+
+        void active(QLabel* label) const;
+        void inactive(QLabel* label) const;
+        void pressed(QLabel* label) const;
+
+    private:
+        void makeActive();
+        void makeInactive();
+        void makePressed();
+    };
+
     IconButtonView::IconButtonView(IconMap icon, QWidget* parent) :
-        View(parent)
+        View(parent),
+        _states(new IconButtonStates())
     {
         construct(icon);
+    }
+
+    IconButtonView::~IconButtonView()
+    {
+        delete _states;
+        _states = nullptr;
     }
 
     void IconButtonView::construct(const IconMap icon)
@@ -29,16 +56,11 @@ namespace Rt2::View
         setMaximumSize(Metrics::iconPadding);
 
         _button->setFont(Qu::iconFont());
-
-        StyleSheetWriter ssw;
-        ssw.backgroundColor(Colors::CtrlBackground);
-        _button->setStyleSheet(ssw.toString());
-
         _button->setFrameShape(QFrame::Shape::NoFrame);
-
         _button->setText(QChar(icon));
         _button->setAlignment(Qt::AlignCenter);
         _button->setMinimumSize(Metrics::iconMin);
+        _states->inactive(_button);
     }
 
     void IconButtonView::mousePressEvent(QMouseEvent* event)
@@ -46,12 +68,7 @@ namespace Rt2::View
         _state |= PRESSED;
         _state &= ~RELEASED;
         refresh();
-
-        StyleSheetWriter ssw;
-        ssw.noBackground();
-        ssw.noBorder();
-        ssw.color(Colors::ForegroundLight.lighter(200));
-        _button->setStyleSheet(ssw.toString());
+        _states->pressed(_button);
     }
 
     void IconButtonView::mouseReleaseEvent(QMouseEvent* event)
@@ -60,11 +77,11 @@ namespace Rt2::View
         _state |= RELEASED;
         refresh();
 
+        _states->inactive(_button);
         if (event->button() == Qt::LeftButton)
         {
-            QPoint pt = Qmc::point(event->position());
-
-            if (geometry().contains(pt) || _button->geometry().contains(pt))
+            if (QPoint pt = Qmc::point(event->position());
+                geometry().contains(pt) || _button->geometry().contains(pt))
                 emit clicked();
         }
     }
@@ -74,20 +91,82 @@ namespace Rt2::View
         _state |= ENTER;
         refresh();
 
-        StyleSheetWriter ssw;
-        ssw.noBackground();
-        ssw.border(_highlight.darker(), 1);
-        ssw.color(_highlight.lighter(200));
-        _button->setStyleSheet(ssw.toString());
+        _states->active(_button);
     }
 
     void IconButtonView::leaveEvent(QEvent* event)
     {
         _state &= ~ENTER;
         refresh();
-        StyleSheetWriter ssw;
-        ssw.backgroundColor(Colors::CtrlBackground);
-        _button->setStyleSheet(ssw.toString());
+
+        if (!((_state & PRESSED) != 0))
+            _states->inactive(_button);
     }
-    
+
+    IconButtonStates::IconButtonStates()
+    {
+        makeActive();
+        makeInactive();
+        makePressed();
+    }
+
+    void IconButtonStates::active(QLabel* label) const
+    {
+        label->setStyleSheet(_active);
+    }
+
+    void IconButtonStates::inactive(QLabel* label) const
+    {
+        label->setStyleSheet(_inactive);
+    }
+
+    void IconButtonStates::pressed(QLabel* label) const
+    {
+        label->setStyleSheet(_pressed);
+    }
+
+    void IconButtonStates::makeActive()
+    {
+        if (!_active.isEmpty())
+            return;
+
+        StyleSheetWriter w;
+        w.backgroundColor(Colors::CtrlBackgroundLight);
+        w.border(Colors::Accent, 1);
+        w.color(Colors::ForegroundLight);
+        _active = w.toString();
+    }
+
+    void IconButtonStates::makeInactive()
+    {
+        if (!_inactive.isEmpty())
+            return;
+        
+
+        StyleSheetWriter w;
+        w.backgroundColor(Colors::CtrlBackgroundLight);
+        w.border(Colors::BorderLight, 1);
+        w.color(Colors::Foreground);
+        _inactive = w.toString();
+    }
+
+    void IconButtonStates::makePressed()
+    {
+        if (!_pressed.isEmpty())
+            return;
+        StyleSheetWriter w;
+        w.backgroundColor(
+            // clang-format off
+            {0.0, 0.0, 0.0, 1.0},
+            {
+                {0.0, Colors::Accent.darker(Colors::Drk070)},
+                {1.0, Colors::Accent},
+            }
+            // clang-format on
+        );
+        w.border(Colors::BorderLight, 1);
+        w.color(Colors::Accent.lighter(Colors::Lgt090));
+        _pressed = w.toString();
+    }
+
 }  // namespace Rt2::View

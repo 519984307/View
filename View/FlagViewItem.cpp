@@ -8,12 +8,14 @@
 
 namespace Rt2::View
 {
-    FlagViewItem::FlagViewItem(const bool on, int index, QWidget* parent) :
+    FlagViewItem::FlagViewItem(const bool on, const int index, const QString& toolTip, QWidget* parent) :
         CustomView(parent),
         _index(index)
     {
         if (on)
             _state |= ON;
+
+        setToolTip(toolTip);
         construct();
     }
 
@@ -27,7 +29,7 @@ namespace Rt2::View
         update();
     }
 
-    void FlagViewItem::setState(bool state)
+    void FlagViewItem::setState(const bool state)
     {
         if (state)
             _state |= ON;
@@ -59,8 +61,8 @@ namespace Rt2::View
             g.setStart(rect.topLeft());
             g.setFinalStop(rect.bottomRight());
 
-            g.setColorAt(0, Colors::CtrlBackground.darker(Colors::Drk070));
-            g.setColorAt(1, Colors::CtrlBackground.darker(Colors::Drk010));
+            g.setColorAt(0, Colors::Accent.darker(Colors::Drk010));
+            g.setColorAt(1, Colors::Accent.lighter(Colors::Lgt020));
             paint.fillRect(rect, g);
 
             if (_state & ENTER)

@@ -9,7 +9,6 @@ namespace Rt2::View
     class FlagViewItem final : public CustomView
     {
         Q_OBJECT
-
     private:
         FlagViewItemStates* _states{nullptr};
 
@@ -28,12 +27,12 @@ namespace Rt2::View
         void stateChanged(bool state, int index);
 
     public:
-        explicit FlagViewItem(bool on, int index, QWidget* parent = nullptr);
+        explicit FlagViewItem(bool on, int index, const QString& toolTip, QWidget* parent = nullptr);
 
-        bool isOn() const { return (_state & ON) != 0; }
+        bool isOn() const;
 
         void setState(bool state);
-        
+
     private:
         void construct();
 
@@ -48,5 +47,10 @@ namespace Rt2::View
 
         void leaveEvent(QEvent* event) override;
     };
+
+    inline bool FlagViewItem::isOn() const
+    {
+        return (_state & ON) != 0;
+    }
 
 }  // namespace Rt2::View

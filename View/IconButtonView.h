@@ -9,7 +9,7 @@ namespace Rt2::View
 {
     enum IconMap
     {
-        IconAdd    = ' ',
+        IconAdd = ' ',
         IconEdit,
         IconDelete,
         IconClear,
@@ -37,11 +37,14 @@ namespace Rt2::View
 
     };
 
+    class IconButtonStates;
+
     class IconButtonView final : public View
     {
         Q_OBJECT
     private:
-        QLabel* _button{nullptr};
+        QLabel*           _button{nullptr};
+        IconButtonStates* _states{nullptr};
 
         enum States
         {
@@ -57,6 +60,7 @@ namespace Rt2::View
 
     public:
         explicit IconButtonView(IconMap icon, QWidget* parent = nullptr);
+        ~IconButtonView() override;
 
     private:
         void construct(IconMap icon);

@@ -4,6 +4,7 @@
 #include <QPainter>
 #include <QPainterPath>
 #include <QWidget>
+#include "StyleSheetWriter.h"
 #include "View/Colors.h"
 #include "View/Metrics.h"
 #include "View/Qu.h"
@@ -20,17 +21,17 @@ namespace Rt2::View
 
     void TextEditView::setText(const String& text)
     {
-        _viewModel.setValue(text);
+        _textModel.setValue(text);
     }
 
     String TextEditView::text() const
     {
-        return _viewModel.value();
+        return _textModel.value();
     }
 
-    void TextEditView::addOutput(const ObserverType& type)
+    void TextEditView::addTextObserver(const StringModel::Observer& type)
     {
-        _viewModel.addOutput(type);
+        _textModel.addOutput(type);
     }
 
     void TextEditView::construct()
@@ -40,15 +41,14 @@ namespace Rt2::View
         setBorderColor(Colors::BorderDark);
         setBackgroundColor(Colors::Transparent);
         setColor(QPalette::Highlight, Colors::Accent);
-
         _edit->setFrame(false);
-        Qu::setBackground(_edit, Colors::Transparent);
+
         bind();
     }
 
     void TextEditView::bind()
     {
-        _viewModel.addInput(
+        _textModel.addInput(
             [=](const String& text)
             {
                 if (_edit)
@@ -63,7 +63,7 @@ namespace Rt2::View
 
     void TextEditView::textChanged(const QString& val)
     {
-        _viewModel.setValue(Qsu::from(val), ViewModel::OUTPUT);
+        _textModel.setValue(Qsu::from(val), ViewModel::OUTPUT);
     }
 
     void TextEditView::paintEvent(QPaintEvent* event)
@@ -75,7 +75,7 @@ namespace Rt2::View
 
         ctx = ctx.marginsRemoved(contentsMargins());
 
-        QColor col = palette().color(QPalette::Window);
+        const QColor col = palette().color(QPalette::Window);
 
         QLinearGradient gradient(ctx.topLeft(), ctx.bottomLeft());
         gradient.setColorAt(0.0, col.darker(Colors::Drk050));

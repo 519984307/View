@@ -11,12 +11,9 @@ namespace Rt2::View
     class TextEditView final : public View
     {
         Q_OBJECT
-    public:
-        using ObserverType = StringModel::Observer;
-
     private:
         QLineEdit*             _edit{nullptr};
-        ViewModel::StringModel _viewModel;
+        ViewModel::StringModel _textModel;
 
     public:
         explicit TextEditView(QWidget* parent = nullptr);
@@ -25,7 +22,7 @@ namespace Rt2::View
 
         void setText(const String& text);
 
-        void addOutput(const ObserverType& type);
+        void addTextObserver(const StringModel::Observer& type);
 
     private:
         void construct();

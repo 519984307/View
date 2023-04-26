@@ -1,5 +1,4 @@
 #include "StyleSheetWriter.h"
-
 #include "Qu.h"
 #include "Utils/StackStream.h"
 #include "Utils/StreamConverters/Hex.h"
@@ -49,6 +48,92 @@ namespace Rt2::View
                    Hex((uint8_t)Min(col.green(), 0xFF)),
                    Hex((uint8_t)Min(col.blue(), 0xFF)),
                    ';');
+    }
+
+    void StyleSheetWriter::backgroundColor(const GradientBox& co, const SimpleArray<Stops>& stops)
+    {
+        _out.print("background:qlineargradient(");
+        _out.print("x1:", co.x1, ",y1:", co.y1, ",x2:", co.x2, ",y2:", co.y2);
+
+        for (const auto& [offs, col] : stops)
+        {
+            _out.print(',',
+                       "stop:",
+                       offs,
+                       " #",
+                       Hex((uint8_t)Min(col.red(), 0xFF)),
+                       Hex((uint8_t)Min(col.green(), 0xFF)),
+                       Hex((uint8_t)Min(col.blue(), 0xFF)));
+        }
+        _out.print(");");
+    }
+
+    void StyleSheetWriter::backgroundColor(const QPalette::ColorRole& col)
+    {
+        _out.print("background-color: palette(");
+        switch (col)
+        {
+        case QPalette::WindowText:
+            _out.print("window-text");
+            break;
+        case QPalette::Button:
+            _out.print("button");
+            break;
+        case QPalette::Light:
+            _out.print("light");
+            break;
+        case QPalette::Midlight:
+            _out.print("midlight");
+            break;
+        case QPalette::Dark:
+            _out.print("dark");
+            break;
+        case QPalette::Mid:
+            _out.print("mid");
+            break;
+        case QPalette::Text:
+            _out.print("text");
+            break;
+        case QPalette::BrightText:
+            _out.print("bright-text");
+            break;
+        case QPalette::ButtonText:
+            _out.print("button-text");
+            break;
+        case QPalette::Base:
+            _out.print("base");
+            break;
+        case QPalette::Window:
+            _out.print("window");
+            break;
+        case QPalette::Shadow:
+            _out.print("shadow");
+            break;
+        case QPalette::Highlight:
+            _out.print("highlight");
+            break;
+        case QPalette::HighlightedText:
+            _out.print("highlighted-text");
+            break;
+        case QPalette::Link:
+            _out.print("link");
+            break;
+        case QPalette::LinkVisited:
+            _out.print("link-visited");
+            break;
+        case QPalette::AlternateBase:
+            _out.print("alternate-base");
+            break;
+        default:
+        case QPalette::PlaceholderText:
+        case QPalette::ToolTipText:
+        case QPalette::ToolTipBase:
+        case QPalette::NColorRoles:
+        case QPalette::NoRole:
+            _out.print("base");
+            break;
+        }
+        _out.print(");");
     }
 
     void StyleSheetWriter::selectionBackgroundColor(const QColor& col)
@@ -169,6 +254,11 @@ namespace Rt2::View
     void StyleSheetWriter::maxHeight(const qreal& sz)
     {
         _out.print("max-height:", sz, "px;");
+    }
+
+    void StyleSheetWriter::opacity(const qreal& sz)
+    {
+        _out.print("opacity:", sz, "px;");
     }
 
     void StyleSheetWriter::noBackground()

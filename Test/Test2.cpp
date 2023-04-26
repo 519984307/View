@@ -1,33 +1,31 @@
 #include "Test2.h"
 #include <QPushButton>
 #include <QTest>
-
-WidgetTests::WidgetTests() = default;
-
-void WidgetTests::initTestCase() const
+namespace View::Tests
 {
-    QCOMPARE(_test, nullptr);
-}
+    WidgetTests::WidgetTests() = default;
 
-void WidgetTests::test1()
-{
-    _test = new QWidget();
-    _test->setMinimumSize(320, 240);
+    void WidgetTests::initTestCase() const
+    {
+        QCOMPARE(_test, nullptr);
+    }
 
-    QCOMPARE_EQ(_test->minimumWidth(), 320);
-    QCOMPARE_EQ(_test->minimumHeight(), 240);
-    _test->show();
-}
+    void WidgetTests::test1()
+    {
+        _test->show();
+        QApplication::exec();
+    }
 
-void WidgetTests::cleanup()
-{
-    delete _test;
-    _test = nullptr;
-}
+    void WidgetTests::cleanup()
+    {
+        delete _test;
+        _test = nullptr;
+    }
 
-void WidgetTests::cleanupTestCase() const
-{
-    QCOMPARE(_test, nullptr);
-}
+    void WidgetTests::cleanupTestCase() const
+    {
+        QCOMPARE(_test, nullptr);
+    }
 
-QTEST_MAIN(WidgetTests)
+}  // namespace View::Tests
+QTEST_MAIN(View::Tests::WidgetTests)

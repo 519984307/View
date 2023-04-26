@@ -1,23 +1,26 @@
 #pragma once
 #include <QObject>
 
-class WidgetTests final : public QObject
+namespace View::Tests
 {
-    Q_OBJECT
+    class WidgetTests final : public QObject
+    {
+        Q_OBJECT
+    private:
+        QWidget* _test{nullptr};
 
-private:
-    QWidget* _test{nullptr};
+    public:
+        WidgetTests();
 
-public:
-    WidgetTests();
+    private slots:
 
-private slots:
+        void initTestCase() const;
 
-    void initTestCase() const;
+        void test1();
 
-    void test1();
+        void cleanup();
 
-    void cleanup();
+        void cleanupTestCase() const;
+    };
 
-    void cleanupTestCase() const;
-};
+}  // namespace View::Tests

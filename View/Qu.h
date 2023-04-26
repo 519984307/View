@@ -2,14 +2,6 @@
 #include <QPalette>
 #include "Utils/String.h"
 
-namespace Rt2
-{
-    namespace Math
-    {
-        class Rect;
-    }
-}  // namespace Rt2
-
 class QLayout;
 class QPushButton;
 class QLabel;
@@ -52,8 +44,8 @@ namespace Rt2::View
 
         static QLabel* text(
             const String& str,
-            QWidget*      parent = nullptr,
-            const QColor& col    = QColor(0xFF, 0x00, 0xFF));
+            const QColor& col    = QColor(0xFF, 0x00, 0xFF),
+            QWidget*      parent = nullptr);
 
         static QLabel* title(
             const String& str,

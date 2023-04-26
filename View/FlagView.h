@@ -16,14 +16,13 @@ namespace Rt2::View
 
     private:
         ViewModel::IntModel _bits{0};
-        int                 _max{5};
 
     public:
         explicit FlagView(QWidget* parent = nullptr);
 
         ~FlagView() override;
 
-        void setMax(int max);
+        void addFlag(bool state, const String& text);
 
         void setBits(int bits) const;
 
@@ -31,8 +30,6 @@ namespace Rt2::View
 
     private:
         void construct();
-
-        void onCountChange();
     };
 
 }  // namespace Rt2::View

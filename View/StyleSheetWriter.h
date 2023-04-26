@@ -1,14 +1,27 @@
 #pragma once
 #include <QColor>
 #include <QSizeF>
+
+#include "Palette.h"
 #include "Utils/StackStream.h"
 
 namespace Rt2::View
 {
+    struct Stops
+    {
+        qreal offs{0};
+        QColor color{0,0,0};
+    };
+    struct GradientBox
+    {
+        qreal x1,y1,x2,y2;
+    };
+
+
     class StyleSheetWriter
     {
     private:
-        OutputStreamStack _out;
+        OutputStreamStack  _out;
         OutputStringStream _data;
 
     public:
@@ -25,6 +38,11 @@ namespace Rt2::View
         void outline(const qreal& v);
 
         void backgroundColor(const QColor& col);
+
+        void backgroundColor(const GradientBox& co, const SimpleArray<Stops> &stops);
+
+
+        void backgroundColor(const QPalette::ColorRole& col);
 
         void selectionBackgroundColor(const QColor& col);
 
@@ -58,7 +76,8 @@ namespace Rt2::View
 
         void maxHeight(const qreal& sz);
 
-        
+        void opacity(const qreal& sz);
+
         void noBackground();
 
         void color(const QColor& col);

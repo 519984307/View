@@ -43,7 +43,7 @@ namespace Rt2::View
         void inactive(QLabel* widget) const;
     };
 
-    CheckBoxView::CheckBoxView(QWidget* parent) :
+    CheckBoxView::CheckBoxView(QWidget* parent, const QString &label) :
         View(parent),
         _states(new CheckBoxStates())
     {

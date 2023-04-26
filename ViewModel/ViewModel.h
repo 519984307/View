@@ -33,13 +33,10 @@ namespace Rt2::ViewModel
             _outputs(rhs._outputs),
             _model(rhs._model)
         {
-            // For now, don't allow explicit copy
         }
 
         SelfType& operator=(const SelfType& rhs)
         {
-            // For now, don't allow explicit assignment
-
             if (&rhs != this)
             {
                 _inputs  = rhs._inputs;
@@ -51,7 +48,9 @@ namespace Rt2::ViewModel
 
     public:
         ViewModel() = default;
+
         explicit ViewModel(const T& v);
+
         virtual  ~ViewModel();
 
         void setValue(const T&  val,

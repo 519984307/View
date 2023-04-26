@@ -30,7 +30,7 @@ namespace Rt2::View
         void checkChanged(bool value);
 
     public:
-        explicit CheckBoxView(QWidget* parent = nullptr);
+        explicit CheckBoxView(QWidget* parent = nullptr, const QString &label="");
         ~CheckBoxView() override;
 
     private:
