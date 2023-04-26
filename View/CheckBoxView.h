@@ -8,30 +8,26 @@ class QPushButton;
 namespace Rt2::View
 {
     class CheckBoxStates;
-    
+
     class CheckBoxView final : public View
     {
         Q_OBJECT
     private:
         QLabel*         _button{nullptr};
         CheckBoxStates* _states{nullptr};
-
-        enum States
-        {
-            NONE     = 0x00,
-            PRESSED  = 0x01,
-            RELEASED = 0x02,
-            ENTER    = 0x04,
-            ON       = 0x08,
-        };
-        int _state{NONE};
-
-    signals:
-        void checkChanged(bool value);
+        BoolModel       _check{false};
+        int             _state{NONE};
 
     public:
-        explicit CheckBoxView(QWidget* parent = nullptr, const QString &label="");
+        explicit CheckBoxView(QWidget* parent = nullptr);
+
         ~CheckBoxView() override;
+
+        void setChecked(bool v);
+
+        bool isChecked() const;
+
+        void addObserver(const BoolModel::Observer &ob);
 
     private:
         void construct();
@@ -45,5 +41,10 @@ namespace Rt2::View
 
         void leaveEvent(QEvent* event) override;
     };
+
+    inline bool CheckBoxView::isChecked() const
+    {
+        return _state & ON;
+    }
 
 }  // namespace Rt2::View

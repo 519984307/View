@@ -32,13 +32,13 @@ namespace Rt2::View
         static constexpr int iconWidth{iconFontSize};
 
         static constexpr QSize iconMin{
-            iconWidth + borderSizeThick,
-            iconWidth + borderSizeThick,
+            iconWidth + 2*borderSizeThick,
+            iconWidth +  2*borderSizeThick,
         };
 
         static constexpr QSize iconPadding{
-            iconWidth + 2 * borderSizeThick,
-            iconWidth + 2 * borderSizeThick,
+            iconWidth + 4 * borderSizeThick,
+            iconWidth + 4 * borderSizeThick,
         };
 
         static constexpr QMargins borderThick = {

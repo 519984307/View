@@ -141,11 +141,11 @@ namespace Rt2::View
     {
         if (!_inactive.isEmpty())
             return;
-        
 
         StyleSheetWriter w;
+
         w.backgroundColor(Colors::CtrlBackgroundLight);
-        w.border(Colors::BorderLight, 1);
+        w.border(Colors::CtrlBackgroundLight.darker(Colors::Drk020), 1);
         w.color(Colors::Foreground);
         _inactive = w.toString();
     }
@@ -155,17 +155,9 @@ namespace Rt2::View
         if (!_pressed.isEmpty())
             return;
         StyleSheetWriter w;
-        w.backgroundColor(
-            // clang-format off
-            {0.0, 0.0, 0.0, 1.0},
-            {
-                {0.0, Colors::Accent.darker(Colors::Drk070)},
-                {1.0, Colors::Accent},
-            }
-            // clang-format on
-        );
-        w.border(Colors::BorderLight, 1);
-        w.color(Colors::Accent.lighter(Colors::Lgt090));
+        w.backgroundColor(Colors::CtrlBackground.darker(Colors::Drk010));
+        w.border(Colors::CtrlBackgroundLight.lighter(Colors::Lgt020), 1);
+        w.color(Colors::Accent.lighter(Colors::Lgt050));
         _pressed = w.toString();
     }
 

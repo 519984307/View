@@ -2,6 +2,7 @@
 #include <QPalette>
 #include "Utils/String.h"
 
+class QGuiApplication;
 class QLayout;
 class QPushButton;
 class QLabel;

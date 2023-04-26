@@ -83,7 +83,6 @@ namespace Rt2::View
     {
         QLabel* la = new QLabel(QString::fromStdString(str), parent);
 
-        
         StyleSheetWriter writer;
         writer.fontSize(Metrics::defaultTextSize);
         writer.noBackground();

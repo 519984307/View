@@ -9,23 +9,21 @@ namespace Rt2::View
 {
     enum IconMap
     {
-        IconAdd = ' ',
-        IconEdit,
-        IconDelete,
+        IconDelete = 'A',
         IconClear,
-        IconHome,
-        IconSettings,
-        IconMenu1,
-        IconMenu2,
-        IconBack,
-        IconUp,
-        IconForward,
-        IconDown,
-        IconRefresh,
-        IconUndo,
-        IconRedo,
+        IconAdd,
+        IconEdit,
+        IconTriUp,
+        IconX,
+        IconCheck = 'L',
+        IconExit,
+        IconFull,
+        IconSettings = 'R',
+        IconHome     = 'S',
+        IconRefresh  = 'V',
+        IconUndo     = 'O',
+        IconRedo     = '.',
         IconCheck1,
-        IconCheck,
         IconBox,
         IconFile,
         IconFolderClose,
@@ -34,6 +32,12 @@ namespace Rt2::View
         IconGraphArea,
         IconGraphBar,
         IconGraphScatter,
+        IconCh1     = '[',
+        IconCh2     = '\\',
+        IconBack    = '4',
+        IconUp      = '5',
+        IconForward = '6',
+        IconDown    = '7',
 
     };
 
@@ -45,15 +49,7 @@ namespace Rt2::View
     private:
         QLabel*           _button{nullptr};
         IconButtonStates* _states{nullptr};
-
-        enum States
-        {
-            NONE     = 0x00,
-            PRESSED  = 0x01,
-            RELEASED = 0x02,
-            ENTER    = 0x04,
-        };
-        int _state{NONE};
+        int               _state{NONE};
 
     signals:
         void clicked();

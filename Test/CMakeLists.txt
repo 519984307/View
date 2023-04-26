@@ -9,7 +9,8 @@ set_group(
 )
 
 include_directories(
-    .
+    ${View_INCLUDE}
+    ${ViewModel_INCLUDE}
     ${GTEST_INCLUDE}
 )
 
@@ -21,6 +22,8 @@ add_executable(
 target_link_libraries(
     ${TestTargetName} 
     ${GTEST_LIBRARY}
+    ${View_LIBRARY}
+    ${ViewModel_LIBRARY}
 )
 
 set_target_properties(
@@ -34,8 +37,22 @@ if (View_AUTO_RUN_TEST)
 endif()
 
 
+include_directories(
+    ${Utils_INCLUDE}
+    ${View_INCLUDE}
+    ${ViewModel_INCLUDE}
+    ${GTEST_INCLUDE}
+)
 add_qt_test_file(
     Test2 
-    ${TestTargetName}.Test2
-    ${View_AUTO_RUN_TEST}
+    ${TestTargetName}.Widgets
+    FALSE
+)
+
+target_link_libraries(
+    ${TestTargetName}.Widgets
+    ${Utils_LIBRARY}
+    ${View_LIBRARY}
+    ${ViewModel_LIBRARY}
+    ${GTEST_LIBRARY}
 )

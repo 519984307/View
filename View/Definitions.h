@@ -18,4 +18,13 @@ namespace Rt2::View
     class FlagView;
     class CheckBoxView;
 
+    enum States
+    {
+        NONE     = 0x00,
+        PRESSED  = 0x01,
+        RELEASED = 0x02,
+        ENTER    = 0x04,
+        ON       = 0x08,
+    };
+
 }  // namespace Rt2::View

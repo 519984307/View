@@ -1,4 +1,3 @@
-#pragma once
 #include "CheckBoxView.h"
 #include <qevent.h>
 #include <QLabel>
@@ -43,7 +42,7 @@ namespace Rt2::View
         void inactive(QLabel* widget) const;
     };
 
-    CheckBoxView::CheckBoxView(QWidget* parent, const QString &label) :
+    CheckBoxView::CheckBoxView(QWidget* parent) :
         View(parent),
         _states(new CheckBoxStates())
     {
@@ -53,6 +52,20 @@ namespace Rt2::View
     CheckBoxView::~CheckBoxView()
     {
         delete _states;
+    }
+
+    void CheckBoxView::setChecked(bool v)
+    {
+        if (v)
+            _state |= ON;
+        else
+            _state &= ~ON;
+        _check.setValue(v, ViewModel::BOTH);
+    }
+
+    void CheckBoxView::addObserver(const BoolModel::Observer& ob)
+    {
+        _check.addOutput(ob);
     }
 
     void CheckBoxView::construct()
@@ -70,6 +83,16 @@ namespace Rt2::View
 
         CheckBoxStates::unchecked(_button);
         _states->inactive(_button);
+
+        _check.addInput(
+            [this](const bool& v)
+            {
+                if (v)
+                    CheckBoxStates::checked(_button);
+                else
+                    CheckBoxStates::unchecked(_button);
+                refresh();
+            });
     }
 
     void CheckBoxView::mousePressEvent(QMouseEvent* event)
@@ -83,26 +106,12 @@ namespace Rt2::View
     {
         _state &= ~PRESSED;
         _state |= RELEASED;
-        refresh();
 
         if (event->button() == Qt::LeftButton)
         {
             if (const QPoint pt = Qmc::point(event->position());
                 geometry().contains(pt) || _button->geometry().contains(pt))
-            {
-                const bool isOn = (_state & ON) != 0;
-                if (isOn)
-                {
-                    _state &= ~ON;
-                    CheckBoxStates::unchecked(_button);
-                }
-                else
-                {
-                    _state |= ON;
-                    CheckBoxStates::checked(_button);
-                }
-                emit checkChanged(!isOn);
-            }
+                setChecked(!isChecked());
         }
     }
 
@@ -131,12 +140,15 @@ namespace Rt2::View
     void CheckBoxStates::makeInactive()
     {
         const QColor     c = Colors::CtrlBackground;
-        StyleSheetWriter ssw;
-        ssw.backgroundColor(c.darker(Colors::Drk020));
-        ssw.color(c.lighter(Colors::Lgt090));
-        ssw.border(c.lighter(Colors::Lgt060), 1);
 
-        _inactive = ssw.toString();
+
+        StyleSheetWriter w;
+        w.padding(5);
+        w.backgroundColor(c.darker(Colors::Drk020));
+        w.color(c.lighter(Colors::Lgt090));
+        w.border(c.lighter(Colors::Lgt060), 1);
+
+        _inactive = w.toString();
     }
 
     void CheckBoxStates::makeInactiveChecked()
@@ -180,7 +192,7 @@ namespace Rt2::View
 
     void CheckBoxStates::checked(QLabel* widget)
     {
-        widget->setText(QChar(IconCheck));
+        widget->setText(QChar(IconCh2));
     }
 
     void CheckBoxStates::active(QLabel* widget) const
