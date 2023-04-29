@@ -135,9 +135,17 @@ namespace Rt2::View
                 modRect = modRect.marginsRemoved(_padding);
             }
 
+
+            QRect cv = paint.viewport();
+            QRect cw = paint.window();
+
             paint.setClipRect(modRect);
             render(paint, modRect);
             paint.setClipRect(base);
+
+            paint.resetTransform();
+            paint.setWindow(cw);
+            paint.setViewport(cv);
         }
 
         if (_flags & CvHighLightContent)

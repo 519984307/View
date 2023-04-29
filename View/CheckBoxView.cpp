@@ -139,8 +139,7 @@ namespace Rt2::View
 
     void CheckBoxStates::makeInactive()
     {
-        const QColor     c = Colors::CtrlBackground;
-
+        const QColor c = Colors::CtrlBackground;
 
         StyleSheetWriter w;
         w.padding(5);

@@ -245,6 +245,16 @@ namespace Rt2::View
         return {(qreal)pt.x(), (qreal)pt.y()};
     }
 
+    QRect Qmc::rect(const QRectF& v)
+    {
+        return {(int)v.x(), (int)v.y(), (int)v.width(), (int)v.height()};
+    }
+
+    QRectF Qmc::rect(const QRect& v)
+    {
+        return {(qreal)v.x(), (qreal)v.y(), (qreal)v.width(), (qreal)v.height()};
+    }
+
     void Qu::writeStyleSheet(QApplication& app)
     {
         OutputStringStream stream;

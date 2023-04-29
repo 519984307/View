@@ -95,6 +95,9 @@ namespace Rt2::View
     public:
         static QPoint  point(const QPointF& pt);
         static QPointF point(const QPoint& pt);
+
+        static QRect  rect(const QRectF& v);
+        static QRectF rect(const QRect& v);
     };
 
 }  // namespace Rt2::View
