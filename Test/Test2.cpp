@@ -7,9 +7,9 @@
 #include "View/Metrics.h"
 #include "View/Qu.h"
 //
-#include "Test2.h"
+#include "View/GTest/Macros.h"
 #include "View/IconButtonView.h"
-#define SHOW_RUN 1
+#define SHOW_RUN 0
 #if SHOW_RUN == 1
     #define RUN QApplication::exec()
 #else
@@ -22,7 +22,7 @@ GTEST_QT_TEST(View, CheckBoxView)
     layout->addWidget(view, 1, Qt::AlignCenter);
 
     bool checkState = false;
-    view->addObserver([&checkState](const bool& v)
+    view->addOutput([&checkState](const bool& v)
                       { checkState = v; });
 
     view->setChecked(true);

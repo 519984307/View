@@ -54,16 +54,22 @@ namespace Rt2::View
         delete _states;
     }
 
-    void CheckBoxView::setChecked(bool v)
+    void CheckBoxView::setChecked(const bool v)
     {
         if (v)
             _state |= ON;
         else
             _state &= ~ON;
         _check.setValue(v, ViewModel::BOTH);
+        _states->inactive(_button);
     }
 
-    void CheckBoxView::addObserver(const BoolModel::Observer& ob)
+    void CheckBoxView::addInput(const BoolModel::Observer& ob)
+    {
+        _check.addInput(ob);
+    }
+
+    void CheckBoxView::addOutput(const BoolModel::Observer& ob)
     {
         _check.addOutput(ob);
     }

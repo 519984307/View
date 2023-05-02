@@ -4,7 +4,6 @@
 #include "Colors.h"
 #include "FlagViewItem.h"
 #include "LayoutView.h"
-#include "Metrics.h"
 #include "Qu.h"
 
 class QLabel;
@@ -41,14 +40,14 @@ namespace Rt2::View
         _content->addWidget(box);
     }
 
-    void FlagView::setBits(int bits) const
+    void FlagView::setBits(const int bits) const
     {
         for (int i = 0; i < _content->count(); ++i)
         {
-            QLayoutItem* item = _content->itemAt(i);
-            QWidget*     wdg  = item->widget();
+            const QLayoutItem* item = _content->itemAt(i);
 
-            if (wdg && wdg->inherits("Rt2::View::FlagViewItem"))
+            if (QWidget* wdg = item->widget();
+                wdg && wdg->inherits("Rt2::View::FlagViewItem"))
             {
                 FlagViewItem* fv = (FlagViewItem*)wdg;
                 fv->setState((bits & (1 << i)) != 0);
@@ -61,14 +60,21 @@ namespace Rt2::View
         _bits.addOutput(ot);
     }
 
+    void FlagView::addInput(const ObserverType& ot)
+    {
+        _bits.addInput(ot);
+    }
+
     void FlagView::construct()
     {
         _content = Qu::horizontal();
         _content->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+
         constructView(_content, 0);
         setAutoFillBackground(true);
         setUpdatesEnabled(true);
         setBorder(1);
+
         setBorderColor(Colors::CtrlBackgroundLight.lighter(Colors::Lgt090));
         setPadding(0);
     }

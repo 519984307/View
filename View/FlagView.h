@@ -27,6 +27,7 @@ namespace Rt2::View
         void setBits(int bits) const;
 
         void addOutput(const ObserverType& ot);
+        void addInput(const ObserverType& ot);
 
     private:
         void construct();

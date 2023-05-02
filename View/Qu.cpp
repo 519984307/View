@@ -32,7 +32,9 @@ namespace Rt2::View
         QApplication::setFont(fnt);
     }
 
-    void Qu::dropShadow(QLinearGradient& gradient, const QRectF& into, const QColor& base)
+    void Qu::dropShadow(QLinearGradient& gradient,
+                        const QRectF&    into,
+                        const QColor&    base)
     {
         qreal r;
         if (into.height() > 0)

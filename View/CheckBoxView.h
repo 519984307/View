@@ -27,7 +27,9 @@ namespace Rt2::View
 
         bool isChecked() const;
 
-        void addObserver(const BoolModel::Observer &ob);
+        void addInput(const BoolModel::Observer &ob);
+
+        void addOutput(const BoolModel::Observer &ob);
 
     private:
         void construct();
