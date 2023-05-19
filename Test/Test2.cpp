@@ -9,7 +9,7 @@
 //
 #include "View/GTest/Macros.h"
 #include "View/IconButtonView.h"
-#define SHOW_RUN 1
+#define SHOW_RUN 0
 #if SHOW_RUN == 1
     #define RUN QApplication::exec()
 #else
