@@ -8,13 +8,12 @@ The Test directory is setup to work with [googletest](https://github.com/google/
 
 ## Building
 
-Building with CMake and Make.
+![A2](https://github.com/chcly/Module.View/actions/workflows/build-windows.yml/badge.svg)
 
 ```sh
-mkdir build
-cd build
-cmake .. -DView_BUILD_TEST=ON -DView_AUTO_RUN_TEST=ON
-make
+mkdir Build
+cmake -S . -B Build -DView_BUILD_TEST=ON -DView_AUTO_RUN_TEST=ON
+cmake --build Build
 ```
 
 ### Optional defines
