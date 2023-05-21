@@ -16,6 +16,10 @@ cmake -S . -B Build -DView_BUILD_TEST=ON -DView_AUTO_RUN_TEST=ON
 cmake --build Build
 ```
 
+### Linux
+
+CMake [script](https://github.com/chcly/CMakeModules/blob/master/ConfigureQt.cmake#L2) needs to be aujusted. 
+
 ### Optional defines
 
 | Option                  | Description                                          | Default |
