@@ -26,4 +26,3 @@ CMake [script](https://github.com/chcly/CMakeModules/blob/master/ConfigureQt.cma
 | :---------------------- | :--------------------------------------------------- | :-----: |
 | View_BUILD_TEST         | Build the unit test program.                         |   ON    |
 | View_AUTO_RUN_TEST      | Automatically run the test program.                  |   OFF   |
-| View_USE_STATIC_RUNTIME | Build with the MultiThreaded(Debug) runtime library. |   ON    |
