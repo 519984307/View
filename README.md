@@ -18,7 +18,7 @@ cmake --build Build
 
 ### Linux
 
-CMake [script](https://github.com/chcly/CMakeModules/blob/master/ConfigureQt.cmake#L2) needs to be aujusted. 
+CMake [script](https://github.com/chcly/CMakeModules/blob/master/ConfigureQt.cmake#L2) needs to be adjusted. 
 
 ### Optional defines
 
