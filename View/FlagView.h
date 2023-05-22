@@ -1,6 +1,6 @@
 #pragma once
 #include <QWidget>
-#include "LayoutView.h"
+#include "View/LayoutView.h"
 #include "ViewModel/Property.h"
 
 class QBoxLayout;

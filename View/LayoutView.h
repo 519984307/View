@@ -3,7 +3,6 @@
 
 namespace Rt2::View
 {
-
     class LayoutView : public QWidget
     {
         Q_OBJECT

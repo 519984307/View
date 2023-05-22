@@ -1,10 +1,9 @@
 #include "View/CustomView.h"
 #include <QPainter>
 #include <QVBoxLayout>
-#include "Colors.h"
-#include "Metrics.h"
-#include "Palette.h"
-#include "Qu.h"
+#include "View/Colors.h"
+#include "View/Palette.h"
+#include "View/Qu.h"
 
 namespace Rt2::View
 {
@@ -134,7 +133,6 @@ namespace Rt2::View
                 paint.fillRect(modRect, colors.color(Colors::CustomViewBackground));
                 modRect = modRect.marginsRemoved(_padding);
             }
-
 
             QRect cv = paint.viewport();
             QRect cw = paint.window();

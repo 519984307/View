@@ -1,6 +1,6 @@
 #pragma once
 #include <QWidget>
-#include "View.h"
+#include "View/View.h"
 
 class QLabel;
 class QPushButton;

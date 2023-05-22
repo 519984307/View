@@ -1,22 +1,21 @@
 #pragma once
 #include <QColor>
 #include <QSizeF>
-
-#include "Palette.h"
 #include "Utils/StackStream.h"
+#include "View/Palette.h"
 
 namespace Rt2::View
 {
     struct Stops
     {
-        qreal offs{0};
-        QColor color{0,0,0};
-    };
-    struct GradientBox
-    {
-        qreal x1,y1,x2,y2;
+        qreal  offs{0};
+        QColor color{0, 0, 0};
     };
 
+    struct GradientBox
+    {
+        qreal x1, y1, x2, y2;
+    };
 
     class StyleSheetWriter
     {
@@ -39,8 +38,7 @@ namespace Rt2::View
 
         void backgroundColor(const QColor& col);
 
-        void backgroundColor(const GradientBox& co, const SimpleArray<Stops> &stops);
-
+        void backgroundColor(const GradientBox& co, const SimpleArray<Stops>& stops);
 
         void backgroundColor(const QPalette::ColorRole& col);
 

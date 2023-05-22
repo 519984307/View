@@ -29,7 +29,7 @@ namespace Rt2::View
         return _textModel.value();
     }
 
-    void TextEditView::addTextObserver(const StringModel::Observer& type)
+    void TextEditView::addOutput(const StringModel::Observer& type)
     {
         _textModel.addOutput(type);
     }

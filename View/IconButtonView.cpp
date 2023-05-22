@@ -1,10 +1,10 @@
 #include "View/IconButtonView.h"
-#include <qevent.h>
+#include <QMouseEvent>
 #include <QBoxLayout>
 #include <QLabel>
 #include <QPainter>
 #include <QWidget>
-#include "StyleSheetWriter.h"
+#include "View/StyleSheetWriter.h"
 #include "View/Colors.h"
 #include "View/Metrics.h"
 #include "View/Qu.h"

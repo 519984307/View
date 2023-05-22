@@ -1,7 +1,6 @@
 #pragma once
 #include <QListView>
-
-#include "View.h"
+#include "View/View.h"
 #include "View/Definitions.h"
 
 class QLineEdit;

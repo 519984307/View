@@ -1,10 +1,10 @@
-#include "FlagViewItem.h"
+#include "View/FlagViewItem.h"
 #include <QMouseEvent>
 #include <QPainter>
 #include <QWidget>
-#include "Colors.h"
-#include "Metrics.h"
-#include "Qu.h"
+#include "View/Colors.h"
+#include "View/Metrics.h"
+#include "View/Qu.h"
 
 namespace Rt2::View
 {
@@ -25,7 +25,7 @@ namespace Rt2::View
         setMargin(0);
         setPadding(0);
         setFlags(CvFullView);
-        setMinimumSize(Metrics::iconPadding);
+        setMinimumSize(Metrics::iconMin);
         update();
     }
 

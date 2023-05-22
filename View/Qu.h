@@ -48,6 +48,12 @@ namespace Rt2::View
             const QColor& col    = QColor(0xFF, 0x00, 0xFF),
             QWidget*      parent = nullptr);
 
+        static QLabel* text(
+            const String& str,
+            int           textSize,
+            const QColor& col    = QColor(0xFF, 0x00, 0xFF),
+            QWidget*      parent = nullptr);
+
         static QLabel* title(
             const String& str,
             const QColor& col    = QColor(0xFF, 0x00, 0xFF),

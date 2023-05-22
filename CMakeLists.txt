@@ -46,6 +46,11 @@ endif()
 add_subdirectory(View)
 add_subdirectory(ViewModel)
 
+if (View_BUILD_SAMPLES)
+    set(TargetGroup Samples)
+    add_subdirectory(Samples)
+endif()
+
 if (View_BUILD_TEST)
     if (NOT View_ExternalTarget)
         add_gtest_source(Extern/ThirdParty)

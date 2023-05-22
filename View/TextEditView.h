@@ -1,8 +1,7 @@
 #pragma once
 #include <QWidget>
-
-#include "View.h"
 #include "View/Definitions.h"
+#include "View/View.h"
 
 class QLineEdit;
 
@@ -22,7 +21,7 @@ namespace Rt2::View
 
         void setText(const String& text);
 
-        void addTextObserver(const StringModel::Observer& type);
+        void addOutput(const StringModel::Observer& type);
 
     private:
         void construct();

@@ -1,6 +1,6 @@
 #pragma once
 #include <QWidget>
-#include "CustomView.h"
+#include "View/CustomView.h"
 
 namespace Rt2::View
 {
@@ -11,7 +11,6 @@ namespace Rt2::View
         Q_OBJECT
     private:
         FlagViewItemStates* _states{nullptr};
-
         enum States
         {
             NONE     = 0x00,

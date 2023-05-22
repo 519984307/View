@@ -1,9 +1,9 @@
 #include "View/LayoutView.h"
 #include <QVBoxLayout>
-#include "Colors.h"
-#include "Metrics.h"
-#include "Palette.h"
-#include "Qu.h"
+#include "View/Colors.h"
+#include "View/Metrics.h"
+#include "View/Palette.h"
+#include "View/Qu.h"
 
 namespace Rt2::View
 {

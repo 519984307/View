@@ -1,46 +1,13 @@
 #pragma once
 #include <QWidget>
-#include "View.h"
+#include "View/View.h"
+#include "View/IconFontMapping.h"
 
 class QLabel;
 class QPushButton;
 
 namespace Rt2::View
 {
-    enum IconMap
-    {
-        IconDelete = 'A',
-        IconClear,
-        IconAdd,
-        IconEdit,
-        IconTriUp,
-        IconX,
-        IconCheck = 'L',
-        IconExit,
-        IconFull,
-        IconSettings = 'R',
-        IconHome     = 'S',
-        IconRefresh  = 'V',
-        IconUndo     = 'O',
-        IconRedo     = '.',
-        IconCheck1,
-        IconBox,
-        IconFile,
-        IconFolderClose,
-        IconFolderOpen,
-        IconGraphLine,
-        IconGraphArea,
-        IconGraphBar,
-        IconGraphScatter,
-        IconCh1     = '[',
-        IconCh2     = '\\',
-        IconBack    = '4',
-        IconUp      = '5',
-        IconForward = '6',
-        IconDown    = '7',
-
-    };
-
     class IconButtonStates;
 
     class IconButtonView final : public View

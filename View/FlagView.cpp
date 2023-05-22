@@ -1,10 +1,10 @@
-#include "FlagView.h"
+#include "View/FlagView.h"
 #include <QVBoxLayout>
 #include <QWidget>
-#include "Colors.h"
-#include "FlagViewItem.h"
-#include "LayoutView.h"
-#include "Qu.h"
+#include "View/Colors.h"
+#include "View/FlagViewItem.h"
+#include "View/LayoutView.h"
+#include "View/Qu.h"
 
 class QLabel;
 

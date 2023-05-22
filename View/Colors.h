@@ -1,6 +1,6 @@
 #pragma once
-#include <qpalette.h>
-#include <qpen.h>
+#include <QPalette>
+#include <QPen>
 #include <QColor>
 
 namespace Rt2::View

@@ -1,13 +1,13 @@
-#include "CheckBoxView.h"
-#include <qevent.h>
+#include "View/CheckBoxView.h"
+#include <QMouseEvent>
 #include <QLabel>
 #include <QWidget>
 #include "Colors.h"
-#include "IconButtonView.h"
-#include "Metrics.h"
-#include "Qu.h"
-#include "StyleSheetWriter.h"
-#include "View.h"
+#include "View/IconButtonView.h"
+#include "View/Metrics.h"
+#include "View/Qu.h"
+#include "View/StyleSheetWriter.h"
+#include "View/View.h"
 
 class QLabel;
 class QPushButton;
@@ -197,7 +197,7 @@ namespace Rt2::View
 
     void CheckBoxStates::checked(QLabel* widget)
     {
-        widget->setText(QChar(IconCh2));
+        widget->setText(QChar(IconCheck2));
     }
 
     void CheckBoxStates::active(QLabel* widget) const
