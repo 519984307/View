@@ -5,7 +5,6 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
-
 #include "DefaultStyleSheet.h"
 #include "Utils/Console.h"
 #include "Utils/Definitions.h"
@@ -16,16 +15,21 @@
 #include "View/Palette.h"
 #include "View/StyleSheetWriter.h"
 
+static int symbolLink()
+{
+    Q_INIT_RESOURCE(Icons);
+    return 0;
+}
+
 namespace Rt2::View
 {
     using Mt = Metrics;
 
     void Qu::initResources(QApplication& app)
     {
-        Q_INIT_RESOURCE(icons);
+        symbolLink();
         QFontDatabase::addApplicationFont(":/fonts/IconFont.ttf");
         Palette::applyInternal();
-
         writeStyleSheet(app);
 
         QFont fnt("Segoe UI");

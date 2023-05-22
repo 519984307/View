@@ -9,7 +9,7 @@ set_group(
 
 qt_add_resources(
     TargetName_RES 
-    Icons/icons.qrc
+    Icons/Icons.qrc
 )
 
 include_directories(

@@ -28,7 +28,12 @@ DefineExternalTargetEx(
 configure_gtest(${View_SOURCE_DIR}/Test/googletest 
                 ${View_SOURCE_DIR}/Test/googletest/googletest/include)
 
-configure_qt_windows(Core Widgets Gui Test)
-qt_standard_project_setup()
+if (WIN32)
+    configure_qt_windows(Core Widgets Gui Test)
+    qt_standard_project_setup()
+else()
+    configure_qt_linux(Core Widgets Gui Test)
+endif()
+
 
 set(Configure_SUCCEEDED TRUE)
