@@ -14,7 +14,6 @@
 #include "View/IconButtonView.h"
 #include "View/Metrics.h"
 #include "View/Palette.h"
-#include "View/Style.h"
 #include "View/StyleSheetWriter.h"
 
 namespace Rt2::View
