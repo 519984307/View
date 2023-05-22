@@ -8,6 +8,7 @@ The Test directory is setup to work with [googletest](https://github.com/google/
 
 ## Building
 
+![A1](https://github.com/chcly/Module.View/actions/workflows/build-linux.yml/badge.svg)
 ![A2](https://github.com/chcly/Module.View/actions/workflows/build-windows.yml/badge.svg)
 
 ```sh
@@ -15,10 +16,6 @@ mkdir Build
 cmake -S . -B Build -DView_BUILD_TEST=ON -DView_AUTO_RUN_TEST=ON
 cmake --build Build
 ```
-
-### Linux
-
-CMake [script](https://github.com/chcly/CMakeModules/blob/master/ConfigureQt.cmake#L2) needs to be adjusted. 
 
 ### Optional defines
 
