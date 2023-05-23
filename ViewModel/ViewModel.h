@@ -51,10 +51,9 @@ namespace Rt2::ViewModel
 
         explicit ViewModel(const T& v);
 
-        virtual  ~ViewModel();
+        virtual ~ViewModel();
 
-        void setValue(const T&  val,
-                      Direction dir = INPUT);
+        void setValue(const T& val, Direction dir = INPUT);
 
         const T& value() const;
 
@@ -87,7 +86,7 @@ namespace Rt2::ViewModel
     template <typename T>
     void ViewModel<T>::dispatchOutput()
     {
-        for (const auto &output : _outputs)
+        for (const auto& output : _outputs)
             output(_model.value());
     }
 
@@ -156,9 +155,8 @@ namespace Rt2::ViewModel
         _outputs.clear();
     }
 
-    template <typename  T>
+    template <typename T>
     using TFunction = std::function<void(const T&)>;
-
 
     template <typename T>
     class FunctionViewModel final : public ViewModel<TFunction<T>>
@@ -188,4 +186,5 @@ namespace Rt2::ViewModel
             }
         }
     };
+
 }  // namespace Rt2::ViewModel

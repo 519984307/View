@@ -6,17 +6,18 @@ namespace Rt2::View
 {
     using ObserverDirection = ViewModel::Direction;
 
-    using BoolModel       = ViewModel::BoolModel;
-    using IntModel        = ViewModel::IntModel;
-    using FloatModel      = ViewModel::FloatModel;
-    using StringModel     = ViewModel::StringModel;
-    using StringListModel = ViewModel::StringListModel;
+    using BoolModel         = ViewModel::BoolModel;
+    using IntModel          = ViewModel::IntModel;
+    using FloatModel        = ViewModel::FloatModel;
+    using StringModel       = ViewModel::StringModel;
+    using StringListModel   = ViewModel::StringListModel;
 
     class IconButtonView;
     class TextEditView;
     class StringListView;
     class FlagView;
     class CheckBoxView;
+    class PushButtonView;
 
     enum States
     {
