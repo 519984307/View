@@ -1,9 +1,8 @@
-#include "View/PushButton.h"
+#include "View/PushButtonView.h"
 #include <QLabel>
 #include <QMouseEvent>
 #include <QWidget>
 #include "Colors.h"
-#include "View/IconButtonView.h"
 #include "View/Metrics.h"
 #include "View/Qu.h"
 #include "View/StyleSheetWriter.h"
