@@ -1,13 +1,13 @@
 #include "View/IconButtonView.h"
-#include <QMouseEvent>
 #include <QBoxLayout>
 #include <QLabel>
+#include <QMouseEvent>
 #include <QPainter>
 #include <QWidget>
-#include "View/StyleSheetWriter.h"
 #include "View/Colors.h"
 #include "View/Metrics.h"
 #include "View/Qu.h"
+#include "View/StyleSheetWriter.h"
 
 namespace Rt2::View
 {
@@ -32,7 +32,7 @@ namespace Rt2::View
         void makePressed();
     };
 
-    IconButtonView::IconButtonView(IconMap icon, QWidget* parent) :
+    IconButtonView::IconButtonView(const IconMap icon, QWidget* parent) :
         View(parent),
         _states(new IconButtonStates())
     {
@@ -73,6 +73,8 @@ namespace Rt2::View
 
     void IconButtonView::mouseReleaseEvent(QMouseEvent* event)
     {
+        if (!event) return;
+
         _state &= ~PRESSED;
         _state |= RELEASED;
         refresh();
@@ -112,16 +114,19 @@ namespace Rt2::View
 
     void IconButtonStates::active(QLabel* label) const
     {
+        if (!label) return;
         label->setStyleSheet(_active);
     }
 
     void IconButtonStates::inactive(QLabel* label) const
     {
+        if (!label) return;
         label->setStyleSheet(_inactive);
     }
 
     void IconButtonStates::pressed(QLabel* label) const
     {
+        if (!label) return;
         label->setStyleSheet(_pressed);
     }
 

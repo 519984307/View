@@ -11,8 +11,8 @@ namespace Rt2::View
     {
         Q_OBJECT
     private:
-        QLineEdit*             _edit{nullptr};
-        ViewModel::StringModel _textModel;
+        QLineEdit*  _edit{nullptr};
+        StringModel _textModel;
 
     public:
         explicit TextEditView(QWidget* parent = nullptr);

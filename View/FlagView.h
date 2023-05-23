@@ -1,5 +1,6 @@
 #pragma once
 #include <QWidget>
+#include "Definitions.h"
 #include "View/LayoutView.h"
 #include "ViewModel/Property.h"
 
@@ -11,11 +12,8 @@ namespace Rt2::View
     class FlagView final : public LayoutView
     {
         Q_OBJECT
-    public:
-        using ObserverType = ViewModel::IntModel::Observer;
-
     private:
-        ViewModel::IntModel _bits{0};
+        IntModel _bits{0};
 
     public:
         explicit FlagView(QWidget* parent = nullptr);
@@ -26,8 +24,9 @@ namespace Rt2::View
 
         void setBits(int bits) const;
 
-        void addOutput(const ObserverType& ot);
-        void addInput(const ObserverType& ot);
+        void addOutput(const IntModel::Observer& ot);
+
+        void addInput(const IntModel::Observer& ot);
 
     private:
         void construct();

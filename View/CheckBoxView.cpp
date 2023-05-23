@@ -110,6 +110,8 @@ namespace Rt2::View
 
     void CheckBoxView::mouseReleaseEvent(QMouseEvent* event)
     {
+        if (!event) return;
+
         _state &= ~PRESSED;
         _state |= RELEASED;
 
@@ -123,6 +125,8 @@ namespace Rt2::View
 
     void CheckBoxView::enterEvent(QEnterEvent* event)
     {
+        if (!event) return;
+
         _state |= ENTER;
         refresh();
         _states->active(_button);
@@ -130,6 +134,8 @@ namespace Rt2::View
 
     void CheckBoxView::leaveEvent(QEvent* event)
     {
+        if (!event) return;
+
         _state &= ~ENTER;
         refresh();
         _states->inactive(_button);
@@ -192,16 +198,20 @@ namespace Rt2::View
 
     void CheckBoxStates::unchecked(QLabel* widget)
     {
+        if (!widget) return;
         widget->setText("");
     }
 
     void CheckBoxStates::checked(QLabel* widget)
     {
+        if (!widget) return;
         widget->setText(QChar(IconCheck2));
     }
 
     void CheckBoxStates::active(QLabel* widget) const
     {
+        if (!widget) return;
+
         if (widget->text().isEmpty())
             widget->setStyleSheet(_active);
         else
@@ -210,6 +220,8 @@ namespace Rt2::View
 
     void CheckBoxStates::inactive(QLabel* widget) const
     {
+        if (!widget) return;
+
         if (widget->text().isEmpty())
             widget->setStyleSheet(_inactive);
         else

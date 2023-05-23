@@ -13,10 +13,9 @@ namespace Rt2::View
     {
         Q_OBJECT
     private:
-        QLabel*           _button{nullptr};
+        QLabel*           _text{nullptr};
         PushButtonStates* _states{nullptr};
         BoolModel         _observers{};
-        int               _state{NONE};
 
     public:
         explicit PushButtonView(QWidget* parent = nullptr);

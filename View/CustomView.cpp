@@ -13,7 +13,7 @@ namespace Rt2::View
     {
     }
 
-    void CustomView::setFlags(int vf)
+    void CustomView::setFlags(const int vf)
     {
         _flags = vf;
         refresh();
@@ -134,8 +134,8 @@ namespace Rt2::View
                 modRect = modRect.marginsRemoved(_padding);
             }
 
-            QRect cv = paint.viewport();
-            QRect cw = paint.window();
+            const QRect cv = paint.viewport();
+            const QRect cw = paint.window();
 
             paint.setClipRect(modRect);
             render(paint, modRect);

@@ -60,12 +60,14 @@ namespace Rt2::View
 
     void PushButtonView::setLabel(const String& label) const
     {
-        _button->setText(Qsu::to(label));
+        if (!_text) return;
+        _text->setText(Qsu::to(label));
     }
 
     String PushButtonView::label() const
     {
-        return Qsu::from(_button->text());
+        if (!_text) return "";
+        return Qsu::from(_text->text());
     }
 
     void PushButtonView::addOutput(const BoolModel::Observer& ob)
@@ -75,30 +77,32 @@ namespace Rt2::View
 
     void PushButtonView::construct()
     {
-        _button = new QLabel(this);
-        constructView(_button);
+        _text = new QLabel(this);
+        constructView(_text);
         setPadding(0);
         setBorder(Metrics::borderSizeThick);
         setMinimumSize(Metrics::buttonSize);
         setMaximumHeight(Metrics::buttonSize.height());
-        _button->setAlignment(Qt::AlignCenter);
-        _states->inactive(_button);
+        _text->setAlignment(Qt::AlignCenter);
+        _states->inactive(_text);
     }
 
     void PushButtonView::mousePressEvent(QMouseEvent* event)
     {
-        _states->pressed(_button);
+        _states->pressed(_text);
         refresh();
     }
 
     void PushButtonView::mouseReleaseEvent(QMouseEvent* event)
     {
+        if (!event) return;
+
         bool inside = false;
 
         if (event->button() == Qt::LeftButton)
         {
             if (const QPoint pt = Qmc::point(event->position());
-                geometry().contains(pt) || _button->geometry().contains(pt))
+                geometry().contains(pt) || _text->geometry().contains(pt))
             {
                 _observers.setValue(true, ViewModel::OUTPUT);
                 inside = true;
@@ -106,22 +110,22 @@ namespace Rt2::View
         }
 
         if (inside)
-            _states->hover(_button);
+            _states->hover(_text);
         else
-            _states->inactive(_button);
+            _states->inactive(_text);
 
         refresh();
     }
 
     void PushButtonView::enterEvent(QEnterEvent* event)
     {
-        _states->hover(_button);
+        _states->hover(_text);
         refresh();
     }
 
     void PushButtonView::leaveEvent(QEvent* event)
     {
-        _states->inactive(_button);
+        _states->inactive(_text);
         refresh();
     }
 
@@ -184,21 +188,25 @@ namespace Rt2::View
 
     void PushButtonStates::pressed(QLabel* widget) const
     {
+        if (!widget) return;
         widget->setStyleSheet(_pressed);
     }
 
     void PushButtonStates::hover(QLabel* widget) const
     {
+        if (!widget) return;
         widget->setStyleSheet(_hover);
     }
 
     void PushButtonStates::active(QLabel* widget) const
     {
+        if (!widget) return;
         widget->setStyleSheet(_active);
     }
 
     void PushButtonStates::inactive(QLabel* widget) const
     {
+        if (!widget) return;
         widget->setStyleSheet(_inactive);
     }
 

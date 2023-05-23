@@ -55,12 +55,12 @@ namespace Rt2::View
         }
     }
 
-    void FlagView::addOutput(const ObserverType& ot)
+    void FlagView::addOutput(const IntModel::Observer& ot)
     {
         _bits.addOutput(ot);
     }
 
-    void FlagView::addInput(const ObserverType& ot)
+    void FlagView::addInput(const IntModel::Observer& ot)
     {
         _bits.addInput(ot);
     }
