@@ -34,8 +34,10 @@ namespace Rt2::Samples
         _check1 = new View::CheckBoxView();
         _check2 = new View::CheckBoxView();
 
+        lo->setAlignment(Qt::AlignCenter);
         lo->addLayout(group(_check1, _text1));
         lo->addLayout(group(_check2, _text2));
+        lo->addStretch();
 
         wig->setLayout(lo);
 

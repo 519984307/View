@@ -15,7 +15,6 @@ namespace Rt2::View
     TextEditView::TextEditView(QWidget* parent) :
         View(parent)
     {
-        _edit = new QLineEdit(this);
         construct();
     }
 
@@ -36,13 +35,13 @@ namespace Rt2::View
 
     void TextEditView::construct()
     {
+        _edit = new QLineEdit(this);
         constructView(_edit);
 
         setBorderColor(Colors::BorderDark);
         setBackgroundColor(Colors::Transparent);
         setColor(QPalette::Highlight, Colors::Accent);
         _edit->setFrame(false);
-
         bind();
     }
 

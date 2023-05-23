@@ -20,14 +20,14 @@ namespace Rt2::Samples
         const auto wig = new QWidget();
         wig->setMinimumSize(Metrics::minWindow);
 
-        const auto root = Qu::vertical();
-        root->setContentsMargins(Metrics::borderThick);
+        const auto lo = Qu::vertical();
+        lo->setContentsMargins(Metrics::borderThick);
 
-        _label = Qu::text("", 18, Colors::Foreground);
+        _label = Qu::text("", 12, Colors::Foreground);
 
         const auto te = new TextEditView();
-        root->addWidget(te);
-        root->addWidget(_label, 1);
+        lo->addWidget(te);
+        lo->addWidget(_label, 1, Qt::AlignTop|Qt::AlignCenter);
 
         te->addOutput(
             [this](const String& text)
@@ -35,7 +35,7 @@ namespace Rt2::Samples
                 _label->setText(Qsu::to(text));
             });
 
-        wig->setLayout(root);
+        wig->setLayout(lo);
         return wig;
     }
 

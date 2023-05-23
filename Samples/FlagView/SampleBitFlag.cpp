@@ -27,6 +27,7 @@ namespace Rt2::Samples
 
         lo->addWidget(_bits, 0, Qt::AlignCenter);
         lo->addWidget(_flag, 0, Qt::AlignCenter);
+        lo->addStretch();
 
 
         _flag->addOutput(
