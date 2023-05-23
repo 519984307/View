@@ -1,3 +1,5 @@
+#include <cfloat>
+#include <cmath>
 #include "View/SliderView.h"
 #include <QMouseEvent>
 #include <QPainter>
