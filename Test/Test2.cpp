@@ -9,12 +9,6 @@
 //
 #include "View/GTest/Macros.h"
 #include "View/IconButtonView.h"
-#define SHOW_RUN 0
-#if SHOW_RUN == 1
-    #define RUN QApplication::exec()
-#else
-    #define RUN
-#endif
 
 GTEST_QT_TEST(View, CheckBoxView)
 {
@@ -30,8 +24,6 @@ GTEST_QT_TEST(View, CheckBoxView)
 
     view->setChecked(false);
     EXPECT_EQ(checkState, false);
-
-    root->show();
     RUN;
 }
 
@@ -55,7 +47,5 @@ GTEST_QT_TEST(View, IconButton)
         }
     }
     layout->addLayout(chb);
-
-    root->show();
     RUN;
 }

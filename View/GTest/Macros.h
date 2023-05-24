@@ -40,3 +40,10 @@
         delete root;                                                      \
     }                                                                     \
     void suite_name##name##_scope(QWidget* root, QVBoxLayout* layout)
+
+#define SHOW_RUN 0 // keep off except for testing
+#if SHOW_RUN == 1
+    #define RUN { root->show();  QApplication::exec(); }
+#else
+    #define RUN
+#endif
