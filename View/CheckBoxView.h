@@ -13,7 +13,7 @@ namespace Rt2::View
     {
         Q_OBJECT
     private:
-        QLabel*         _button{nullptr};
+        QLabel*         _icon{nullptr};
         CheckBoxStates* _states{nullptr};
         BoolModel       _check{false};
         int             _state{NONE};
@@ -27,9 +27,9 @@ namespace Rt2::View
 
         bool isChecked() const;
 
-        void addInput(const BoolModel::Observer &ob);
+        void addInput(const BoolModel::Observer& ob);
 
-        void addOutput(const BoolModel::Observer &ob);
+        void addOutput(const BoolModel::Observer& ob);
 
     private:
         void construct();

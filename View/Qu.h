@@ -76,6 +76,8 @@ namespace Rt2::View
 
         static void clearSpace(QObject* top);
 
+        static bool isLabel(const QObject* obj);
+
         static bool isWidget(const QObject* obj);
 
         static bool isLayout(const QObject* obj);

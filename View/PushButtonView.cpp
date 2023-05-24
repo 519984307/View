@@ -83,6 +83,7 @@ namespace Rt2::View
         setBorder(Metrics::borderSizeThick);
         setMinimumSize(Metrics::buttonSize);
         setMaximumHeight(Metrics::buttonSize.height());
+
         _text->setAlignment(Qt::AlignCenter);
         _states->inactive(_text);
     }
@@ -145,8 +146,6 @@ namespace Rt2::View
         w.padding(5);
         w.backgroundColor(c.lighter(Colors::Lgt060));
         w.color(Colors::Foreground);
-        w.border(c.lighter(Colors::Lgt060), 1);
-
         _inactive = w.toString();
     }
 
@@ -157,8 +156,6 @@ namespace Rt2::View
         StyleSheetWriter w;
         w.backgroundColor(c.lighter(Colors::Lgt020));
         w.color(Colors::Foreground);
-        w.border(c.lighter(Colors::Lgt060), 1);
-
         _active = w.toString();
     }
 
@@ -167,10 +164,9 @@ namespace Rt2::View
         const QColor c = Colors::Accent;
 
         StyleSheetWriter w;
-        w.backgroundColor(Colors::CtrlBackground);
-        w.border(c.lighter(Colors::Lgt060), 1);
+        w.backgroundColor(Colors::CtrlBackgroundLight);
         w.color(Colors::ForegroundLight);
-
+        w.border(Colors::CtrlBackground.lighter(Colors::Lgt020), 1);
         _hover = w.toString();
     }
 

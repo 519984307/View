@@ -66,7 +66,7 @@ namespace Rt2::View
         setPadding(0);
         setMargin(0);
         setFlags(CvFullView);
-        setMinimumHeight(Metrics::minHeight);
+        setMinimumHeight(Metrics::iconHeight);
         setBackgroundColor(Colors::CtrlBackground.darker(Colors::Drk010));
     }
 

@@ -4,6 +4,7 @@
 #include <QLabel>
 #include <QWidget>
 #include "Utils/Exception.h"
+#include "View/CheckBoxLabelView.h"
 #include "View/CheckBoxView.h"
 #include "View/Colors.h"
 #include "View/Metrics.h"
@@ -14,8 +15,7 @@ namespace Rt2::Samples
     QHBoxLayout* group(QWidget* a, QWidget* b)
     {
         const auto hg = View::Qu::horizontal();
-        hg->setSpacing(View::Metrics::indent);
-
+        hg->setSpacing(2);
         hg->addWidget(a);
         hg->addWidget(b);
         return hg;
@@ -28,31 +28,36 @@ namespace Rt2::Samples
 
         const auto lo = View::Qu::vertical();
 
-        _text1 = View::Qu::text("", View::Colors::Foreground);
-        _text2 = View::Qu::text("", View::Colors::Foreground);
-
         _check1 = new View::CheckBoxView();
-        _check2 = new View::CheckBoxView();
+        _text1  = View::Qu::text("Left", View::Colors::Foreground);
 
-        lo->setAlignment(Qt::AlignCenter);
+        _check2 = new View::CheckBoxView();
+        _text2  = View::Qu::text("Right", View::Colors::Foreground);
+
         lo->addLayout(group(_check1, _text1));
         lo->addLayout(group(_check2, _text2));
-        lo->addStretch();
-
+        const auto cb = new View::CheckBoxLabelView("Label");
+        lo->addWidget(cb,0, Qt::AlignTop);
+        
         wig->setLayout(lo);
 
         _check1->addInput(
-            [this](const bool v)
+            [this, cb](const bool v)
             {
-                _text1->setText(v ? "Checked" : "Unchecked");
-                _check2->setChecked(!v);
+                cb->setTextAlignment(Qt::AlignLeft);
+                _check2->setChecked(false);
             });
         _check2->addInput(
-            [this](const bool v)
+            [this, cb](const bool v)
             {
-                _text2->setText(v ? "Checked" : "Unchecked");
-                _check1->setChecked(!v);
+                cb->setTextAlignment(Qt::AlignRight);
+                _check1->setChecked(false);
             });
+
+        cb->addOutput([this, cb](const bool v)
+        {
+            cb->setText(v ? "Label On" : "Label Off");
+        });
 
         _check1->setChecked(true);
         return wig;

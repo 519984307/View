@@ -1,6 +1,6 @@
 #include "View/CheckBoxView.h"
-#include <QMouseEvent>
 #include <QLabel>
+#include <QMouseEvent>
 #include <QWidget>
 #include "Colors.h"
 #include "View/IconButtonView.h"
@@ -60,8 +60,9 @@ namespace Rt2::View
             _state |= ON;
         else
             _state &= ~ON;
+
         _check.setValue(v, ViewModel::BOTH);
-        _states->inactive(_button);
+        _states->inactive(_icon);
     }
 
     void CheckBoxView::addInput(const BoolModel::Observer& ob)
@@ -76,27 +77,27 @@ namespace Rt2::View
 
     void CheckBoxView::construct()
     {
-        _button = new QLabel(this);
-        constructView(_button);
+        _icon = new QLabel(this);
+        constructView(_icon);
         setPadding(0);
         setBorder(Metrics::borderSizeThick);
         setMinimumSize(Metrics::iconPadding);
         setMaximumSize(Metrics::iconPadding);
 
-        _button->setFont(Qu::iconFont());
-        _button->setAlignment(Qt::AlignCenter);
-        _button->setMinimumSize(Metrics::iconMin);
+        _icon->setFont(Qu::iconFont());
+        _icon->setAlignment(Qt::AlignCenter);
+        _icon->setMinimumSize(Metrics::iconMin);
 
-        CheckBoxStates::unchecked(_button);
-        _states->inactive(_button);
+        CheckBoxStates::unchecked(_icon);
+        _states->inactive(_icon);
 
         _check.addInput(
             [this](const bool& v)
             {
                 if (v)
-                    CheckBoxStates::checked(_button);
+                    CheckBoxStates::checked(_icon);
                 else
-                    CheckBoxStates::unchecked(_button);
+                    CheckBoxStates::unchecked(_icon);
                 refresh();
             });
     }
@@ -104,7 +105,6 @@ namespace Rt2::View
     void CheckBoxView::mousePressEvent(QMouseEvent* event)
     {
         _state |= PRESSED;
-        _state &= ~RELEASED;
         refresh();
     }
 
@@ -113,12 +113,11 @@ namespace Rt2::View
         if (!event) return;
 
         _state &= ~PRESSED;
-        _state |= RELEASED;
 
         if (event->button() == Qt::LeftButton)
         {
             if (const QPoint pt = Qmc::point(event->position());
-                geometry().contains(pt) || _button->geometry().contains(pt))
+                geometry().contains(pt) || _icon->geometry().contains(pt))
                 setChecked(!isChecked());
         }
     }
@@ -129,7 +128,7 @@ namespace Rt2::View
 
         _state |= ENTER;
         refresh();
-        _states->active(_button);
+        _states->active(_icon);
     }
 
     void CheckBoxView::leaveEvent(QEvent* event)
@@ -138,7 +137,7 @@ namespace Rt2::View
 
         _state &= ~ENTER;
         refresh();
-        _states->inactive(_button);
+        _states->inactive(_icon);
     }
 
     CheckBoxStates::CheckBoxStates()
@@ -157,8 +156,6 @@ namespace Rt2::View
         w.padding(5);
         w.backgroundColor(c.darker(Colors::Drk020));
         w.color(c.lighter(Colors::Lgt090));
-        w.border(c.lighter(Colors::Lgt060), 1);
-
         _inactive = w.toString();
     }
 
@@ -166,34 +163,31 @@ namespace Rt2::View
     {
         const QColor c = Colors::CtrlBackgroundLight;
 
-        StyleSheetWriter ssw;
-        ssw.backgroundColor(Colors::Accent.darker(Colors::Drk010));
-        ssw.color(Colors::Accent.lighter(Colors::Lgt090));
-        ssw.border(c.darker(Colors::Drk020), 1);
+        StyleSheetWriter w;
+        w.backgroundColor(Colors::Accent.darker(Colors::Drk010));
+        w.color(Colors::Accent.lighter(Colors::Lgt090));
 
-        _inactiveCheck = ssw.toString();
+        _inactiveCheck = w.toString();
     }
 
     void CheckBoxStates::makeActive()
     {
         const QColor c = Colors::Accent;
 
-        StyleSheetWriter ssw;
-        ssw.backgroundColor(c.darker(Colors::Drk020));
-        ssw.border(c.lighter(Colors::Lgt060), 1);
-        ssw.color(c.lighter(Colors::Lgt090));
-        _active = ssw.toString();
+        StyleSheetWriter w;
+        w.backgroundColor(c.darker(Colors::Drk020));
+        w.color(c.lighter(Colors::Lgt090));
+        _active = w.toString();
     }
 
     void CheckBoxStates::makeActiveChecked()
     {
         const QColor c = Colors::Accent;
 
-        StyleSheetWriter ssw;
-        ssw.backgroundColor(c.darker(Colors::Drk020));
-        ssw.border(c.lighter(Colors::Lgt060), 1);
-        ssw.color(c.lighter(Colors::Lgt090));
-        _activeCheck = ssw.toString();
+        StyleSheetWriter w;
+        w.backgroundColor(c.darker(Colors::Drk040));
+        w.color(c.lighter(Colors::Lgt090));
+        _activeCheck = w.toString();
     }
 
     void CheckBoxStates::unchecked(QLabel* widget)

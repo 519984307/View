@@ -39,6 +39,7 @@ namespace Rt2::Samples
 
         lo->addLayout(group(t1, _a));
         lo->addLayout(group(t2, _b));
+        lo->addStretch();
 
         wig->setLayout(lo);
 

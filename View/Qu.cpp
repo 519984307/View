@@ -152,6 +152,11 @@ namespace Rt2::View
             ((QLayout*)top)->setSpacing(0);
     }
 
+    bool Qu::isLabel(const QObject* obj)
+    {
+        return obj && obj->inherits("QLabel");
+    }
+
     bool Qu::isWidget(const QObject* obj)
     {
         return obj && obj->inherits("QWidget");
