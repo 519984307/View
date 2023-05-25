@@ -91,6 +91,8 @@ namespace Rt2::View
         static QFont iconFont();
 
         static void textStyle(QLabel* label, int size, const QColor& color, bool bold = false);
+
+        static  QRectF measure(const String& str, int size);
     };
 
     class Qsu

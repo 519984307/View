@@ -244,6 +244,15 @@ namespace Rt2::View
         label->setFont(fnt);
     }
 
+    QRectF Qu::measure(const String& str, const int size)
+    {
+        QFont fnt = QApplication::font();
+        fnt.setPointSize(size);
+
+        const QFontMetricsF fm(fnt);
+        return fm.tightBoundingRect(Qsu::to(str));
+    }
+
     String Qsu::from(const QString& str)
     {
         return str.toStdString();
