@@ -67,6 +67,15 @@ namespace Rt2::View
     void LayoutView::refresh()
     {
         update();
+        if (_content)
+            _content->invalidate();
+    }
+
+    void LayoutView::resizeEvent(QResizeEvent* event)
+    {
+        QWidget::resizeEvent(event);
+        if (_content)
+            _content->invalidate();
     }
 
     void LayoutView::constructView(QLayout* content, int stretch)
@@ -77,7 +86,19 @@ namespace Rt2::View
         setBorder(Metrics::borderSizeThin);
         setBorderColor(Colors::Background);
         setPadding(Metrics::borderSizeThick);
+
+        _content->setSizeConstraint(QLayout::SetMinAndMaxSize);
         setLayout(content);
+    }
+
+    QBoxLayout* LayoutView::boxLayout() const
+    {
+        if (_content)
+        {
+            if (_content->inherits("QBoxLayout"))
+                return (QBoxLayout*)_content;
+        }
+        return nullptr;
     }
 
 }  // namespace Rt2::View

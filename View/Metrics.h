@@ -21,15 +21,16 @@ namespace Rt2::View
         static constexpr int   minWidth{24};
         static constexpr QSize ctrlMin{minWidth, minHeight};
 
+        static constexpr int iconFontSize{defaultTextSize + 2};
+        static constexpr int iconHeight{iconFontSize};
+        static constexpr int iconWidth{iconFontSize};
+
         static constexpr int indent{6};
-        static constexpr int scrollbarSize{defaultTextSize};
+        static constexpr int scrollbarSize{minWidth >> 1};
         static constexpr int borderSizeThick{3};
         static constexpr int borderSizeThin{2};
         static constexpr int borderSizeTiny{1};
 
-        static constexpr int iconFontSize{defaultTextSize + 2};
-        static constexpr int iconHeight{iconFontSize};
-        static constexpr int iconWidth{iconFontSize};
 
         static constexpr QSize iconMin{
             iconWidth + 2 * borderSizeThick,

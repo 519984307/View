@@ -95,11 +95,11 @@ namespace Rt2::View
     {
         QLabel* la = new QLabel(QString::fromStdString(str), parent);
 
-        StyleSheetWriter writer;
-        writer.fontSize(textSize);
-        writer.noBackground();
-        writer.color(col);
-        la->setStyleSheet(writer.toString());
+        StyleSheetWriter style;
+        style.fontSize(textSize);
+        style.noBackground();
+        style.color(col);
+        la->setStyleSheet(style.toString());
 
         return la;
     }

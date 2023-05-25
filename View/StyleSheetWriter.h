@@ -36,6 +36,8 @@ namespace Rt2::View
 
         void outline(const qreal& v);
 
+        void noOutline();
+
         void backgroundColor(const QColor& col);
 
         void backgroundColor(const GradientBox& co, const SimpleArray<Stops>& stops);

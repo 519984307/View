@@ -2,9 +2,8 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QWidget>
-
-#include "Colors.h"
-#include "Qu.h"
+#include "View/Colors.h"
+#include "View/Qu.h"
 #include "View/CheckBoxView.h"
 #include "View/LayoutView.h"
 
@@ -38,10 +37,15 @@ namespace Rt2::View
 
     void CheckBoxLabelView::extract(std::pair<QLabel*, QWidget*>& dest) const
     {
-        QBoxLayout* lo = (QBoxLayout*)_content;
+        QBoxLayout* lo = boxLayout();
+        if (!lo)
+            return;
 
         const QLayoutItem* a = lo->takeAt(0);
         const QLayoutItem* b = lo->takeAt(0);
+
+        if (!a || !b)
+            return;
 
         QWidget* wa = a->widget();
         delete a;
@@ -80,9 +84,14 @@ namespace Rt2::View
 
     void CheckBoxLabelView::setTextAlignment(const Qt::Alignment al) const
     {
-        std::pair<QLabel*, QWidget*> pair;
+        std::pair<QLabel*, QWidget*> pair{nullptr, nullptr};
         extract(pair);
-        QBoxLayout* lo = (QBoxLayout*)_content;
+        if (!pair.first)
+            return;
+
+        QBoxLayout* lo = boxLayout();
+        if (!lo)
+            return;
 
         if (al == Qt::AlignLeft)
         {
@@ -93,7 +102,6 @@ namespace Rt2::View
         {
             lo->addWidget(pair.second);
             lo->addWidget(pair.first);
-
         }
     }
 

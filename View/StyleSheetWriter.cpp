@@ -41,6 +41,11 @@ namespace Rt2::View
         _out.print("outline:", v, ';');
     }
 
+    void StyleSheetWriter::noOutline()
+    {
+        _out.print("outline:none;");
+    }
+
     void StyleSheetWriter::backgroundColor(const QColor& col)
     {
         _out.print("background-color:#",

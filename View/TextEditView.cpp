@@ -36,8 +36,8 @@ namespace Rt2::View
     void TextEditView::construct()
     {
         _edit = new QLineEdit(this);
-        constructView(_edit);
-
+        constructView(edit);
+        setMaximumHeight(Metrics::ctrlMin.height());
         setBorderColor(Colors::BorderDark);
         setBackgroundColor(Colors::Transparent);
         setColor(QPalette::Highlight, Colors::Accent);
@@ -83,6 +83,6 @@ namespace Rt2::View
 
         paint.fillRect(ctx, col.darker(150));
         paint.setPen(QPen(col.lighter(), Metrics::borderSizeTiny));
-        paint.drawRect(ctx);
+        paint.drawRect(ctx.adjusted(-1, -1, 1, 1));
     }
 }  // namespace Rt2::View

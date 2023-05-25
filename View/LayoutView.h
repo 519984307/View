@@ -1,5 +1,6 @@
 #pragma once
 #include <QWidget>
+class QBoxLayout;
 
 namespace Rt2::View
 {
@@ -9,9 +10,9 @@ namespace Rt2::View
     protected:
         QLayout* _content{nullptr};
 
-        void constructView(
-            QLayout* content,
-            int      stretch = 1);
+        void constructView(QLayout* content, int stretch = 1);
+
+        QBoxLayout* boxLayout() const;
 
     public:
         explicit LayoutView(QWidget* parent = nullptr);
@@ -37,6 +38,9 @@ namespace Rt2::View
         void setPadding(int left, int top, int right, int bottom) const;
 
         void refresh();
+    protected:
+
+        void resizeEvent(QResizeEvent* event) override;
     };
 
 }  // namespace Rt2::View
