@@ -56,7 +56,7 @@ namespace Rt2::View
     using GreenMix  = ConstMix<0x00, 0x03, 0x00>;
     using OrangeMix = ConstMix<0x03, 0x01, 0x00>;
 
-    class Colors
+    class Colors // should be serialized
     {
     public:
         static constexpr QColor Ac00 = {0x54, 0x63, 0xA2, 0xFF};

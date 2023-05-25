@@ -3,7 +3,7 @@
 
 namespace Rt2::View
 {
-    class Metrics
+    class Metrics // should be serialized
     {
     public:
         static constexpr int defaultTextSize{10};

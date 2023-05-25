@@ -69,6 +69,7 @@ namespace Rt2::Samples
         lo3->addLayout(addIcon(Icon(IconSettings2)));
         lo3->addLayout(addIcon(Icon(IconHome)));
         lo3->addLayout(addIcon(Icon(IconRefresh)));
+        lo3->addLayout(addIcon(Icon(IconExpand)));
         root->addLayout(lo3);
 
         wig->setLayout(root);

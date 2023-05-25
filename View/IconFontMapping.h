@@ -11,7 +11,7 @@ namespace Rt2::View
         IconBack,
         IconUp,
         IconForward,
-        IconDown,  // upside-down
+        IconDown,
         IconExit,
         IconCheck0,
         IconCheck1,
@@ -33,6 +33,7 @@ namespace Rt2::View
         IconSettings2,  // junk
         IconHome,
         IconRefresh = '>',
+        IconExpand = '@',
     };
 
 }  // namespace Rt2::View

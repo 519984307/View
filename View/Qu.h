@@ -1,5 +1,7 @@
 #pragma once
 #include <QPalette>
+#include "View/IconButtonView.h"
+#include "View/IconFontMapping.h"
 #include "Utils/String.h"
 
 class QGuiApplication;
@@ -32,6 +34,8 @@ namespace Rt2::View
         static QVBoxLayout* vertical(QWidget* parent = nullptr);
 
         static QHBoxLayout* horizontal(QWidget* parent = nullptr);
+
+        static IconButtonView* icon(IconMap ico, QWidget* parent = nullptr);
 
         static QPushButton* flatButton(QWidget* parent = nullptr);
 

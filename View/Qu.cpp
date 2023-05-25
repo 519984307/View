@@ -188,6 +188,11 @@ namespace Rt2::View
         return layout;
     }
 
+    IconButtonView* Qu::icon(IconMap ico, QWidget* parent)
+    {
+        return new IconButtonView(ico, parent);
+    }
+
     QPushButton* Qu::flatButton(QWidget* parent)
     {
         const auto button = new QPushButton(parent);
