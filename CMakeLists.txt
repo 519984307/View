@@ -47,7 +47,7 @@ add_subdirectory(View)
 add_subdirectory(ViewModel)
 
 if (View_BUILD_SAMPLES)
-    set(TargetGroup Samples)
+    set(TargetGroup Sample)
     add_subdirectory(Samples)
 endif()
 
