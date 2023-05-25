@@ -36,7 +36,7 @@ namespace Rt2::View
     void TextEditView::construct()
     {
         _edit = new QLineEdit(this);
-        constructView(edit);
+        constructView(_edit);
         setMaximumHeight(Metrics::ctrlMin.height());
         setBorderColor(Colors::BorderDark);
         setBackgroundColor(Colors::Transparent);
