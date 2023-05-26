@@ -204,10 +204,10 @@ namespace Rt2::View
         w.backgroundColor(Colors::Background.darker(Colors::Drk020));
         w.end();
         w.begin("QSplitter::handle:horizontal");
-        w.width(2);
+        w.width(Metrics::borderSizeThin);
         w.end();
         w.begin("QSplitter::handle:vertical");
-        w.height(2);
+        w.height(Metrics::borderSizeThin);
         w.end();
         spl->setStyleSheet(w.toString());
         return spl;
