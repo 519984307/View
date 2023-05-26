@@ -213,6 +213,18 @@ namespace Rt2::View
         return spl;
     }
 
+    QHBoxLayout* Qu::titleList(const String& str, const QWidgetList& items)
+    {
+        const auto hor = horizontal();
+        hor->setContentsMargins(Metrics::borderThick);
+        hor->addWidget(text(str, Metrics::h5, Colors::ForegroundLight));
+        hor->addStretch();
+
+        for (const auto item : items)
+            hor->addWidget(item);
+        return hor;
+    }
+
     IconButtonView* Qu::icon(IconMap ico, QWidget* parent)
     {
         return new IconButtonView(ico, parent);

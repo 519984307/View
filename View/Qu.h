@@ -37,6 +37,8 @@ namespace Rt2::View
 
         static QSplitter* split(QWidget* a, QWidget *b, Qt::Orientation ori, QWidget* parent = nullptr);
 
+        static QHBoxLayout* titleList(const String& str, const QWidgetList& items);
+
         static IconButtonView* icon(IconMap ico, QWidget* parent = nullptr);
 
         static QPushButton* flatButton(QWidget* parent = nullptr);
