@@ -10,7 +10,7 @@ class QPushButton;
 class QLabel;
 class QHBoxLayout;
 class QVBoxLayout;
-class QWidget;
+class QSplitter;
 
 namespace Rt2::View
 {
@@ -34,6 +34,8 @@ namespace Rt2::View
         static QVBoxLayout* vertical(QWidget* parent = nullptr);
 
         static QHBoxLayout* horizontal(QWidget* parent = nullptr);
+
+        static QSplitter* split(QWidget* a, QWidget *b, Qt::Orientation ori, QWidget* parent = nullptr);
 
         static IconButtonView* icon(IconMap ico, QWidget* parent = nullptr);
 

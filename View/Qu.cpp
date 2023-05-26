@@ -5,6 +5,8 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QSplitter>
+
 #include "DefaultStyleSheet.h"
 #include "Utils/Console.h"
 #include "Utils/Definitions.h"
@@ -186,6 +188,29 @@ namespace Rt2::View
         const auto layout = new QHBoxLayout(parent);
         fit(layout);
         return layout;
+    }
+
+    QSplitter* Qu::split(QWidget* a, QWidget* b, const Qt::Orientation ori, QWidget* parent)
+    {
+        RT_ASSERT(a && b)
+
+        QSplitter *spl = new QSplitter(parent);
+        spl->setOrientation(ori);
+        spl->addWidget(a);
+        spl->addWidget(b);
+
+        StyleSheetWriter w; // TODO: push to global
+        w.begin("QSplitter::handle");
+        w.backgroundColor(Colors::Background.darker(Colors::Drk020));
+        w.end();
+        w.begin("QSplitter::handle:horizontal");
+        w.width(2);
+        w.end();
+        w.begin("QSplitter::handle:vertical");
+        w.height(2);
+        w.end();
+        spl->setStyleSheet(w.toString());
+        return spl;
     }
 
     IconButtonView* Qu::icon(IconMap ico, QWidget* parent)
