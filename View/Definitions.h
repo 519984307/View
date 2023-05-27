@@ -20,6 +20,7 @@
 -------------------------------------------------------------------------------
 */
 #pragma once
+#include <QEvent>
 #include "Utils/Definitions.h"
 #include "ViewModel/Property.h"
 
@@ -48,6 +49,18 @@ namespace Rt2::View
         RELEASED = 0x02,
         ENTER    = 0x04,
         ON       = 0x08,
+    };
+
+    enum EventCodes
+    {
+        // EC_<idx++>: to prevent conflicts custom events
+        // should add new codes here to reserve global codes.
+        // ++ (Document where it is used.)
+        EC_001 = QEvent::Type::User + 1,  // DirListEvent
+        EC_002,                           // DirPushEvent
+        EC_003,                           // unused
+        EC_004,                           // unused
+        EC_005,                           // unused, etc...
     };
 
 }  // namespace Rt2::View
