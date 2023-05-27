@@ -20,9 +20,9 @@
 -------------------------------------------------------------------------------
 */
 #pragma once
+#include <QColor>
 #include <QPalette>
 #include <QPen>
-#include <QColor>
 
 namespace Rt2::View
 {
@@ -77,7 +77,7 @@ namespace Rt2::View
     using GreenMix  = ConstMix<0x00, 0x03, 0x00>;
     using OrangeMix = ConstMix<0x03, 0x01, 0x00>;
 
-    class Colors // should be serialized
+    class Colors  // should be serialized
     {
     public:
         static constexpr QColor Ac00 = {0x54, 0x63, 0xA2, 0xFF};
@@ -152,6 +152,15 @@ namespace Rt2::View
         static constexpr QPalette::ColorRole Extra0 = QPalette::ColorRole::Link;
         static constexpr QPalette::ColorRole Extra1 = QPalette::ColorRole::LinkVisited;
         static constexpr QPalette::ColorRole Extra2 = QPalette::ColorRole::PlaceholderText;
+
+        static constexpr QColor Emphasis[6] = {
+            BlueMix::grey(0x33),
+            BlueMix::grey(0x44),
+            BlueMix::grey(0x66),
+            OrangeMix::grey(0x77),
+            OrangeMix::grey(0x88),
+            OrangeMix::grey(0x99),
+        };
     };
 
 }  // namespace Rt2::View

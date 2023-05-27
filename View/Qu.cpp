@@ -108,33 +108,36 @@ namespace Rt2::View
         return box;
     }
 
-    QLabel* Qu::text(const String& str, const QColor& col, QWidget* parent)
+    QLabel* Qu::text(const String& str,
+                     const QColor& col,
+                     QWidget*      parent)
     {
         return text(str, Metrics::defaultTextSize, col, parent);
     }
 
-    QLabel* Qu::text(const String& str, int textSize, const QColor& col, QWidget* parent)
+    QLabel* Qu::text(const String& str,
+                     const int&    size,
+                     const QColor& color,
+                     QWidget*      parent)
     {
-        QLabel* la = new QLabel(QString::fromStdString(str), parent);
+        QLabel* la = new QLabel(Qsu::to(str), parent);
 
         StyleSheetWriter style;
-        style.fontSize(textSize);
+        style.fontSize(size);
         style.noBackground();
-        style.color(col);
+        style.color(color);
         la->setStyleSheet(style.toString());
 
         return la;
     }
 
-    QLabel* Qu::title(const String& str, const QColor& col, QWidget* parent)
+    QLabel* Qu::emphasis(
+        const String& str,
+        const int&    size,
+        const int&    level,
+        QWidget*      parent)
     {
-        QLabel* la = new QLabel(QString::fromStdString(str), parent);
-
-        StyleSheetWriter ssw;
-        ssw.color(col);
-        ssw.fontSize(Metrics::h6);
-        la->setStyleSheet(ssw.toString());
-        return la;
+        return text(str, size, Colors::Emphasis[Clamp(level, 0, 5)], parent);
     }
 
     void Qu::setColor(QWidget*                  widget,
@@ -221,7 +224,7 @@ namespace Rt2::View
 
         StyleSheetWriter w;  // TODO: push to global
         w.begin("QSplitter::handle");
-        w.backgroundColor(Colors::Background.darker(Colors::Drk020));
+        w.backgroundColor(Colors::Background.lighter(Colors::Lgt020));
         w.end();
         w.begin("QSplitter::handle:horizontal");
         w.width(Metrics::borderSizeThin);
@@ -233,13 +236,23 @@ namespace Rt2::View
         return spl;
     }
 
-    QHBoxLayout* Qu::titleList(const String& str, const QWidgetList& items)
+    QLabel* Qu::title(const String& str,
+                      const int&    size,
+                      const QColor& col,
+                      QWidget*      parent)
+    {
+        return text(str, size, col, parent);
+    }
+
+    QHBoxLayout* Qu::titleList(const String&      str,
+                               const QWidgetList& items,
+                               const int&         size,
+                               const QColor&      color)
     {
         const auto hor = horizontal();
         hor->setContentsMargins(Metrics::borderThick);
-        hor->addWidget(text(str, Metrics::h5, Colors::ForegroundLight));
+        hor->addWidget(text(str, size, color));
         hor->addStretch();
-
         for (const auto item : items)
             hor->addWidget(item);
         return hor;

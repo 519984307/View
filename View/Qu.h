@@ -21,9 +21,11 @@
 */
 #pragma once
 #include <QPalette>
+#include "Colors.h"
+#include "Metrics.h"
+#include "Utils/String.h"
 #include "View/IconButtonView.h"
 #include "View/IconFontMapping.h"
-#include "Utils/String.h"
 
 class QGuiApplication;
 class QLayout;
@@ -56,9 +58,19 @@ namespace Rt2::View
 
         static QHBoxLayout* horizontal(QWidget* parent = nullptr);
 
-        static QSplitter* split(QWidget* a, QWidget *b, Qt::Orientation ori, QWidget* parent = nullptr);
+        static QSplitter* split(QWidget* a, QWidget* b, Qt::Orientation ori, QWidget* parent = nullptr);
 
-        static QHBoxLayout* titleList(const String& str, const QWidgetList& items);
+        [[deprecated("use text")]] static QLabel* title(
+            const String& str,
+            const int&    size   = Metrics::h5,
+            const QColor& col    = QColor(0xFF, 0x00, 0xFF),
+            QWidget*      parent = nullptr);
+
+        static QHBoxLayout* titleList(
+            const String&      str,
+            const QWidgetList& items,
+            const int&         size  = Metrics::h5,
+            const QColor&      color = Colors::Emphasis[5]);
 
         static IconButtonView* icon(IconMap ico, QWidget* parent = nullptr);
 
@@ -79,13 +91,15 @@ namespace Rt2::View
 
         static QLabel* text(
             const String& str,
-            int           textSize,
-            const QColor& col    = QColor(0xFF, 0x00, 0xFF),
+            const int&    size,
+            const QColor& color  = QColor(0xFF, 0x00, 0xFF),
             QWidget*      parent = nullptr);
 
-        static QLabel* title(
+
+        static QLabel* emphasis(
             const String& str,
-            const QColor& col    = QColor(0xFF, 0x00, 0xFF),
+            const int&    size,
+            const int&    level, // [0..5]
             QWidget*      parent = nullptr);
 
         static void setColor(
@@ -117,7 +131,7 @@ namespace Rt2::View
 
         static void textStyle(QLabel* label, int size, const QColor& color, bool bold = false);
 
-        static  QRectF measure(const String& str, int size);
+        static QRectF measure(const String& str, int size);
     };
 
     class Qsu
