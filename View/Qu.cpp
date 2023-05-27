@@ -221,18 +221,6 @@ namespace Rt2::View
         spl->setOrientation(ori);
         spl->addWidget(a);
         spl->addWidget(b);
-
-        StyleSheetWriter w;  // TODO: push to global
-        w.begin("QSplitter::handle");
-        w.backgroundColor(Colors::Background.lighter(Colors::Lgt020));
-        w.end();
-        w.begin("QSplitter::handle:horizontal");
-        w.width(Metrics::borderSizeThin);
-        w.end();
-        w.begin("QSplitter::handle:vertical");
-        w.height(Metrics::borderSizeThin);
-        w.end();
-        spl->setStyleSheet(w.toString());
         return spl;
     }
 

@@ -42,9 +42,7 @@ namespace Rt2::View
         _listing = new QListView(this);
         _listing->setModel(new QStandardItemModel());
         constructView(_listing);
-
-        setBorderColor(Colors::BorderLight);
-        setColor(QPalette::AlternateBase, Colors::CtrlBackgroundLight);
+        setColor(QPalette::AlternateBase, Colors::Emphasis[0]);
         setPadding(Metrics::borderSizeThin);
 
         _listing->setSelectionRectVisible(false);
@@ -62,15 +60,6 @@ namespace Rt2::View
     void StringListView::itemDoubleClickedImpl(const QModelIndex& index)
     {
         _string.setValue(index.data(Qt::UserRole).toString().toStdString(), ViewModel::OUTPUT);
-    }
-
-    void StringListView::setList(const StringArray& strList)
-    {
-        if (!_listing->model())
-            _listing->setModel(new QStandardItemModel());
-        clear();
-        for(const auto &item : strList)
-            addEntry(item);
     }
 
     void StringListView::addEntry(const String& string, const String& data) const

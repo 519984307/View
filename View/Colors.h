@@ -154,12 +154,12 @@ namespace Rt2::View
         static constexpr QPalette::ColorRole Extra2 = QPalette::ColorRole::PlaceholderText;
 
         static constexpr QColor Emphasis[6] = {
-            BlueMix::grey(0x33),
+            BlueMix::grey(0x2F),
             BlueMix::grey(0x44),
             BlueMix::grey(0x66),
-            OrangeMix::grey(0x77),
             OrangeMix::grey(0x88),
-            OrangeMix::grey(0x99),
+            OrangeMix::grey(0xA7),
+            OrangeMix::grey(0xC7),
         };
     };
 

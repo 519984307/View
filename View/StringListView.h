@@ -39,8 +39,6 @@ namespace Rt2::View
     public:
         explicit StringListView(QWidget* parent = nullptr);
 
-        [[deprecated]] void setList(const StringArray& strList);
-
         void addEntry(const String& string, const String& data = "") const;
 
         void clear();
