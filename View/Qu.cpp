@@ -233,9 +233,9 @@ namespace Rt2::View
     }
 
     QHBoxLayout* Qu::titleList(const String&      str,
-                               const QWidgetList& items,
-                               const int&         size,
-                               const QColor&      color)
+                           const QWidgetList& items,
+                           const int&         size,
+                           const QColor&      color)
     {
         const auto hor = horizontal();
         hor->setContentsMargins(Metrics::borderThick);

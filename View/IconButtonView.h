@@ -21,8 +21,8 @@
 */
 #pragma once
 #include <QWidget>
-#include "View/View.h"
 #include "View/IconFontMapping.h"
+#include "View/View.h"
 
 class QLabel;
 class QPushButton;
@@ -35,6 +35,7 @@ namespace Rt2::View
     {
         Q_OBJECT
     private:
+        BoolModel         _model;
         QLabel*           _button{nullptr};
         IconButtonStates* _states{nullptr};
         int               _state{NONE};
@@ -44,7 +45,10 @@ namespace Rt2::View
 
     public:
         explicit IconButtonView(IconMap icon, QWidget* parent = nullptr);
+
         ~IconButtonView() override;
+
+        void addOutput(const BoolModel::Observer &ot);
 
     private:
         void construct(IconMap icon);

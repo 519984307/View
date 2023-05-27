@@ -66,6 +66,11 @@ namespace Rt2::View
         _states = nullptr;
     }
 
+    void IconButtonView::addOutput(const BoolModel::Observer& ot)
+    {
+        _model.addOutput(ot);
+    }
+
     void IconButtonView::construct(const IconMap icon)
     {
         _button = new QLabel(this);
@@ -105,7 +110,10 @@ namespace Rt2::View
         {
             if (QPoint pt = Qmc::point(event->position());
                 geometry().contains(pt) || _button->geometry().contains(pt))
+            {
+                _model.setValue(true, ViewModel::OUTPUT);
                 emit clicked();
+            }
         }
     }
 
