@@ -308,7 +308,7 @@ namespace Rt2::View
         fnt.setPointSize(size);
 
         const QFontMetricsF fm(fnt);
-        return fm.tightBoundingRect(Qsu::to(str));
+        return fm.boundingRect(Qsu::to(str));
     }
 
     String Qsu::from(const QString& str)
