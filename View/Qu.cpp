@@ -27,7 +27,6 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QSplitter>
-
 #include "DefaultStyleSheet.h"
 #include "Utils/Console.h"
 #include "Utils/Definitions.h"
@@ -215,12 +214,12 @@ namespace Rt2::View
     {
         RT_ASSERT(a && b)
 
-        QSplitter *spl = new QSplitter(parent);
+        QSplitter* spl = new QSplitter(parent);
         spl->setOrientation(ori);
         spl->addWidget(a);
         spl->addWidget(b);
 
-        StyleSheetWriter w; // TODO: push to global
+        StyleSheetWriter w;  // TODO: push to global
         w.begin("QSplitter::handle");
         w.backgroundColor(Colors::Background.darker(Colors::Drk020));
         w.end();
@@ -344,6 +343,11 @@ namespace Rt2::View
     QRectF Qmc::rect(const QRect& v)
     {
         return {(qreal)v.x(), (qreal)v.y(), (qreal)v.width(), (qreal)v.height()};
+    }
+
+    QSizeF Qmc::size(const QSize& size)
+    {
+        return {(qreal)size.width(), (qreal)size.height()};
     }
 
     void Qu::writeStyleSheet(QApplication& app)

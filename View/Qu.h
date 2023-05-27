@@ -137,6 +137,7 @@ namespace Rt2::View
 
         static QRect  rect(const QRectF& v);
         static QRectF rect(const QRect& v);
+        static QSizeF size(const QSize& size);
     };
 
 }  // namespace Rt2::View
