@@ -56,9 +56,9 @@ namespace Rt2::View
         // EC_<idx++>: to prevent conflicts custom events
         // should add new codes here to reserve global codes.
         // ++ (Document where it is used.)
-        EC_001 = QEvent::Type::User + 1,  // DirListEvent
-        EC_002,                           // DirPushEvent
-        EC_003,                           // unused
+        EC_001 = QEvent::Type::User + 1,  // DirListEventCode
+        EC_002,                           // DirPushEventCode
+        EC_003,                           // DirClickEventCode
         EC_004,                           // unused
         EC_005,                           // unused, etc...
     };
