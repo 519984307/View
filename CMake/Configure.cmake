@@ -10,6 +10,7 @@ include(ConfigureQt)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(GLOBAL PROPERTY AUTOGEN_TARGETS_FOLDER "CMakePredefinedTargets/Qt")
+set_property(GLOBAL PROPERTY AUTOGEN_SOURCE_GROUP   "Generated/Qt")
 
 option(View_BUILD_TEST          "Build the unit test program." OFF)
 option(View_AUTO_RUN_TEST       "Automatically run the test program." OFF)

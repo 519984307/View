@@ -1,3 +1,5 @@
 /Build
 /build
 /View/Icons/Scratch
+/Extras/AppIcon/Win32/*.aps
+/Bin/*.exe
