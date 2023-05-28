@@ -76,6 +76,11 @@ namespace Rt2::View
                    ';');
     }
 
+    void StyleSheetWriter::image(const String& url)
+    {
+        _out.print("image:url", '(', url, ')', ';');
+    }
+
     void StyleSheetWriter::backgroundColor(const GradientBox& co, const SimpleArray<Stops>& stops)
     {
         _out.print("background:qlineargradient(");

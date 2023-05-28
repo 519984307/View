@@ -2,4 +2,10 @@
   <qresource prefix="/fonts">
     <file>IconFont.ttf</file>
   </qresource>
+  <!-- Tree widget -->
+  <qresource prefix="/images">
+    <file>right.svg</file>
+    <file>down.svg</file>
+    <file>stop.svg</file>
+  </qresource>
 </RCC>
