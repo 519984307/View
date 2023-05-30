@@ -101,70 +101,8 @@ namespace Rt2::View
 
     void StyleSheetWriter::backgroundColor(const QPalette::ColorRole& col)
     {
-        _out.print("background-color: palette(");
-        switch (col)
-        {
-        case QPalette::WindowText:
-            _out.print("window-text");
-            break;
-        case QPalette::Button:
-            _out.print("button");
-            break;
-        case QPalette::Light:
-            _out.print("light");
-            break;
-        case QPalette::Midlight:
-            _out.print("midlight");
-            break;
-        case QPalette::Dark:
-            _out.print("dark");
-            break;
-        case QPalette::Mid:
-            _out.print("mid");
-            break;
-        case QPalette::Text:
-            _out.print("text");
-            break;
-        case QPalette::BrightText:
-            _out.print("bright-text");
-            break;
-        case QPalette::ButtonText:
-            _out.print("button-text");
-            break;
-        case QPalette::Base:
-            _out.print("base");
-            break;
-        case QPalette::Window:
-            _out.print("window");
-            break;
-        case QPalette::Shadow:
-            _out.print("shadow");
-            break;
-        case QPalette::Highlight:
-            _out.print("highlight");
-            break;
-        case QPalette::HighlightedText:
-            _out.print("highlighted-text");
-            break;
-        case QPalette::Link:
-            _out.print("link");
-            break;
-        case QPalette::LinkVisited:
-            _out.print("link-visited");
-            break;
-        case QPalette::AlternateBase:
-            _out.print("alternate-base");
-            break;
-        default:
-        case QPalette::PlaceholderText:
-        case QPalette::ToolTipText:
-        case QPalette::ToolTipBase:
-        case QPalette::NColorRoles:
-        case QPalette::NoRole:
-            _out.print("base");
-            break;
-        }
-        _out.print(");");
+        _out.print("background-color:");
+        writePaletteColorRole(col);
     }
 
     void StyleSheetWriter::selectionBackgroundColor(const QColor& col)
@@ -306,6 +244,12 @@ namespace Rt2::View
                    ';');
     }
 
+    void StyleSheetWriter::color(const QPalette::ColorRole& col)
+    {
+        _out.print("color:");
+        writePaletteColorRole(col);
+    }
+
     void StyleSheetWriter::fontSize(const int& size)
     {
         _out.print("font-size:", size, "pt;");
@@ -379,6 +323,74 @@ namespace Rt2::View
     void StyleSheetWriter::marginBottom(const int& v)
     {
         _out.print("margin-bottom:", v, "px;");
+    }
+
+    void StyleSheetWriter::writePaletteColorRole(QPalette::ColorRole cr)
+    {
+        _out.print("palette(");
+        switch (cr)
+        {
+        case QPalette::WindowText:
+            _out.print("window-text");
+            break;
+        case QPalette::Button:
+            _out.print("button");
+            break;
+        case QPalette::Light:
+            _out.print("light");
+            break;
+        case QPalette::Midlight:
+            _out.print("midlight");
+            break;
+        case QPalette::Dark:
+            _out.print("dark");
+            break;
+        case QPalette::Mid:
+            _out.print("mid");
+            break;
+        case QPalette::Text:
+            _out.print("text");
+            break;
+        case QPalette::BrightText:
+            _out.print("bright-text");
+            break;
+        case QPalette::ButtonText:
+            _out.print("button-text");
+            break;
+        case QPalette::Base:
+            _out.print("base");
+            break;
+        case QPalette::Window:
+            _out.print("window");
+            break;
+        case QPalette::Shadow:
+            _out.print("shadow");
+            break;
+        case QPalette::Highlight:
+            _out.print("highlight");
+            break;
+        case QPalette::HighlightedText:
+            _out.print("highlighted-text");
+            break;
+        case QPalette::Link:
+            _out.print("link");
+            break;
+        case QPalette::LinkVisited:
+            _out.print("link-visited");
+            break;
+        case QPalette::AlternateBase:
+            _out.print("alternate-base");
+            break;
+        default:
+        case QPalette::PlaceholderText:
+        case QPalette::ToolTipText:
+        case QPalette::ToolTipBase:
+        case QPalette::NColorRoles:
+        case QPalette::NoRole:
+            _out.print("base");
+            break;
+        }
+        _out.print(");");
     }
 
     void StyleSheetWriter::end()

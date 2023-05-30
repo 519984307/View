@@ -20,42 +20,45 @@
 -------------------------------------------------------------------------------
 */
 #pragma once
+#include <QWidget>
+#include "View/IconFontMapping.h"
+#include "View/View.h"
+
+class QLabel;
+class QPushButton;
 
 namespace Rt2::View
 {
-    enum IconMap
+    class FlatIconButtonStates;
+
+    class FlatIconButtonView final : public View
     {
-        IconAdd = ' ',
-        IconEdit,
-        IconDelete,
-        IconClear,
-        IconBack,
-        IconUp,
-        IconForward,
-        IconDown,
-        IconExit,
-        IconCheck0,
-        IconCheck1,
-        IconCheck2,
-        IconCheck3,
-        IconX,
-        IconBox,
-        IconSettings,
-        IconTriUp,
-        IconTriDown,
-        IconMenu1,
-        IconMenu2,
-        IconGraphBar,
-        IconGraphScatter,
-        IconGraphLine,
-        IconGraphArea,
-        IconFull,
-        IconUpdate,
-        IconSettings2,  // junk
-        IconHome,
-        IconRefresh = '>',
-        IconExpand  = '@',
-        IconLink    = 'd',
+        Q_OBJECT
+    private:
+        BoolModel             _model;
+        QLabel*               _button{nullptr};
+        FlatIconButtonStates* _states{nullptr};
+        int                   _state{NONE};
+
+    public:
+        explicit FlatIconButtonView(IconMap icon, QWidget* parent = nullptr);
+
+        ~FlatIconButtonView() override;
+
+        void setFlatColor(const QColor& col) const;
+
+        void addOutput(const BoolModel::Observer& ot);
+
+    private:
+        void construct(IconMap icon);
+
+        void mousePressEvent(QMouseEvent* event) override;
+
+        void mouseReleaseEvent(QMouseEvent* event) override;
+
+        void enterEvent(QEnterEvent* event) override;
+
+        void leaveEvent(QEvent* event) override;
     };
 
 }  // namespace Rt2::View

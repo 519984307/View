@@ -20,8 +20,6 @@
 -------------------------------------------------------------------------------
 */
 #pragma once
-#include <QColor>
-#include <QSizeF>
 #include "Utils/StackStream.h"
 #include "View/Palette.h"
 
@@ -43,6 +41,8 @@ namespace Rt2::View
     private:
         OutputStreamStack  _out;
         OutputStringStream _data;
+
+        void writePaletteColorRole(QPalette::ColorRole cr);
 
     public:
         StyleSheetWriter();
@@ -104,6 +104,8 @@ namespace Rt2::View
         void noBackground();
 
         void color(const QColor& col);
+
+        void color(const QPalette::ColorRole& col);
 
         void fontSize(const int& size);
 

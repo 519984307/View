@@ -28,6 +28,7 @@
 #include <QPushButton>
 #include <QSplitter>
 #include "DefaultStyleSheet.h"
+#include "View/FlatIconButtonView.h"
 #include "Utils/Console.h"
 #include "Utils/Definitions.h"
 #include "Utils/StreamConverters/Tab.h"
@@ -261,6 +262,11 @@ namespace Rt2::View
     IconButtonView* Qu::icon(IconMap ico, QWidget* parent)
     {
         return new IconButtonView(ico, parent);
+    }
+
+    FlatIconButtonView* Qu::flatIcon(IconMap ico, QWidget* parent)
+    {
+        return new FlatIconButtonView(ico, parent);
     }
 
     QPushButton* Qu::flatButton(QWidget* parent)

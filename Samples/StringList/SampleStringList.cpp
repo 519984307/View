@@ -7,6 +7,7 @@
 #include "Utils/Exception.h"
 #include "View/Colors.h"
 #include "View/FlagView.h"
+#include "View/IconButtonView.h"
 #include "View/Metrics.h"
 #include "View/Qu.h"
 #include "View/StringListView.h"

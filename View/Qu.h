@@ -24,7 +24,6 @@
 #include "Colors.h"
 #include "Metrics.h"
 #include "Utils/String.h"
-#include "View/IconButtonView.h"
 #include "View/IconFontMapping.h"
 
 class QGuiApplication;
@@ -37,6 +36,9 @@ class QSplitter;
 
 namespace Rt2::View
 {
+    class FlatIconButtonView;
+    class IconButtonView;
+
     class Qu
     {
     private:
@@ -73,6 +75,8 @@ namespace Rt2::View
             const QColor&      color = Colors::Emphasis[5]);
 
         static IconButtonView* icon(IconMap ico, QWidget* parent = nullptr);
+
+        static FlatIconButtonView* flatIcon(IconMap ico, QWidget* parent = nullptr);
 
         static QPushButton* flatButton(QWidget* parent = nullptr);
 
