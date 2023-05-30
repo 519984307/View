@@ -76,10 +76,13 @@ namespace Rt2::View
 
         static QPushButton* flatButton(QWidget* parent = nullptr);
 
-        static QWidget* box(
+        [[deprecated]] static QWidget* box(
             QWidget*      parent = nullptr,
             const QColor& col    = QColor(0xFF, 0x00, 0xFF));
 
+        static QWidget* box(
+            const QColor& col    = QColor(0xFF, 0x00, 0xFF),
+            QWidget*      parent = nullptr);
         static QWidget* separator(
             const QColor& col    = QColor(0xFF, 0x00, 0xFF),
             QWidget*      parent = nullptr);
@@ -95,11 +98,10 @@ namespace Rt2::View
             const QColor& color  = QColor(0xFF, 0x00, 0xFF),
             QWidget*      parent = nullptr);
 
-
         static QLabel* emphasis(
             const String& str,
             const int&    size,
-            const int&    level, // [0..5]
+            const int&    level,  // [0..5]
             QWidget*      parent = nullptr);
 
         static void setColor(

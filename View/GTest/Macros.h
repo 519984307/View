@@ -21,7 +21,7 @@
         QWidget* root;                                                    \
         {                                                                 \
             using namespace Rt2::View;                                    \
-            const auto box = Qu::box(nullptr, Colors::CtrlBackground);    \
+            const auto box = Qu::box(Colors::CtrlBackground, nullptr);    \
             box->setMinimumSize(Metrics::minWindow);                      \
             Qu::setBackground(box, Colors::CtrlBackground);               \
             box->setUpdatesEnabled(true);                                 \
@@ -41,9 +41,13 @@
     }                                                                     \
     void suite_name##name##_scope(QWidget* root, QVBoxLayout* layout)
 
-#define SHOW_RUN 0 // keep off except for testing
+#define SHOW_RUN 0  // keep off except for testing
 #if SHOW_RUN == 1
-    #define RUN { root->show();  QApplication::exec(); }
+    #define RUN                   \
+        {                         \
+            root->show();         \
+            QApplication::exec(); \
+        }
 #else
     #define RUN
 #endif

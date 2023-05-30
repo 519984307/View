@@ -95,6 +95,18 @@ namespace Rt2::View
         return box;
     }
 
+    QWidget* Qu::box(const QColor& col, QWidget* parent)
+    {
+        QWidget* box = new QWidget(parent);
+        fit(box);
+        StyleSheetWriter w;
+        w.backgroundColor(col);
+        w.noBorder();
+        w.margin(1);
+        box->setStyleSheet(w.toString());
+        return box;
+    }
+
     QWidget* Qu::separator(const QColor& col, QWidget* parent)
     {
         QWidget* box = new QWidget(parent);
