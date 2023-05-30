@@ -55,6 +55,7 @@ namespace Rt2::View
         IconHome,
         IconRefresh = '>',
         IconExpand = '@',
+        IconLink
     };
 
 }  // namespace Rt2::View
