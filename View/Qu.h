@@ -69,10 +69,11 @@ namespace Rt2::View
             QWidget*      parent = nullptr);
 
         static QHBoxLayout* titleList(
-            const String&      str,
-            const QWidgetList& items,
-            const int&         size  = Metrics::h5,
-            const QColor&      color = Colors::Emphasis[5]);
+            const String&        str,
+            const QWidgetList&   items,
+            const int&           size      = Metrics::h5,
+            const QColor&        color     = Colors::Emphasis[5],
+            const Qt::Alignment& alignment = {});
 
         static IconButtonView* icon(IconMap ico, QWidget* parent = nullptr);
 

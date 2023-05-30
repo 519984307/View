@@ -21,6 +21,8 @@
 */
 #include "View/LayoutView.h"
 #include <QVBoxLayout>
+
+#include "Utils/Definitions.h"
 #include "View/Colors.h"
 #include "View/Metrics.h"
 #include "View/Palette.h"
@@ -101,7 +103,9 @@ namespace Rt2::View
 
     void LayoutView::constructView(QLayout* content, int stretch)
     {
+        RT_ASSERT(content);
         _content = content;
+
         Palette::applyCtrlPalette(this);
         setMinimumSize(Metrics::ctrlMin);
         setBorder(Metrics::borderSizeThin);

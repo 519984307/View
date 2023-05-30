@@ -28,11 +28,11 @@
 #include <QPushButton>
 #include <QSplitter>
 #include "DefaultStyleSheet.h"
-#include "View/FlatIconButtonView.h"
 #include "Utils/Console.h"
 #include "Utils/Definitions.h"
 #include "Utils/StreamConverters/Tab.h"
 #include "View/Colors.h"
+#include "View/FlatIconButtonView.h"
 #include "View/IconButtonView.h"
 #include "View/Metrics.h"
 #include "View/Palette.h"
@@ -245,14 +245,16 @@ namespace Rt2::View
         return text(str, size, col, parent);
     }
 
-    QHBoxLayout* Qu::titleList(const String&      str,
-                           const QWidgetList& items,
-                           const int&         size,
-                           const QColor&      color)
+    QHBoxLayout* Qu::titleList(const String&        str,
+                               const QWidgetList&   items,
+                               const int&           size,
+                               const QColor&        color,
+                               const Qt::Alignment& alignment)
     {
         const auto hor = horizontal();
         hor->setContentsMargins(Metrics::borderThick);
-        hor->addWidget(text(str, size, color));
+        const auto txt = text(str, size, color);
+        hor->addWidget(txt, 1, alignment);
         hor->addStretch();
         for (const auto item : items)
             hor->addWidget(item);

@@ -227,7 +227,7 @@ namespace Rt2::View
 
     void StyleSheetWriter::opacity(const qreal& sz)
     {
-        _out.print("opacity:", sz, "px;");
+        _out.print("opacity:", sz, ";");
     }
 
     void StyleSheetWriter::noBackground()

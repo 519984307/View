@@ -44,8 +44,6 @@ namespace Rt2::ViewModel
 
         void dispatchOutput();
 
-        T& ref();
-
         void invoke(Direction dir);
 
     private:
@@ -77,12 +75,16 @@ namespace Rt2::ViewModel
         void setValue(const T& val, Direction dir = INPUT);
 
         const T& value() const;
+        
+        T& ref();
 
         void addInput(const Observer& ot);
 
         void addOutput(const Observer& ot);
 
         void clear();
+
+        void dispatch(Direction dir);
     };
 
     template <typename T>
@@ -174,6 +176,15 @@ namespace Rt2::ViewModel
     {
         _inputs.clear();
         _outputs.clear();
+    }
+
+    template <typename T>
+    void ViewModel<T>::dispatch(const Direction dir)
+    {
+        if (dir == INPUT || dir == BOTH)
+            dispatchInput();
+        if (dir == OUTPUT || dir == BOTH)
+            dispatchOutput();
     }
 
     template <typename T>

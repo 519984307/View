@@ -59,8 +59,13 @@ namespace Rt2::View
         EC_001 = QEvent::Type::User + 1,  // DirListEventCode
         EC_002,                           // DirPushEventCode
         EC_003,                           // DirClickEventCode
-        EC_004,                           // unused
-        EC_005,                           // unused, etc...
+        EC_004,                           // reserved
+        EC_005,                           // reserved
+        EC_006,                           // unused
+        EC_007,                           // unused
+        EC_008,                           // unused
+        EC_009,                           // unused
+        EC_010,                           // unused, etc...
     };
 
 }  // namespace Rt2::View

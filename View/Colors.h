@@ -121,6 +121,9 @@ namespace Rt2::View
         static constexpr QColor Foreground          = G13;
         static constexpr QColor ForegroundLight     = G14;
         static constexpr QColor Accent              = OrangeMix::mix(0x38, 0x54, 0x63, 0xA2, 0.7);
+        static constexpr QColor AccentRed           = OrangeMix::mix(0x38, 0xFF, 0x1C, 0x1C, 0.9);
+        static constexpr QColor AccentGreen         = OrangeMix::mix(0x38, 0x92, 0xD0, 0x50, 0.9);
+        static constexpr QColor AccentBlue          = OrangeMix::mix(0x38, 0x69, 0xBF, 0xFF, 0.9);
 
         static constexpr int Drk100 = 300;
         static constexpr int Drk090 = 280;
