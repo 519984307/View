@@ -44,7 +44,7 @@ namespace Rt2::ViewModel
 
         friend class ViewModel<T>;
 
-        void setValue(const T& val);
+        bool setValue(const T& val);
 
         T& ref();
 
@@ -69,9 +69,14 @@ namespace Rt2::ViewModel
     };
 
     template <typename T>
-    void Model<T>::setValue(const T& val)
+    [[nodiscard]] bool Model<T>::setValue(const T& val)
     {
-        _data = val;
+        if (_data != val)  // may require an operator
+        {
+            _data = val;
+            return true;
+        }
+        return false;
     }
 
     template <typename T>

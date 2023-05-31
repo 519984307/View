@@ -32,7 +32,6 @@
 
 namespace Rt2::View
 {
-
     class FlatIconButtonStates
     {
     private:
@@ -105,7 +104,6 @@ namespace Rt2::View
     void FlatIconButtonView::mousePressEvent(QMouseEvent* event)
     {
         _state |= PRESSED;
-        _state &= ~RELEASED;
         refresh();
         _states->pressed(_button);
     }
@@ -115,15 +113,15 @@ namespace Rt2::View
         if (!event) return;
 
         _state &= ~PRESSED;
-        _state |= RELEASED;
         refresh();
 
         _states->inactive(_button);
+
         if (event->button() == Qt::LeftButton)
         {
             if (const QPoint pt = Qmc::point(event->position());
                 geometry().contains(pt) || _button->geometry().contains(pt))
-                _model.setValue(true, ViewModel::OUTPUT);
+                _model.setValue(!_model.value(), ViewModel::OUTPUT);
         }
     }
 
@@ -131,7 +129,6 @@ namespace Rt2::View
     {
         _state |= ENTER;
         refresh();
-
         _states->active(_button);
     }
 
@@ -139,7 +136,6 @@ namespace Rt2::View
     {
         _state &= ~ENTER;
         refresh();
-
         if (!((_state & PRESSED) != 0))
             _states->inactive(_button);
     }

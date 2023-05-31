@@ -22,10 +22,10 @@
 #include "View/LockOverlayView.h"
 #include <qlayout.h>
 #include <QKeyEvent>
-#include "View/Qu.h"
 #include "Utils/Definitions.h"
 #include "View/Metrics.h"
 #include "View/Palette.h"
+#include "View/Qu.h"
 
 namespace Rt2::View
 {
@@ -38,10 +38,10 @@ namespace Rt2::View
 
     void LockOverlayView::keyReleaseEvent(QKeyEvent* event)
     {
-        if (!event)
-            return;
+        RT_ASSERT(event)
 
         QDialog::keyReleaseEvent(event);
+
         if (event->key() == Qt::Key_Escape)
         {
             if (cancelRequested())
@@ -52,7 +52,9 @@ namespace Rt2::View
 
     void LockOverlayView::constructView(QLayout* lo, const bool wholeScreen)
     {
-        if (wholeScreen)
+        RT_ASSERT(lo)
+
+        if (wholeScreen && _lock)
         {
             if (const QScreen* win = _lock->screen())
                 setGeometry(win->geometry());

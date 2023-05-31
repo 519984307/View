@@ -59,7 +59,9 @@ namespace Rt2::View
 
     void StringListView::itemDoubleClickedImpl(const QModelIndex& index)
     {
-        _string.setValue(index.data(Qt::UserRole).toString().toStdString(), ViewModel::OUTPUT);
+        _string.setValue(
+            index.data(Qt::UserRole).toString().toStdString(),
+            ViewModel::OUTPUT);
     }
 
     void StringListView::addEntry(const String& string, const String& data) const

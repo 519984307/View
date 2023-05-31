@@ -75,7 +75,7 @@ namespace Rt2::ViewModel
         void setValue(const T& val, Direction dir = INPUT);
 
         const T& value() const;
-        
+
         T& ref();
 
         void addInput(const Observer& ot);
@@ -84,7 +84,7 @@ namespace Rt2::ViewModel
 
         void clear();
 
-        void dispatch(Direction dir);
+        void dispatch(const Direction& dir);
     };
 
     template <typename T>
@@ -116,8 +116,8 @@ namespace Rt2::ViewModel
     template <typename T>
     void ViewModel<T>::setValue(const T& val, const Direction dir)
     {
-        _model.setValue(val);
-        invoke(dir);
+        if (_model.setValue(val))
+            invoke(dir);
     }
 
     template <typename T>
@@ -179,7 +179,7 @@ namespace Rt2::ViewModel
     }
 
     template <typename T>
-    void ViewModel<T>::dispatch(const Direction dir)
+    void ViewModel<T>::dispatch(const Direction& dir)
     {
         if (dir == INPUT || dir == BOTH)
             dispatchInput();

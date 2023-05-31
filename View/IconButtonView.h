@@ -40,9 +40,6 @@ namespace Rt2::View
         IconButtonStates* _states{nullptr};
         int               _state{NONE};
 
-    signals:
-        void clicked();
-
     public:
         explicit IconButtonView(IconMap icon, QWidget* parent = nullptr);
 
@@ -53,7 +50,6 @@ namespace Rt2::View
     private:
         void construct(IconMap icon);
 
-    protected:
         void mousePressEvent(QMouseEvent* event) override;
 
         void mouseReleaseEvent(QMouseEvent* event) override;

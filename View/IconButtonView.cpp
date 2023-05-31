@@ -77,7 +77,6 @@ namespace Rt2::View
         constructView(_button);
         setPadding(0);
         setBorder(0);
-        setBackgroundColor(Colors::Transparent);
         setMinimumSize(Metrics::iconPadding);
         setMaximumSize(Metrics::iconPadding);
 
@@ -91,42 +90,44 @@ namespace Rt2::View
 
     void IconButtonView::mousePressEvent(QMouseEvent* event)
     {
+        if (!event || !_button) return;
+
         _state |= PRESSED;
-        _state &= ~RELEASED;
         refresh();
         _states->pressed(_button);
     }
 
     void IconButtonView::mouseReleaseEvent(QMouseEvent* event)
     {
-        if (!event) return;
+        if (!event || !_button) return;
 
         _state &= ~PRESSED;
-        _state |= RELEASED;
-        refresh();
-
         _states->inactive(_button);
+
         if (event->button() == Qt::LeftButton)
         {
-            if (QPoint pt = Qmc::point(event->position());
+            if (const QPoint pt = Qmc::point(event->position());
                 geometry().contains(pt) || _button->geometry().contains(pt))
             {
-                _model.setValue(true, ViewModel::OUTPUT);
-                emit clicked();
+                _model.setValue(!_model.value(), ViewModel::OUTPUT);
+                event->accept();
             }
         }
     }
 
     void IconButtonView::enterEvent(QEnterEvent* event)
     {
+        if (!event || !_button) return;
+
         _state |= ENTER;
         refresh();
-
         _states->active(_button);
     }
 
     void IconButtonView::leaveEvent(QEvent* event)
     {
+        if (!event || !_button) return;
+
         _state &= ~ENTER;
         refresh();
 
