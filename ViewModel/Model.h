@@ -28,6 +28,7 @@ namespace Rt2::ViewModel
         INPUT = 0,
         OUTPUT,
         BOTH,
+        NONE,
     };
 
     template <typename T>

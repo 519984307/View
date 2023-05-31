@@ -20,39 +20,26 @@
 -------------------------------------------------------------------------------
 */
 #pragma once
-#include <QListView>
+#include <QLabel>
 #include "View/Definitions.h"
-#include "View/View.h"
 
-class QLineEdit;
 
 namespace Rt2::View
 {
-    class StringListView final : public View
+    class LabelView final : public QLabel
     {
-        Q_OBJECT
     private:
-        QListView*      _listing{nullptr};
-        StringListModel _strings;
-        StringModel     _string;
+        StringModel _model;
 
     public:
-        explicit StringListView(QWidget* parent = nullptr);
+        explicit LabelView(const QString& text, QWidget* parent = nullptr);
 
-        void addEntry(const String& string, const String& data = "") const;
-
-        void addEntry(const QIcon& ico, const String& string, const String& data = "") const;
-
-        void clear();
-
-        void addInput(const StringListModel::Observer& ot);
+        ~LabelView() override;
 
         void addOutput(const StringModel::Observer& ot);
-
     private:
-        void construct();
 
-        void itemDoubleClickedImpl(const QModelIndex& index);
+        void changeEvent(QEvent*) override;
     };
 
 }  // namespace Rt2::View

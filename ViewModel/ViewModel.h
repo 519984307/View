@@ -153,6 +153,7 @@ namespace Rt2::ViewModel
             dispatchInput();
             dispatchOutput();
             break;
+        case NONE:
         default:  // nadda
             break;
         }

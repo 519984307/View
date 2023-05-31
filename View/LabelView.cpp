@@ -19,40 +19,29 @@
   3. This notice may not be removed or altered from any source distribution.
 -------------------------------------------------------------------------------
 */
-#pragma once
-#include <QListView>
-#include "View/Definitions.h"
-#include "View/View.h"
-
-class QLineEdit;
+#include "View/LabelView.h"
+#include "View/Qu.h"
 
 namespace Rt2::View
 {
-    class StringListView final : public View
+    LabelView::LabelView(const QString& text, QWidget* parent) :
+        QLabel(text, parent)
     {
-        Q_OBJECT
-    private:
-        QListView*      _listing{nullptr};
-        StringListModel _strings;
-        StringModel     _string;
+        _model.setValue(Qsu::from(text));
+    }
 
-    public:
-        explicit StringListView(QWidget* parent = nullptr);
+    LabelView::~LabelView() = default;
 
-        void addEntry(const String& string, const String& data = "") const;
+    void LabelView::changeEvent(QEvent* event)
+    {
+        QLabel::changeEvent(event);
 
-        void addEntry(const QIcon& ico, const String& string, const String& data = "") const;
+        _model.setValue(Qsu::from(text()), ViewModel::OUTPUT);
+    }
 
-        void clear();
-
-        void addInput(const StringListModel::Observer& ot);
-
-        void addOutput(const StringModel::Observer& ot);
-
-    private:
-        void construct();
-
-        void itemDoubleClickedImpl(const QModelIndex& index);
-    };
+    void LabelView::addOutput(const StringModel::Observer& ot)
+    {
+        _model.addOutput(ot);
+    }
 
 }  // namespace Rt2::View

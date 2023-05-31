@@ -132,6 +132,22 @@ namespace Rt2::View
         return la;
     }
 
+    LabelView* Qu::label(const String& str,
+                         const int&    size,
+                         const QColor& color,
+                         QWidget*      parent)
+    {
+        LabelView* la = new LabelView(Qsu::to(str), parent);
+
+        StyleSheetWriter style;
+        style.fontSize(size);
+        style.noBackground();
+        style.color(color);
+        la->setStyleSheet(style.toString());
+
+        return la;
+    }
+
     QLabel* Qu::emphasis(
         const String& str,
         const int&    size,

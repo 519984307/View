@@ -66,13 +66,21 @@ namespace Rt2::View
 
     void StringListView::addEntry(const String& string, const String& data) const
     {
+        addEntry({}, string, data);
+    }
+
+    void StringListView::addEntry(const QIcon& ico, const String& string, const String& data) const
+    {
         if (string.empty()) return;
 
         if (QStandardItemModel* model = (QStandardItemModel*)_listing->model())
         {
             const int cur = model->rowCount();
             model->insertRows(cur, 1);
-            model->setItem(cur, new QStandardItem(Qsu::to(string)));
+            if (ico.isNull())
+                model->setItem(cur, new QStandardItem(Qsu::to(string)));
+            else
+                model->setItem(cur, new QStandardItem(ico, Qsu::to(string)));
 
             if (!data.empty())
             {

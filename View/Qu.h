@@ -25,6 +25,7 @@
 #include "Metrics.h"
 #include "Utils/String.h"
 #include "View/IconFontMapping.h"
+#include "View/LabelView.h"
 
 class QGuiApplication;
 class QLayout;
@@ -97,6 +98,12 @@ namespace Rt2::View
             QWidget*      parent = nullptr);
 
         static QLabel* text(
+            const String& str,
+            const int&    size,
+            const QColor& color  = QColor(0xFF, 0x00, 0xFF),
+            QWidget*      parent = nullptr);
+
+        static LabelView* label(
             const String& str,
             const int&    size,
             const QColor& color  = QColor(0xFF, 0x00, 0xFF),
