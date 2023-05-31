@@ -70,7 +70,7 @@ namespace Rt2::ViewModel
     };
 
     template <typename T>
-    [[nodiscard]] bool Model<T>::setValue(const T& val)
+    /*[[nodiscard]] */bool Model<T>::setValue(const T& val)
     {
         if (_data != val)  // may require an operator
         {

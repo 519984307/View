@@ -38,12 +38,13 @@ namespace Rt2::View
 
     public:
         explicit StringListView(QWidget* parent = nullptr);
+        ~StringListView() override; 
 
         void addEntry(const String& string, const String& data = "") const;
 
         void addEntry(const QIcon& ico, const String& string, const String& data = "") const;
 
-        void clear();
+        void clear() const;
 
         void addInput(const StringListModel::Observer& ot);
 

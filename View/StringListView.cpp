@@ -37,6 +37,12 @@ namespace Rt2::View
         construct();
     }
 
+    StringListView::~StringListView()
+    {
+        delete _listing->model();
+        _listing->setModel(nullptr);
+    }
+
     void StringListView::construct()
     {
         _listing = new QListView(this);
@@ -90,11 +96,10 @@ namespace Rt2::View
         }
     }
 
-    void StringListView::clear()
+    void StringListView::clear() const
     {
-        if (QStandardItemModel* model = (QStandardItemModel*)_listing->model())
-            model->clear();
-        refresh();
+        delete _listing->model();
+        _listing->setModel(new QStandardItemModel());
     }
 
     void StringListView::addInput(const StringListModel::Observer& ot)
