@@ -36,6 +36,7 @@ class QSplitter;
 
 namespace Rt2::View
 {
+    class PushButtonView;
     class FlatIconButtonView;
     class IconButtonView;
 
@@ -81,9 +82,7 @@ namespace Rt2::View
 
         static QPushButton* flatButton(QWidget* parent = nullptr);
 
-        [[deprecated]] static QWidget* box(
-            QWidget*      parent = nullptr,
-            const QColor& col    = QColor(0xFF, 0x00, 0xFF));
+        static PushButtonView* button(const String& label, QWidget* parent = nullptr);
 
         static QWidget* box(
             const QColor& col    = QColor(0xFF, 0x00, 0xFF),

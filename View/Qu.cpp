@@ -28,6 +28,7 @@
 #include <QPushButton>
 #include <QSplitter>
 #include "DefaultStyleSheet.h"
+#include "PushButtonView.h"
 #include "Utils/Console.h"
 #include "Utils/Definitions.h"
 #include "Utils/StreamConverters/Tab.h"
@@ -81,19 +82,6 @@ namespace Rt2::View
     {
         RT_ASSERT(widget)
         widget->setContentsMargins(Mt::gm, Mt::gm, Mt::gm, Mt::gm);
-    }
-
-    QWidget* Qu::box(QWidget* parent, const QColor& col)
-    {
-        QWidget* box = new QWidget(parent);
-        fit(box);
-
-        StyleSheetWriter w;
-        w.backgroundColor(col);
-        w.noBorder();
-        w.margin(1);
-        box->setStyleSheet(w.toString());
-        return box;
     }
 
     QWidget* Qu::box(const QColor& col, QWidget* parent)
@@ -278,6 +266,11 @@ namespace Rt2::View
         button->setMaximumSize(Metrics::ctrlMin);
         button->setFlat(true);
         return button;
+    }
+
+    PushButtonView* Qu::button(const String& label, QWidget* parent)
+    {
+        return new PushButtonView(label, parent);
     }
 
     void Qu::logRecursive(const QObject* root, const int depth)
