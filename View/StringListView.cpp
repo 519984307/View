@@ -66,16 +66,16 @@ namespace Rt2::View
     void StringListView::itemDoubleClickedImpl(const QModelIndex& index)
     {
         _string.setValue(
-            index.data(Qt::UserRole).toString().toStdString(),
+            index.data(Qt::UserRole),
             ViewModel::OUTPUT);
     }
 
-    void StringListView::addEntry(const String& string, const String& data) const
+    void StringListView::addEntry(const String& string, const QVariant& data) const
     {
         addEntry({}, string, data);
     }
 
-    void StringListView::addEntry(const QIcon& ico, const String& string, const String& data) const
+    void StringListView::addEntry(const QIcon& ico, const String& string, const QVariant& data) const
     {
         if (string.empty()) return;
 
@@ -88,10 +88,10 @@ namespace Rt2::View
             else
                 model->setItem(cur, new QStandardItem(ico, Qsu::to(string)));
 
-            if (!data.empty())
+            if (!data.isNull())
             {
                 const QModelIndex idx = model->index(cur, 0);
-                model->setData(idx, QVariant(Qsu::to(data)), Qt::UserRole);
+                model->setData(idx, data, Qt::UserRole);
             }
         }
     }
@@ -107,7 +107,7 @@ namespace Rt2::View
         _strings.addInput(ot);
     }
 
-    void StringListView::addOutput(const StringModel::Observer& ot)
+    void StringListView::addOutput(const VariantModel::Observer& ot)
     {
         _string.addOutput(ot);
     }

@@ -21,6 +21,7 @@
 */
 #pragma once
 #include <QEvent>
+#include <QVariant>
 #include "Utils/Definitions.h"
 #include "ViewModel/Property.h"
 
@@ -34,6 +35,7 @@ namespace Rt2::View
     using DoubleModel     = ViewModel::DoubleModel;
     using StringModel     = ViewModel::StringModel;
     using StringListModel = ViewModel::StringListModel;
+    using VariantModel    = ViewModel::ViewModel<QVariant>;
 
     class IconButtonView;
     class TextEditView;

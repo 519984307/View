@@ -36,6 +36,9 @@ namespace Rt2::View
         static constexpr int h4{defaultTextSize + 8};
         static constexpr int h5{defaultTextSize + 4};
         static constexpr int h6{defaultTextSize + 2};
+        static constexpr int h7{defaultTextSize};
+        static constexpr int h8{defaultTextSize - 2};
+        static constexpr int h9{defaultTextSize - 4};
 
         static constexpr QSize minWindow{320, 240};
         static constexpr QSize minPanel{200, 100};

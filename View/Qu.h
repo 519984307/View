@@ -154,6 +154,7 @@ namespace Rt2::View
         static String from(const QVariant& str);
 
         static QString to(const String& str);
+        static QVariant variant(const String& str);
     };
 
     class Qmc

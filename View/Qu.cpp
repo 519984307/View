@@ -355,6 +355,11 @@ namespace Rt2::View
         return QString::fromStdString(str);
     }
 
+    QVariant Qsu::variant(const String& str)
+    {
+        return QVariant(to(str));
+    }
+
     QPoint Qmc::point(const QPointF& pt)
     {
         return {(int)pt.x(), (int)pt.y()};

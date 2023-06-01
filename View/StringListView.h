@@ -28,27 +28,28 @@ class QLineEdit;
 
 namespace Rt2::View
 {
+
     class StringListView final : public View
     {
         Q_OBJECT
     private:
         QListView*      _listing{nullptr};
         StringListModel _strings;
-        StringModel     _string;
+        VariantModel    _string;
 
     public:
         explicit StringListView(QWidget* parent = nullptr);
-        ~StringListView() override; 
+        ~StringListView() override;
 
-        void addEntry(const String& string, const String& data = "") const;
+        void addEntry(const String& string, const QVariant& data = {}) const;
 
-        void addEntry(const QIcon& ico, const String& string, const String& data = "") const;
+        void addEntry(const QIcon& ico, const String& string, const QVariant& data = {}) const;
 
         void clear() const;
 
         void addInput(const StringListModel::Observer& ot);
 
-        void addOutput(const StringModel::Observer& ot);
+        void addOutput(const VariantModel::Observer& ot);
 
     private:
         void construct();
