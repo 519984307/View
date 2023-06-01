@@ -182,10 +182,7 @@ namespace Rt2::ViewModel
     template <typename T>
     void ViewModel<T>::dispatch(const Direction& dir)
     {
-        if (dir == INPUT || dir == BOTH)
-            dispatchInput();
-        if (dir == OUTPUT || dir == BOTH)
-            dispatchOutput();
+        invoke(dir);
     }
 
     template <typename T>

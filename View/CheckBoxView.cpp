@@ -82,7 +82,8 @@ namespace Rt2::View
         else
             _state &= ~ON;
 
-        _check.setValue(v, ViewModel::BOTH);
+        _check.setValue(v, ViewModel::NONE);
+        _check.dispatch(ViewModel::BOTH); // regardless of change
         _states->inactive(_icon);
     }
 
