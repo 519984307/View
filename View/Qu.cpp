@@ -27,16 +27,16 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QSplitter>
-#include "DefaultStyleSheet.h"
-#include "PushButtonView.h"
 #include "Utils/Console.h"
 #include "Utils/Definitions.h"
 #include "Utils/StreamConverters/Tab.h"
 #include "View/Colors.h"
+#include "View/DefaultStyleSheet.h"
 #include "View/FlatIconButtonView.h"
 #include "View/IconButtonView.h"
 #include "View/Metrics.h"
 #include "View/Palette.h"
+#include "View/PushButtonView.h"
 #include "View/StyleSheetWriter.h"
 
 static int symbolLink()
@@ -263,6 +263,44 @@ namespace Rt2::View
         for (const auto item : items)
             hor->addWidget(item);
         return hor;
+    }
+
+    QWidget* Qu::itemList(
+        const QWidgetList& items,
+        const int&         size,
+        const QColor&      color,
+        const QColor&      background)
+    {
+        class Item : public QWidget
+        {
+        public:
+            Item(
+                const QWidgetList& items,
+                const int&         size,
+                const QColor&      color,
+                const QColor&      background)
+            {
+                const auto lo = horizontal();
+                setAutoFillBackground(true);
+
+                StyleSheetWriter w;
+                w.backgroundColor(background);
+                w.color(color);
+                w.noBorder();
+                setStyleSheet(w.toString());
+
+                lo->addStretch();
+
+                for (const auto item : items)
+                {
+                    item->setFixedHeight(size);
+                    lo->addWidget(item, 0, Qt::AlignCenter);
+                    setBackground(item, background);
+                }
+                setLayout(lo);
+            }
+        };
+        return new Item(items, size, color, background);
     }
 
     IconButtonView* Qu::icon(IconMap ico, QWidget* parent)

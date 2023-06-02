@@ -63,6 +63,8 @@ namespace Rt2::View
 
         void image(const String& url);
 
+        void image(const QString& url);
+
         void backgroundColor(const GradientBox& co, const SimpleArray<Stops>& stops);
 
         void backgroundColor(const QPalette::ColorRole& col);

@@ -33,9 +33,7 @@ namespace Rt2::View
         CustomView(parent),
         _index(index)
     {
-        if (on)
-            _state |= ON;
-
+        if (on) _state |= ON;
         setToolTip(toolTip);
         construct();
     }
@@ -65,15 +63,13 @@ namespace Rt2::View
         {
             if (_state & ENTER)
             {
-                paint.fillRect(rect, Colors::CtrlBackgroundLight.darker(Colors::Drk030));
+                paint.fillRect(rect, Colors::up(Colors::CtrlBackground));
                 paint.setPen(QPen(Colors::Accent, 1));
                 paint.drawRect(rect.adjusted(1, 1, -1, -1));
             }
             else
             {
-                paint.fillRect(rect, Colors::CtrlBackgroundLight.lighter(Colors::Lgt020));
-                paint.setPen(QPen(Colors::BorderLight, 1));
-                paint.drawRect(rect.adjusted(1, 1, -1, -1));
+                paint.fillRect(rect, Colors::down(Colors::CtrlBackground));
             }
         }
         else
@@ -82,8 +78,8 @@ namespace Rt2::View
             g.setStart(rect.topLeft());
             g.setFinalStop(rect.bottomRight());
 
-            g.setColorAt(0, Colors::Accent.darker(Colors::Drk010));
-            g.setColorAt(1, Colors::Accent.lighter(Colors::Lgt020));
+            g.setColorAt(0, Colors::shadow(Colors::Accent));
+            g.setColorAt(1, Colors::highlight(Colors::Accent));
             paint.fillRect(rect, g);
 
             if (_state & ENTER)
@@ -93,7 +89,7 @@ namespace Rt2::View
             }
             else
             {
-                paint.setPen(QPen(Colors::BorderLight, 1));
+                paint.setPen(QPen(Colors::up(Colors::CtrlBackground), 1));
                 paint.drawRect(rect.adjusted(1, 1, -1, -1));
             }
         }

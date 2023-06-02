@@ -9,7 +9,9 @@ namespace Rt2::Samples
     {
     private:
         View::FlagView* _flag{nullptr};
-        QLabel*         _bits{nullptr};
+        QLabel*         _bin{nullptr};
+        QLabel*         _hex{nullptr};
+        QLabel*         _oct{nullptr};
 
         QWidget* load();
 

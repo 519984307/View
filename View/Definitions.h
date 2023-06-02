@@ -51,6 +51,7 @@ namespace Rt2::View
         RELEASED = 0x02,
         ENTER    = 0x04,
         ON       = 0x08,
+        OFF      = 0x10,
     };
 
     enum EventCodes

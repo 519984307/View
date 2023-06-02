@@ -41,17 +41,19 @@ namespace Rt2::Samples
         
         wig->setLayout(lo);
 
-        _check1->addInput(
+        _check1->addOutput(
             [this, cb](const bool v)
             {
                 cb->setTextAlignment(Qt::AlignLeft);
-                _check2->setChecked(false);
+                cb->setChecked(v);
+                _check2->setChecked(!v);
             });
-        _check2->addInput(
+        _check2->addOutput(
             [this, cb](const bool v)
             {
                 cb->setTextAlignment(Qt::AlignRight);
-                _check1->setChecked(false);
+                cb->setChecked(v);
+                _check1->setChecked(!v);
             });
 
         cb->addOutput([this, cb](const bool v)

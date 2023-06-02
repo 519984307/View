@@ -38,21 +38,25 @@ namespace Rt2::View
         QString _active;
         QString _inactive;
         QString _pressed;
-        QColor  _color;
+        QColor  _accent;
+        QColor  _highlight;
+
+        void makeActive();
+        void makeInactive();
+        void makePressed();
+
+        void update();
 
     public:
-        explicit FlatIconButtonStates(const QColor& col = Colors::Foreground);
+        explicit FlatIconButtonStates();
 
-        void updateColor(const QColor& col);
+        void setAccent(const QColor& col);
+
+        void setHighlight(const QColor& col);
 
         void active(QLabel* label) const;
         void inactive(QLabel* label) const;
         void pressed(QLabel* label) const;
-
-    private:
-        void makeActive();
-        void makeInactive();
-        void makePressed();
     };
 
     FlatIconButtonView::FlatIconButtonView(const IconMap icon, QWidget* parent) :
@@ -66,20 +70,6 @@ namespace Rt2::View
     {
         delete _states;
         _states = nullptr;
-    }
-
-    void FlatIconButtonView::setFlatColor(const QColor& col) const
-    {
-        if (_states)
-        {
-            _states->updateColor(col);
-            _states->inactive(_button);
-        }
-    }
-
-    void FlatIconButtonView::addOutput(const BoolModel::Observer& ot)
-    {
-        _model.addOutput(ot);
     }
 
     void FlatIconButtonView::construct(const IconMap icon)
@@ -97,63 +87,101 @@ namespace Rt2::View
         _button->setText(QChar(icon));
         _button->setAlignment(Qt::AlignCenter);
         _button->setMinimumSize(Metrics::iconMin);
-
         _states->inactive(_button);
+    }
+
+    void FlatIconButtonView::setFlatColor(const QColor& col) const
+    {
+        if (!_states) return;
+
+        _states->setAccent(col);
+        _states->inactive(_button);
+    }
+
+    void FlatIconButtonView::setHighlightColor(const QColor& col) const
+    {
+        if (!_states) return;
+
+        _states->setHighlight(col);
+        _states->inactive(_button);
+    }
+
+    void FlatIconButtonView::setIconSize(int size) const
+    {
+        if (!_button) return;
+
+        QFont fnt = Qu::iconFont();
+        fnt.setPointSize(size);
+        _button->setFont(fnt);
+    }
+
+    void FlatIconButtonView::addOutput(const BoolModel::Observer& ot)
+    {
+        _model.addOutput(ot);
     }
 
     void FlatIconButtonView::mousePressEvent(QMouseEvent* event)
     {
+        if (!event || !_states) return;
+
         _state |= PRESSED;
-        refresh();
         _states->pressed(_button);
+        event->accept();
     }
 
     void FlatIconButtonView::mouseReleaseEvent(QMouseEvent* event)
     {
-        if (!event) return;
+        if (!event || !_states) return;
 
         _state &= ~PRESSED;
-        refresh();
-
         _states->inactive(_button);
 
         if (event->button() == Qt::LeftButton)
         {
             if (const QPoint pt = Qmc::point(event->position());
                 geometry().contains(pt) || _button->geometry().contains(pt))
-                _model.setValue(!_model.value(), ViewModel::OUTPUT);
+                _model.dispatch(ViewModel::OUTPUT);
         }
+
+        event->accept();
     }
 
     void FlatIconButtonView::enterEvent(QEnterEvent* event)
     {
+        if (!event || !_states) return;
+
         _state |= ENTER;
-        refresh();
         _states->active(_button);
+        event->accept();
     }
 
     void FlatIconButtonView::leaveEvent(QEvent* event)
     {
+        if (!event || !_states) return;
+
         _state &= ~ENTER;
-        refresh();
         if (!((_state & PRESSED) != 0))
             _states->inactive(_button);
+        event->accept();
     }
 
-    FlatIconButtonStates::FlatIconButtonStates(const QColor& col)
+    FlatIconButtonStates::FlatIconButtonStates() :
+        _accent(Colors::Foreground),
+        _highlight(Colors::Accent)
     {
-        updateColor(col);
+        update();
     }
 
-    void FlatIconButtonStates::updateColor(const QColor& col)
+    void FlatIconButtonStates::setAccent(const QColor& col)
     {
-        _color = col;
-        _active.clear();
-        _inactive.clear();
-        _pressed.clear();
-        makeActive();
-        makeInactive();
-        makePressed();
+        _accent = col;
+        update();
+    }
+
+    void FlatIconButtonStates::setHighlight(const QColor& col)
+    {
+        _highlight = col;
+        update();
     }
 
     void FlatIconButtonStates::active(QLabel* label) const
@@ -177,32 +205,35 @@ namespace Rt2::View
 
     void FlatIconButtonStates::makeActive()
     {
-        if (!_active.isEmpty())
-            return;
-
         StyleSheetWriter w;
-        w.color(_color.lighter(Colors::Lgt050));
+        w.color(Colors::up(_accent));
+        w.noBackground();
+        w.noBorder();
         _active = w.toString();
     }
 
     void FlatIconButtonStates::makeInactive()
     {
-        if (!_inactive.isEmpty())
-            return;
-
         StyleSheetWriter w;
+        w.color(_accent);
         w.noBackground();
-        w.color(_color);
+        w.noBorder();
         _inactive = w.toString();
     }
 
     void FlatIconButtonStates::makePressed()
     {
-        if (!_pressed.isEmpty())
-            return;
         StyleSheetWriter w;
-        w.color(_color.darker(Colors::Drk020));
+        w.color(Colors::highlight(_highlight));
+        w.noBackground();
+        w.noBorder();
         _pressed = w.toString();
     }
 
+    void FlatIconButtonStates::update()
+    {
+        makeActive();
+        makeInactive();
+        makePressed();
+    }
 }  // namespace Rt2::View

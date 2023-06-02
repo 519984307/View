@@ -36,7 +36,7 @@ namespace Rt2::View
     private:
         QLabel*           _text{nullptr};
         PushButtonStates* _states{nullptr};
-        BoolModel         _observers{};
+        BoolModel         _state{};
 
     public:
         explicit PushButtonView(QWidget* parent = nullptr);
@@ -45,6 +45,8 @@ namespace Rt2::View
         ~PushButtonView() override;
 
         void setLabel(const String& label) const;
+
+        void setAccent(const QColor& col) const;
 
         String label() const;
 

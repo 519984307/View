@@ -20,22 +20,26 @@ namespace Rt2::Samples
         const auto lo = View::Qu::vertical();
 
         _flag = new View::FlagView();
-        _bits = View::Qu::text("00000000", View::Metrics::h2, View::Colors::Foreground);
+        _bin  = View::Qu::text("00000000", View::Metrics::h5, View::Colors::Foreground);
+        _oct  = View::Qu::text("000", View::Metrics::h5, View::Colors::Foreground);
+        _hex  = View::Qu::text("00", View::Metrics::h5, View::Colors::Foreground);
 
         for (int i = 0; i < 8; i++)
             _flag->addFlag(false, Char::toString(1 << i));
 
-        lo->addWidget(_bits, 0, Qt::AlignCenter);
-        lo->addWidget(_flag, 0, Qt::AlignCenter);
+        lo->addWidget(_flag);
+        lo->addWidget(_bin);
+        lo->addWidget(_oct);
+        lo->addWidget(_hex);
         lo->addStretch();
-
 
         _flag->addOutput(
             [this](const int bits)
             {
-                const uint8_t b   = (uint8_t)Clamp<int>(bits, 0, 255);
-                const auto    str = Char::toBinaryString(b);
-                _bits->setText(View::Qsu::to(str));
+                const uint8_t b = (uint8_t)Clamp<int>(bits, 0, 255);
+                _bin->setText(View::Qsu::to(Char::toBinaryString(b)));
+                _hex->setText(View::Qsu::to(Char::toHexString(b)));
+                _oct->setText(View::Qsu::to(Char::toOctalString(b)));
             });
 
         wig->setLayout(lo);
@@ -56,7 +60,7 @@ namespace Rt2::Samples
         return unused;
     }
 
-}  // namespace Rt2::Samples::FlagView
+}  // namespace Rt2::Samples
 
 int main(int, char*[])
 {

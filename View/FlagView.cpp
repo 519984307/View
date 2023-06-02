@@ -39,6 +39,19 @@ namespace Rt2::View
     }
 
     FlagView::~FlagView() = default;
+    
+    void FlagView::construct()
+    {
+        _content = Qu::horizontal();
+        _content->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+        constructView(_content, 0);
+        setAutoFillBackground(true);
+        setUpdatesEnabled(true);
+        setBorder(1);
+
+        setBorderColor(Colors::up(Colors::CtrlBackgroundLight));
+        setPadding(0);
+    }
 
     void FlagView::addFlag(const bool state, const String& text)
     {
@@ -84,20 +97,6 @@ namespace Rt2::View
     void FlagView::addInput(const IntModel::Observer& ot)
     {
         _bits.addInput(ot);
-    }
-
-    void FlagView::construct()
-    {
-        _content = Qu::horizontal();
-        _content->setAlignment(Qt::AlignTop | Qt::AlignLeft);
-
-        constructView(_content, 0);
-        setAutoFillBackground(true);
-        setUpdatesEnabled(true);
-        setBorder(1);
-
-        setBorderColor(Colors::CtrlBackgroundLight.lighter(Colors::Lgt090));
-        setPadding(0);
     }
 
 }  // namespace Rt2::View

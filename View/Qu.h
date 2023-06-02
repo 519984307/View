@@ -37,6 +37,7 @@ class QSplitter;
 
 namespace Rt2::View
 {
+    class WorkspaceTab;
     class PushButtonView;
     class FlatIconButtonView;
     class IconButtonView;
@@ -77,6 +78,12 @@ namespace Rt2::View
             const QColor&        color     = Colors::Emphasis[5],
             const Qt::Alignment& alignment = {});
 
+        static QWidget* itemList(
+            const QWidgetList& items,
+            const int&         size       = Metrics::h5,
+            const QColor&      color      = Colors::Emphasis[5],
+            const QColor&      background = Colors::CtrlBackground);
+
         static IconButtonView* icon(IconMap ico, QWidget* parent = nullptr);
 
         static FlatIconButtonView* flatIcon(IconMap ico, QWidget* parent = nullptr);
@@ -88,6 +95,7 @@ namespace Rt2::View
         static QWidget* box(
             const QColor& col    = QColor(0xFF, 0x00, 0xFF),
             QWidget*      parent = nullptr);
+
         static QWidget* separator(
             const QColor& col    = QColor(0xFF, 0x00, 0xFF),
             QWidget*      parent = nullptr);
@@ -153,7 +161,7 @@ namespace Rt2::View
         static String from(const QString& str);
         static String from(const QVariant& str);
 
-        static QString to(const String& str);
+        static QString  to(const String& str);
         static QVariant variant(const String& str);
     };
 

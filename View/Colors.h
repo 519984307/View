@@ -73,9 +73,9 @@ namespace Rt2::View
 
     };  // namespace ConstMix
 
-    using BlueMix   = ConstMix<0x00, 0x00, 0x03>;
-    using GreenMix  = ConstMix<0x00, 0x03, 0x00>;
-    using OrangeMix = ConstMix<0x03, 0x01, 0x00>;
+    using BlueMix   = ConstMix<0x00, 0x00, 0x04>;
+    using GreenMix  = ConstMix<0x00, 0x04, 0x00>;
+    using OrangeMix = ConstMix<0x04, 0x02, 0x00>;
 
     class Colors  // should be serialized
     {
@@ -164,6 +164,26 @@ namespace Rt2::View
             OrangeMix::grey(0xA7),
             OrangeMix::grey(0xC7),
         };
+
+        static QColor shadow(const QColor& c)
+        {
+            return c.darker(Drk020);
+        }
+
+        static QColor up(const QColor& c)
+        {
+            return c.lighter(Lgt010);
+        }
+
+        static QColor down(const QColor& c)
+        {
+            return c.darker(Drk010);
+        }
+
+        static QColor highlight(const QColor& c)
+        {
+            return c.lighter(Lgt020);
+        }
     };
 
 }  // namespace Rt2::View

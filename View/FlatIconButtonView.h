@@ -47,6 +47,10 @@ namespace Rt2::View
 
         void setFlatColor(const QColor& col) const;
 
+        void setHighlightColor(const QColor& col) const;
+
+        void setIconSize(int size) const;
+
         void addOutput(const BoolModel::Observer& ot);
 
     private:

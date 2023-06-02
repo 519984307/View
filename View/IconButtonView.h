@@ -45,6 +45,8 @@ namespace Rt2::View
 
         ~IconButtonView() override;
 
+        void setAccent(const QColor& col) const;
+
         void addOutput(const BoolModel::Observer &ot);
 
     private:
@@ -57,6 +59,8 @@ namespace Rt2::View
         void enterEvent(QEnterEvent* event) override;
 
         void leaveEvent(QEvent* event) override;
+
+        bool isPressed() const;
     };
 
 }  // namespace Rt2::View

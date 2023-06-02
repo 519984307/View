@@ -88,7 +88,7 @@ namespace Rt2::View
         setMargin(0);
         setFlags(CvFullView);
         setMinimumHeight(Metrics::iconHeight);
-        setBackgroundColor(Colors::CtrlBackground.darker(Colors::Drk010));
+        setBackgroundColor(Colors::down(Colors::CtrlBackground));
     }
 
     void SliderView::mousePressEvent(QMouseEvent* event)
@@ -154,7 +154,7 @@ namespace Rt2::View
 
         if (_state & ENTER)
         {
-            paint.setPen(QPen(backgroundColor().lighter(Colors::Lgt080)));
+            paint.setPen(QPen(Colors::highlight(backgroundColor())));
             paint.drawRect(rect.adjusted(1, 1, -1, -1));
         }
 

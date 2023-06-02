@@ -41,14 +41,13 @@ namespace Rt2::View
         QString _active;
         QString _hover;
         QString _pressed;
+        QColor  _accent;
 
         void makeInactive();
-
         void makeActive();
-
         void makeHover();
-
         void makePressed();
+        void update();
 
     public:
         PushButtonStates();
@@ -57,6 +56,8 @@ namespace Rt2::View
         void hover(QLabel* widget) const;
         void active(QLabel* widget) const;
         void inactive(QLabel* widget) const;
+
+        void setAccent(const QColor& col);
     };
 
     PushButtonView::PushButtonView(QWidget* parent) :
@@ -79,23 +80,6 @@ namespace Rt2::View
         delete _states;
     }
 
-    void PushButtonView::setLabel(const String& label) const
-    {
-        if (!_text) return;
-        _text->setText(Qsu::to(label));
-    }
-
-    String PushButtonView::label() const
-    {
-        if (!_text) return "";
-        return Qsu::from(_text->text());
-    }
-
-    void PushButtonView::addOutput(const BoolModel::Observer& ob)
-    {
-        _observers.addOutput(ob);
-    }
-
     void PushButtonView::construct()
     {
         _text = new QLabel(this);
@@ -109,24 +93,47 @@ namespace Rt2::View
         _states->inactive(_text);
     }
 
+    void PushButtonView::setLabel(const String& label) const
+    {
+        if (!_text) return;
+        _text->setText(Qsu::to(label));
+    }
+
+    void PushButtonView::setAccent(const QColor& col) const
+    {
+        if (!_states) return;
+        _states->setAccent(col);
+    }
+
+    String PushButtonView::label() const
+    {
+        if (!_text) return "";
+        return Qsu::from(_text->text());
+    }
+
+    void PushButtonView::addOutput(const BoolModel::Observer& ob)
+    {
+        _state.addOutput(ob);
+    }
+
     void PushButtonView::mousePressEvent(QMouseEvent* event)
     {
+        if (!event || !_states) return;
         _states->pressed(_text);
-        refresh();
+        event->accept();
     }
 
     void PushButtonView::mouseReleaseEvent(QMouseEvent* event)
     {
-        if (!event) return;
+        if (!event || !_states) return;
 
         bool inside = false;
-
         if (event->button() == Qt::LeftButton)
         {
             if (const QPoint pt = Qmc::point(event->position());
                 geometry().contains(pt) || _text->geometry().contains(pt))
             {
-                _observers.setValue(true, ViewModel::OUTPUT);
+                _state.dispatch(ViewModel::OUTPUT);
                 inside = true;
             }
         }
@@ -135,72 +142,27 @@ namespace Rt2::View
             _states->hover(_text);
         else
             _states->inactive(_text);
-
-        refresh();
+        event->accept();
     }
 
     void PushButtonView::enterEvent(QEnterEvent* event)
     {
+        if (!event || !_states) return;
         _states->hover(_text);
-        refresh();
+        event->accept();
     }
 
     void PushButtonView::leaveEvent(QEvent* event)
     {
+        if (!event || !_states) return;
         _states->inactive(_text);
-        refresh();
+        event->accept();
     }
 
-    PushButtonStates::PushButtonStates()
+    PushButtonStates::PushButtonStates() :
+        _accent(Colors::Accent)
     {
-        makeActive();
-        makeInactive();
-        makeHover();
-        makePressed();
-    }
-
-    void PushButtonStates::makeInactive()
-    {
-        const QColor c = Colors::CtrlBackground;
-
-        StyleSheetWriter w;
-        w.padding(5);
-        w.backgroundColor(c.lighter(Colors::Lgt060));
-        w.color(Colors::Foreground);
-        _inactive = w.toString();
-    }
-
-    void PushButtonStates::makeActive()
-    {
-        const QColor c = Colors::CtrlBackground;
-
-        StyleSheetWriter w;
-        w.backgroundColor(c.lighter(Colors::Lgt020));
-        w.color(Colors::Foreground);
-        _active = w.toString();
-    }
-
-    void PushButtonStates::makeHover()
-    {
-        const QColor c = Colors::Accent;
-
-        StyleSheetWriter w;
-        w.backgroundColor(Colors::CtrlBackgroundLight);
-        w.color(Colors::ForegroundLight);
-        w.border(Colors::CtrlBackground.lighter(Colors::Lgt020), 1);
-        _hover = w.toString();
-    }
-
-    void PushButtonStates::makePressed()
-    {
-        const QColor c = Colors::CtrlBackground;
-
-        StyleSheetWriter w;
-        w.backgroundColor(c.darker(Colors::Drk020));
-        w.border(Colors::BorderLight, 1);
-        w.color(Colors::Foreground);
-
-        _pressed = w.toString();
+        update();
     }
 
     void PushButtonStates::pressed(QLabel* widget) const
@@ -225,6 +187,60 @@ namespace Rt2::View
     {
         if (!widget) return;
         widget->setStyleSheet(_inactive);
+    }
+
+    void PushButtonStates::setAccent(const QColor& col)
+    {
+        _accent = col;
+        update();
+    }
+
+    void PushButtonStates::makeInactive()
+    {
+        StyleSheetWriter w;
+        w.backgroundColor(Colors::up(Colors::CtrlBackground));
+        w.color(Colors::ForegroundLight);
+        w.border(Colors::down(Colors::CtrlBackground), 1);
+        _inactive = w.toString();
+    }
+
+    void PushButtonStates::makeActive()
+    {
+        StyleSheetWriter w;
+
+        w.backgroundColor(Colors::up(Colors::CtrlBackground));
+        w.color(Colors::up(Colors::ForegroundLight));
+        w.border(Colors::CtrlBackground, 1);
+
+        _active = w.toString();
+    }
+
+    void PushButtonStates::makeHover()
+    {
+        StyleSheetWriter w;
+
+        w.backgroundColor(Colors::up(Colors::CtrlBackground));
+        w.color(Colors::up(Colors::ForegroundLight));
+        w.border(Colors::highlight(Colors::CtrlBackground), 1);
+
+        _hover = w.toString();
+    }
+
+    void PushButtonStates::makePressed()
+    {
+        StyleSheetWriter w;
+        w.backgroundColor(Colors::shadow(_accent));
+        w.color(Colors::highlight(Colors::Emphasis[4]));
+        w.border(Colors::down(_accent), 1);
+        _pressed = w.toString();
+    }
+
+    void PushButtonStates::update()
+    {
+        makeActive();
+        makeInactive();
+        makeHover();
+        makePressed();
     }
 
 }  // namespace Rt2::View

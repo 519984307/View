@@ -58,8 +58,6 @@ namespace Rt2::View
     protected:
         void mousePressEvent(QMouseEvent* event) override;
 
-        void mouseReleaseEvent(QMouseEvent* event) override;
-
         void enterEvent(QEnterEvent* event) override;
 
         void leaveEvent(QEvent* event) override;
@@ -67,7 +65,7 @@ namespace Rt2::View
 
     inline bool CheckBoxView::isChecked() const
     {
-        return _state & ON;
+        return _check.value();
     }
 
 }  // namespace Rt2::View
