@@ -297,6 +297,7 @@ namespace Rt2::View
                     lo->addWidget(item, 0, Qt::AlignCenter);
                     setBackground(item, background);
                 }
+                lo->addSpacing(size);
                 setLayout(lo);
             }
         };
