@@ -39,40 +39,25 @@ namespace Rt2::View
         construct();
     }
 
-    void TextEditView::setText(const String& text)
-    {
-        _textModel.setValue(text);
-    }
-
-    String TextEditView::text() const
-    {
-        return _textModel.value();
-    }
-
-    void TextEditView::addOutput(const StringModel::Observer& type)
-    {
-        _textModel.addOutput(type);
-    }
+    TextEditView::~TextEditView() = default;
 
     void TextEditView::construct()
     {
         _edit = new QLineEdit(this);
         constructView(_edit);
+
         setMaximumHeight(Metrics::ctrlMin.height());
         setBorderColor(Colors::BorderDark);
         setBackgroundColor(Colors::Transparent);
         setColor(QPalette::Highlight, Colors::Accent);
-        _edit->setFrame(false);
-        bind();
-    }
 
-    void TextEditView::bind()
-    {
-        _textModel.addInput(
+        _edit->setFrame(false);
+
+        _model.addInput(
             [=](const String& text)
             {
-                if (_edit)
-                    _edit->setText(Qsu::to(text));
+                RT_GUARD_CHECK_VOID(_edit)
+                _edit->setText(Qsu::to(text));
             });
 
         connect(_edit,
@@ -81,9 +66,24 @@ namespace Rt2::View
                 &TextEditView::textChanged);
     }
 
+    void TextEditView::setText(const String& text)
+    {
+        _model.setValue(text);
+    }
+
+    String TextEditView::text() const
+    {
+        return _model.value();
+    }
+
+    void TextEditView::addOutput(const StringModel::Observer& type)
+    {
+        _model.addOutput(type);
+    }
+
     void TextEditView::textChanged(const QString& val)
     {
-        _textModel.setValue(Qsu::from(val), ViewModel::OUTPUT);
+        _model.setValue(Qsu::from(val), ViewModel::OUTPUT);
     }
 
     void TextEditView::paintEvent(QPaintEvent* event)

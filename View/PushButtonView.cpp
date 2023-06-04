@@ -95,19 +95,22 @@ namespace Rt2::View
 
     void PushButtonView::setLabel(const String& label) const
     {
-        if (!_text) return;
+        RT_GUARD_CHECK_VOID(_text)
+
         _text->setText(Qsu::to(label));
     }
 
     void PushButtonView::setAccent(const QColor& col) const
     {
-        if (!_states) return;
+        RT_GUARD_CHECK_VOID(_states)
+
         _states->setAccent(col);
     }
 
     String PushButtonView::label() const
     {
-        if (!_text) return "";
+        RT_GUARD_CHECK_RET(_text, "")
+
         return Qsu::from(_text->text());
     }
 
@@ -118,14 +121,15 @@ namespace Rt2::View
 
     void PushButtonView::mousePressEvent(QMouseEvent* event)
     {
-        if (!event || !_states) return;
+        RT_GUARD_CHECK_VOID(event && _states)
+
         _states->pressed(_text);
         event->accept();
     }
 
     void PushButtonView::mouseReleaseEvent(QMouseEvent* event)
     {
-        if (!event || !_states) return;
+        RT_GUARD_CHECK_VOID(event && _states && _text)
 
         bool inside = false;
         if (event->button() == Qt::LeftButton)
@@ -142,19 +146,22 @@ namespace Rt2::View
             _states->hover(_text);
         else
             _states->inactive(_text);
+
         event->accept();
     }
 
     void PushButtonView::enterEvent(QEnterEvent* event)
     {
-        if (!event || !_states) return;
+        RT_GUARD_CHECK_VOID(event && _states && _text)
+
         _states->hover(_text);
         event->accept();
     }
 
     void PushButtonView::leaveEvent(QEvent* event)
     {
-        if (!event || !_states) return;
+        RT_GUARD_CHECK_VOID(event && _states && _text)
+
         _states->inactive(_text);
         event->accept();
     }
@@ -167,25 +174,29 @@ namespace Rt2::View
 
     void PushButtonStates::pressed(QLabel* widget) const
     {
-        if (!widget) return;
+        RT_GUARD_CHECK_VOID(widget)
+
         widget->setStyleSheet(_pressed);
     }
 
     void PushButtonStates::hover(QLabel* widget) const
     {
-        if (!widget) return;
+        RT_GUARD_CHECK_VOID(widget)
+
         widget->setStyleSheet(_hover);
     }
 
     void PushButtonStates::active(QLabel* widget) const
     {
-        if (!widget) return;
+        RT_GUARD_CHECK_VOID(widget)
+
         widget->setStyleSheet(_active);
     }
 
     void PushButtonStates::inactive(QLabel* widget) const
     {
-        if (!widget) return;
+        RT_GUARD_CHECK_VOID(widget)
+
         widget->setStyleSheet(_inactive);
     }
 

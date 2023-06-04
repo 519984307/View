@@ -19,38 +19,44 @@
   3. This notice may not be removed or altered from any source distribution.
 -------------------------------------------------------------------------------
 */
-#pragma once
-#include <QWidget>
-#include "View/Definitions.h"
-#include "View/View.h"
-
-class QLineEdit;
+#include "View/ItemListWidget.h"
+#include <QBoxLayout>
+#include "Qu.h"
+#include "StyleSheetWriter.h"
 
 namespace Rt2::View
 {
-    class TextEditView final : public View
+    ItemListWidget::ItemListWidget(
+        const QWidgetList& items,
+        const int&         size,
+        const QMargins&    margins,
+        const QColor&      color,
+        const QColor&      background,
+        QWidget*           parent) :
+        QWidget(parent)
     {
-        Q_OBJECT
-    private:
-        QLineEdit*  _edit{nullptr};
-        StringModel _model;
+        const auto lo = Qu::horizontal();
+        setAutoFillBackground(true);
+        lo->setContentsMargins(margins);
 
-    public:
-        explicit TextEditView(QWidget* parent = nullptr);
-        ~TextEditView() override;
 
-        String text() const;
+        StyleSheetWriter w;
+        w.backgroundColor(background);
+        w.color(color);
+        w.noBorder();
+        setStyleSheet(w.toString());
 
-        void setText(const String& text);
+        lo->addStretch();
 
-        void addOutput(const StringModel::Observer& type);
+        for (const auto item : items)
+        {
+            item->setFixedHeight(size);
+            item->setAttribute(Qt::WA_TranslucentBackground);
 
-    private:
-        void construct();
-
-        void textChanged(const QString&);
-
-        void paintEvent(QPaintEvent* event) override;
-    };
+            lo->addWidget(item, 0, Qt::AlignCenter);
+        }
+        lo->addSpacing(size);
+        setLayout(lo);
+    }
 
 }  // namespace Rt2::View

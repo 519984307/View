@@ -21,7 +21,6 @@
 */
 #include "View/LayoutView.h"
 #include <QVBoxLayout>
-
 #include "Utils/Definitions.h"
 #include "View/Colors.h"
 #include "View/Metrics.h"
@@ -68,8 +67,8 @@ namespace Rt2::View
 
     void LayoutView::setPadding(const QMargins& margins) const
     {
-        if (_content)
-            _content->setContentsMargins(margins);
+        RT_GUARD_CHECK_VOID(_content)
+        _content->setContentsMargins(margins);
     }
 
     void LayoutView::setPadding(int v) const
@@ -89,23 +88,23 @@ namespace Rt2::View
 
     void LayoutView::refresh()
     {
+        RT_GUARD_CHECK_VOID(_content)
         update();
-        if (_content)
-            _content->invalidate();
+        _content->invalidate();
     }
 
     void LayoutView::resizeEvent(QResizeEvent* event)
     {
+        RT_GUARD_CHECK_VOID(_content)
+        _content->invalidate();
         QWidget::resizeEvent(event);
-        if (_content)
-            _content->invalidate();
     }
 
     void LayoutView::constructView(QLayout* content, int stretch)
     {
-        RT_ASSERT(content);
-        _content = content;
+        RT_ASSERT(content)  // keep fail
 
+        _content = content;
         Palette::applyCtrlPalette(this);
         setMinimumSize(Metrics::ctrlMin);
         setBorder(Metrics::borderSizeThin);
@@ -118,11 +117,9 @@ namespace Rt2::View
 
     QBoxLayout* LayoutView::boxLayout() const
     {
-        if (_content)
-        {
-            if (_content->inherits("QBoxLayout"))
-                return (QBoxLayout*)_content;
-        }
+        RT_GUARD_CHECK_RET(_content, nullptr)
+        if (_content->inherits("QBoxLayout"))
+            return (QBoxLayout*)_content;
         return nullptr;
     }
 

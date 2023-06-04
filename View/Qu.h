@@ -88,7 +88,7 @@ namespace Rt2::View
 
         static FlatIconButtonView* flatIcon(IconMap ico, QWidget* parent = nullptr);
 
-        static QPushButton* flatButton(QWidget* parent = nullptr);
+        [[deprecated]] static QPushButton* flatButton(QWidget* parent = nullptr);
 
         static PushButtonView* button(const String& label, QWidget* parent = nullptr);
 
@@ -99,6 +99,12 @@ namespace Rt2::View
         static QWidget* separator(
             const QColor& col    = QColor(0xFF, 0x00, 0xFF),
             QWidget*      parent = nullptr);
+
+        static QWidget* separator(
+            const Qt::Orientation& orientation,
+            const int              size   = 2,
+            const QColor&          col    = QColor(0xFF, 0x00, 0xFF),
+            QWidget*               parent = nullptr);
 
         static QLabel* text(
             const String& str,
@@ -138,7 +144,7 @@ namespace Rt2::View
 
         static QColor opacity(const QColor& value, int alpha);
 
-        static void clearSpace(QObject* top);
+        static void clearSpace(QObject* obj);
 
         static bool isLabel(const QObject* obj);
 
@@ -150,7 +156,7 @@ namespace Rt2::View
 
         static QFont iconFont();
 
-        static void textStyle(QLabel* label, int size, const QColor& color, bool bold = false);
+        [[deprecated]] static void textStyle(QLabel* label, int size, const QColor& color, bool bold = false);
 
         static QRectF measure(const String& str, int size);
     };
@@ -159,20 +165,25 @@ namespace Rt2::View
     {
     public:
         static String from(const QString& str);
+
         static String from(const QVariant& str);
 
-        static QString  to(const String& str);
+        static QString to(const String& str);
+
         static QVariant variant(const String& str);
     };
 
     class Qmc
     {
     public:
-        static QPoint  point(const QPointF& pt);
+        static QPoint point(const QPointF& pt);
+
         static QPointF point(const QPoint& pt);
 
-        static QRect  rect(const QRectF& v);
+        static QRect rect(const QRectF& v);
+
         static QRectF rect(const QRect& v);
+
         static QSizeF size(const QSize& size);
     };
 

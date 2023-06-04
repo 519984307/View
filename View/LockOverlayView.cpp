@@ -23,8 +23,6 @@
 #include <qlayout.h>
 #include <QKeyEvent>
 #include "Utils/Definitions.h"
-#include "View/Metrics.h"
-#include "View/Palette.h"
 #include "View/Qu.h"
 
 namespace Rt2::View
@@ -38,7 +36,7 @@ namespace Rt2::View
 
     void LockOverlayView::keyReleaseEvent(QKeyEvent* event)
     {
-        RT_ASSERT(event)
+        RT_GUARD_CHECK_VOID(event)
 
         QDialog::keyReleaseEvent(event);
 
@@ -52,9 +50,8 @@ namespace Rt2::View
 
     void LockOverlayView::constructView(QLayout* lo, const bool wholeScreen)
     {
-        RT_ASSERT(lo)
-
-        if (wholeScreen && _lock)
+        RT_ASSERT(lo) // keep fail
+        if (wholeScreen && _lock) // allowed to be null !! 
         {
             if (const QScreen* win = _lock->screen())
                 setGeometry(win->geometry());

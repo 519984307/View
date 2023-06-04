@@ -23,10 +23,10 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QWidget>
-#include "View/Colors.h"
-#include "View/Qu.h"
 #include "View/CheckBoxView.h"
+#include "View/Colors.h"
 #include "View/LayoutView.h"
+#include "View/Qu.h"
 
 namespace Rt2::View
 {
@@ -34,8 +34,7 @@ namespace Rt2::View
         LayoutView(parent)
     {
         construct();
-        if (_label)
-            _label->setText(text);
+        _label->setText(text);
     }
 
     CheckBoxLabelView::~CheckBoxLabelView() = default;
@@ -59,14 +58,12 @@ namespace Rt2::View
     void CheckBoxLabelView::extract(std::pair<QLabel*, QWidget*>& dest) const
     {
         QBoxLayout* lo = boxLayout();
-        if (!lo)
-            return;
+        RT_GUARD_CHECK_VOID(lo)
 
         const QLayoutItem* a = lo->takeAt(0);
         const QLayoutItem* b = lo->takeAt(0);
 
-        if (!a || !b)
-            return;
+        RT_GUARD_CHECK_VOID(a && b)
 
         QWidget* wa = a->widget();
         delete a;
@@ -87,20 +84,20 @@ namespace Rt2::View
 
     void CheckBoxLabelView::setChecked(const bool v) const
     {
-        if (_check)
-            _check->setChecked(v);
+        RT_GUARD_CHECK_VOID(_check)
+        _check->setChecked(v);
     }
 
     bool CheckBoxLabelView::isChecked() const
     {
-        if (_check) return _check->isChecked();
-        return false;
+        RT_GUARD_CHECK_RET(_check, false)
+        return _check->isChecked();
     }
 
     void CheckBoxLabelView::setText(const QString& text) const
     {
-        if (_label)
-            _label->setText(text);
+        RT_GUARD_CHECK_VOID(_label)
+        _label->setText(text);
     }
 
     void CheckBoxLabelView::setTextAlignment(const Qt::Alignment al) const
@@ -128,8 +125,8 @@ namespace Rt2::View
 
     void CheckBoxLabelView::addOutput(const BoolModel::Observer& v) const
     {
-        if (_check)
-            _check->addOutput(v);
+        RT_GUARD_CHECK_VOID(_check)
+        _check->addOutput(v);
     }
 
 }  // namespace Rt2::View

@@ -84,6 +84,8 @@ namespace Rt2::View
         _button->setText(QChar(icon));
         _button->setAlignment(Qt::AlignCenter);
         _button->setMinimumSize(Metrics::iconMin);
+        _button->setAttribute(Qt::WA_TransparentForMouseEvents);
+
         _states->inactive(_button);
     }
 
@@ -102,16 +104,17 @@ namespace Rt2::View
 
     void IconButtonView::mousePressEvent(QMouseEvent* event)
     {
-        if (!event || !_button || !_states) return;
+        RT_GUARD_CHECK_VOID(event && _button && _states)
 
         _state |= PRESSED;
         _states->pressed(_button);
+
         event->accept();
     }
 
     void IconButtonView::mouseReleaseEvent(QMouseEvent* event)
     {
-        if (!event || !_button || !_states) return;
+        RT_GUARD_CHECK_VOID(event && _button && _states)
 
         _state &= ~PRESSED;
         _states->inactive(_button);
@@ -119,7 +122,7 @@ namespace Rt2::View
         if (event->button() == Qt::LeftButton)
         {
             if (const QPoint pt = Qmc::point(event->position());
-                geometry().contains(pt) || _button->geometry().contains(pt))
+                _button->geometry().contains(pt))
                 _model.dispatch(ViewModel::OUTPUT);
         }
         event->accept();
@@ -127,18 +130,16 @@ namespace Rt2::View
 
     void IconButtonView::enterEvent(QEnterEvent* event)
     {
-        if (!event || !_button || !_states) return;
+        RT_GUARD_CHECK_VOID(event && _button && _states)
 
-        _state |= ENTER;
         _states->active(_button);
         event->accept();
     }
 
     void IconButtonView::leaveEvent(QEvent* event)
     {
-        if (!event || !_button || !_states) return;
+        RT_GUARD_CHECK_VOID(event && _button && _states)
 
-        _state &= ~ENTER;
         if (!isPressed())
             _states->inactive(_button);
         event->accept();
@@ -157,19 +158,19 @@ namespace Rt2::View
 
     void IconButtonStates::active(QLabel* label) const
     {
-        if (!label) return;
+        RT_GUARD_CHECK_VOID(label)
         label->setStyleSheet(_active);
     }
 
     void IconButtonStates::inactive(QLabel* label) const
     {
-        if (!label) return;
+        RT_GUARD_CHECK_VOID(label)
         label->setStyleSheet(_inactive);
     }
 
     void IconButtonStates::pressed(QLabel* label) const
     {
-        if (!label) return;
+        RT_GUARD_CHECK_VOID(label)
         label->setStyleSheet(_pressed);
     }
 
@@ -193,7 +194,7 @@ namespace Rt2::View
         StyleSheetWriter w;
         w.backgroundColor(Colors::CtrlBackground);
         w.border(Colors::down(Colors::CtrlBackground), 1);
-        w.color(Colors::ForegroundLight);
+        w.color(Colors::Foreground);
         _inactive = w.toString();
     }
 

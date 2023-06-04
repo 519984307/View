@@ -55,7 +55,6 @@ namespace Rt2::View
     private:
         void construct();
 
-    protected:
         void mousePressEvent(QMouseEvent* event) override;
 
         void enterEvent(QEnterEvent* event) override;

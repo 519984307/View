@@ -21,10 +21,9 @@
 */
 #include "View/View.h"
 #include <QVBoxLayout>
-#include "Colors.h"
-#include "Metrics.h"
-#include "Palette.h"
-#include "Qu.h"
+#include "View/Colors.h"
+#include "View/Palette.h"
+#include "View/Qu.h"
 
 namespace Rt2::View
 {
@@ -36,8 +35,8 @@ namespace Rt2::View
 
     void View::setColor(const QPalette::ColorRole role, const QColor& col) const
     {
-        if (_content)
-            Qu::setColor(_content, role, col);
+        RT_GUARD_CHECK_VOID(_content)
+        Qu::setColor(_content, role, col);
     }
 
     QColor View::backgroundColor() const
@@ -82,20 +81,20 @@ namespace Rt2::View
 
     void View::setBackgroundColor(const QColor& col) const
     {
-        if (_content)
-            Qu::setBackground(_content, col);
+        RT_GUARD_CHECK_VOID(_content)
+        Qu::setBackground(_content, col);
     }
 
     void View::setForegroundColor(const QColor& col) const
     {
-        if (_content)
-            Qu::setForeground(_content, col);
+        RT_GUARD_CHECK_VOID(_content)
+        Qu::setForeground(_content, col);
     }
 
     void View::setPadding(const QMargins& margins) const
     {
-        if (_layout)
-            _layout->setContentsMargins(margins);
+        RT_GUARD_CHECK_VOID(_content)
+        _layout->setContentsMargins(margins);
     }
 
     void View::setPadding(int v) const
@@ -115,26 +114,27 @@ namespace Rt2::View
 
     void View::setFontSize(const int size) const
     {
-        if (_content)
-        {
-            QFont fnt = _content->font();
-            fnt.setPointSize(size);
-            _content->setFont(fnt);
-        }
+        RT_GUARD_CHECK_VOID(_content)
+
+        QFont fnt = _content->font();
+        fnt.setPointSize(size);
+        _content->setFont(fnt);
     }
 
     void View::refresh()
     {
+        RT_GUARD_CHECK_VOID(_content)
+
         update();
-        if (_content)
-            _content->update();
+        _content->update();
     }
 
     void View::constructView(QWidget* content, const int stretch, const Qt::Alignment& al)
     {
         _content = content;
         _layout  = Qu::vertical();
-        RT_ASSERT(_content)
+
+        RT_ASSERT(_content)  // keep fail
 
         Palette::applyCtrlPalette(this);
         Palette::applyCtrlPalette(_content);

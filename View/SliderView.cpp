@@ -38,6 +38,16 @@ namespace Rt2::View
     }
 
     SliderView::~SliderView() = default;
+    
+    void SliderView::construct()
+    {
+        constructView();
+        setPadding(0);
+        setMargin(0);
+        setFlags(CvFullView);
+        setMinimumHeight(Metrics::iconHeight);
+        setBackgroundColor(Colors::down(Colors::CtrlBackground));
+    }
 
     void SliderView::setRange(const double& min, const double& max)
     {
@@ -81,19 +91,9 @@ namespace Rt2::View
         _value.addOutput(ob);
     }
 
-    void SliderView::construct()
-    {
-        constructView();
-        setPadding(0);
-        setMargin(0);
-        setFlags(CvFullView);
-        setMinimumHeight(Metrics::iconHeight);
-        setBackgroundColor(Colors::down(Colors::CtrlBackground));
-    }
-
     void SliderView::mousePressEvent(QMouseEvent* event)
     {
-        if (!event) return;
+        RT_GUARD_CHECK_VOID(event)
 
         if (event->button() == Qt::LeftButton)
         {
@@ -113,7 +113,7 @@ namespace Rt2::View
 
     void SliderView::mouseReleaseEvent(QMouseEvent* event)
     {
-        if (!event) return;
+        RT_GUARD_CHECK_VOID(event)
 
         if (event->button() == Qt::LeftButton)
         {
@@ -125,7 +125,7 @@ namespace Rt2::View
 
     void SliderView::mouseMoveEvent(QMouseEvent* event)
     {
-        if (!event) return;
+        RT_GUARD_CHECK_VOID(event)
 
         const double w = double(width());
         const double u = Clamp(double(event->position().x()), 0.0, w) / w;

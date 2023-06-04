@@ -77,7 +77,7 @@ namespace Rt2::View
 
     void StringListView::addEntry(const QIcon& ico, const String& string, const QVariant& data) const
     {
-        if (string.empty()) return;
+        RT_GUARD_CHECK_VOID(!string.empty() && _listing && _listing->model())
 
         if (QStandardItemModel* model = (QStandardItemModel*)_listing->model())
         {
@@ -98,6 +98,8 @@ namespace Rt2::View
 
     void StringListView::clear() const
     {
+        RT_GUARD_CHECK_VOID(_listing && _listing->model())
+
         delete _listing->model();
         _listing->setModel(new QStandardItemModel());
     }

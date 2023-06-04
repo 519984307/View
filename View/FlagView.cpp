@@ -45,16 +45,16 @@ namespace Rt2::View
         _content = Qu::horizontal();
         _content->setAlignment(Qt::AlignTop | Qt::AlignLeft);
         constructView(_content, 0);
-        setAutoFillBackground(true);
-        setUpdatesEnabled(true);
-        setBorder(1);
 
-        setBorderColor(Colors::up(Colors::CtrlBackgroundLight));
+        setBorder(1);
         setPadding(0);
+        setBorderColor(Colors::up(Colors::CtrlBackgroundLight));
     }
 
     void FlagView::addFlag(const bool state, const String& text)
     {
+        RT_GUARD_CHECK_VOID(_content)
+
         const auto box = new FlagViewItem(state,
                                           _content->count(),
                                           Qsu::to(text),
@@ -64,7 +64,7 @@ namespace Rt2::View
         {
             int v = _bits.value();
             if (st)
-                v |= (1 << index);
+                v |= 1 << index;
             else
                 v &= ~(1 << index);
             _bits.setValue(v, ViewModel::OUTPUT);
@@ -76,6 +76,8 @@ namespace Rt2::View
 
     void FlagView::setBits(const int bits) const
     {
+        RT_GUARD_CHECK_VOID(_content)
+
         for (int i = 0; i < _content->count(); ++i)
         {
             const QLayoutItem* item = _content->itemAt(i);

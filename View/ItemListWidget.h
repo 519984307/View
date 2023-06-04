@@ -21,36 +21,22 @@
 */
 #pragma once
 #include <QWidget>
-#include "View/Definitions.h"
-#include "View/View.h"
-
-class QLineEdit;
+#include "View/Colors.h"
+#include "View/Metrics.h"
 
 namespace Rt2::View
 {
-    class TextEditView final : public View
+    class ItemListWidget final : public QWidget
     {
-        Q_OBJECT
-    private:
-        QLineEdit*  _edit{nullptr};
-        StringModel _model;
-
     public:
-        explicit TextEditView(QWidget* parent = nullptr);
-        ~TextEditView() override;
+        explicit ItemListWidget(
+            const QWidgetList& items,
+            const int&         size       = Metrics::iconPadding.width(),
+            const QMargins&    margins    = {0, 0, 0, 0},
+            const QColor&      color      = Colors::Foreground,
+            const QColor&      background = Colors::CtrlBackground,
+            QWidget*           parent     = nullptr);
 
-        String text() const;
-
-        void setText(const String& text);
-
-        void addOutput(const StringModel::Observer& type);
-
-    private:
-        void construct();
-
-        void textChanged(const QString&);
-
-        void paintEvent(QPaintEvent* event) override;
+        ~ItemListWidget() override = default;
     };
-
 }  // namespace Rt2::View

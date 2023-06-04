@@ -45,7 +45,6 @@ namespace Rt2::View
         setPadding(0);
         setFlags(CvFullView);
         setMinimumSize(Metrics::iconMin);
-        update();
     }
 
     void FlagViewItem::setState(const bool state)

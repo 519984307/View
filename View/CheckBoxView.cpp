@@ -88,24 +88,22 @@ namespace Rt2::View
         _icon->setFont(Qu::iconFont());
         _icon->setAlignment(Qt::AlignCenter);
         _icon->setMinimumSize(Metrics::iconMin);
+        _icon->setAttribute(Qt::WA_TransparentForMouseEvents);
 
-        CheckBoxStates::unchecked(_icon);
-        _states->inactive(_icon);
-        _check.setValue(false, ViewModel::NONE);
+        setChecked(false);
     }
 
     void CheckBoxView::setChecked(const bool v)
     {
-        if (!_states || !_icon) return;
-        if (_check.value() == v) return;
+        RT_GUARD_CHECK_VOID(_states && _icon)
 
         if (v)
             CheckBoxStates::checked(_icon);
         else
             CheckBoxStates::unchecked(_icon);
 
-        _check.setValue(v, ViewModel::OUTPUT);
         _states->inactive(_icon);
+        _check.setValue(v, ViewModel::NONE);
     }
 
     void CheckBoxView::addInput(const BoolModel::Observer& ob)
@@ -120,28 +118,34 @@ namespace Rt2::View
 
     void CheckBoxView::mousePressEvent(QMouseEvent* event)
     {
-        if (!event || !_states) return;
+        RT_GUARD_CHECK_VOID(_states && _icon && event)
 
         if (event->button() == Qt::LeftButton)
         {
+
             if (const QPoint pt = Qmc::point(event->position());
-                geometry().contains(pt) || _icon->geometry().contains(pt))
+                _icon->geometry().contains(pt))
+            {
                 setChecked(!isChecked());
+                _check.dispatch(ViewModel::OUTPUT);
+            }
+            _states->active(_icon);
+            event->accept();
         }
-        _states->active(_icon);
-        event->accept();
     }
 
     void CheckBoxView::enterEvent(QEnterEvent* event)
     {
-        if (!event || !_states) return;
+        RT_GUARD_CHECK_VOID(event && _states)
+
         _states->active(_icon);
         event->accept();
     }
 
     void CheckBoxView::leaveEvent(QEvent* event)
     {
-        if (!event || !_states) return;
+        RT_GUARD_CHECK_VOID(event && _states)
+
         _states->inactive(_icon);
         event->accept();
     }
@@ -160,19 +164,21 @@ namespace Rt2::View
 
     void CheckBoxStates::unchecked(QLabel* widget)
     {
-        if (!widget) return;
+        RT_GUARD_CHECK_VOID(widget)
+
         widget->setText("");
     }
 
     void CheckBoxStates::checked(QLabel* widget)
     {
-        if (!widget) return;
+        RT_GUARD_CHECK_VOID(widget)
+
         widget->setText(QChar(IconCheck0));
     }
 
     void CheckBoxStates::active(QLabel* widget) const
     {
-        if (!widget) return;
+        RT_GUARD_CHECK_VOID(widget)
 
         if (widget->text().isEmpty())
             widget->setStyleSheet(_active);
@@ -182,7 +188,7 @@ namespace Rt2::View
 
     void CheckBoxStates::inactive(QLabel* widget) const
     {
-        if (!widget) return;
+        RT_GUARD_CHECK_VOID(widget)
 
         if (widget->text().isEmpty())
             widget->setStyleSheet(_inactive);

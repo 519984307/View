@@ -75,6 +75,8 @@ namespace Rt2::View
     void FlatIconButtonView::construct(const IconMap icon)
     {
         _button = new QLabel(this);
+        Qu::fit(_button);
+
         constructView(_button);
         setPadding(0);
         setBorder(0);
@@ -92,7 +94,7 @@ namespace Rt2::View
 
     void FlatIconButtonView::setFlatColor(const QColor& col) const
     {
-        if (!_states) return;
+        RT_GUARD_CHECK_VOID(_states && _button)
 
         _states->setAccent(col);
         _states->inactive(_button);
@@ -100,7 +102,7 @@ namespace Rt2::View
 
     void FlatIconButtonView::setHighlightColor(const QColor& col) const
     {
-        if (!_states) return;
+        RT_GUARD_CHECK_VOID(_states && _button)
 
         _states->setHighlight(col);
         _states->inactive(_button);
@@ -108,7 +110,7 @@ namespace Rt2::View
 
     void FlatIconButtonView::setIconSize(int size) const
     {
-        if (!_button) return;
+        RT_GUARD_CHECK_VOID(_button)
 
         QFont fnt = Qu::iconFont();
         fnt.setPointSize(size);
@@ -122,7 +124,7 @@ namespace Rt2::View
 
     void FlatIconButtonView::mousePressEvent(QMouseEvent* event)
     {
-        if (!event || !_states) return;
+        RT_GUARD_CHECK_VOID(event && _states && _button)
 
         _state |= PRESSED;
         _states->pressed(_button);
@@ -131,7 +133,7 @@ namespace Rt2::View
 
     void FlatIconButtonView::mouseReleaseEvent(QMouseEvent* event)
     {
-        if (!event || !_states) return;
+        RT_GUARD_CHECK_VOID(event && _states && _button)
 
         _state &= ~PRESSED;
         _states->inactive(_button);
@@ -148,7 +150,7 @@ namespace Rt2::View
 
     void FlatIconButtonView::enterEvent(QEnterEvent* event)
     {
-        if (!event || !_states) return;
+        RT_GUARD_CHECK_VOID(event && _states && _button)
 
         _state |= ENTER;
         _states->active(_button);
@@ -157,7 +159,7 @@ namespace Rt2::View
 
     void FlatIconButtonView::leaveEvent(QEvent* event)
     {
-        if (!event || !_states) return;
+        RT_GUARD_CHECK_VOID(event && _states && _button)
 
         _state &= ~ENTER;
         if (!((_state & PRESSED) != 0))
@@ -186,20 +188,19 @@ namespace Rt2::View
 
     void FlatIconButtonStates::active(QLabel* label) const
     {
-        if (!label) return;
+        RT_GUARD_CHECK_VOID(label)
         label->setStyleSheet(_active);
     }
 
     void FlatIconButtonStates::inactive(QLabel* label) const
     {
-        if (!label) return;
+        RT_GUARD_CHECK_VOID(label)
         label->setStyleSheet(_inactive);
     }
 
     void FlatIconButtonStates::pressed(QLabel* label) const
     {
-        if (!label) return;
-
+        RT_GUARD_CHECK_VOID(label)
         label->setStyleSheet(_pressed);
     }
 

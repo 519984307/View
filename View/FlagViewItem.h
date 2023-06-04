@@ -49,7 +49,6 @@ namespace Rt2::View
     private:
         void construct();
 
-    protected:
         void render(QPainter& paint, const QRectF& rect) override;
 
         void mousePressEvent(QMouseEvent* event) override;

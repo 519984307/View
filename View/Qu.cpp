@@ -34,6 +34,7 @@
 #include "View/DefaultStyleSheet.h"
 #include "View/FlatIconButtonView.h"
 #include "View/IconButtonView.h"
+#include "View/ItemListWidget.h"
 #include "View/Metrics.h"
 #include "View/Palette.h"
 #include "View/PushButtonView.h"
@@ -80,7 +81,7 @@ namespace Rt2::View
 
     void Qu::fit(QWidget* widget)
     {
-        RT_ASSERT(widget)
+        RT_GUARD_CHECK_VOID(widget)
         widget->setContentsMargins(Mt::gm, Mt::gm, Mt::gm, Mt::gm);
     }
 
@@ -98,8 +99,7 @@ namespace Rt2::View
 
     QWidget* Qu::separator(const QColor& col, QWidget* parent)
     {
-        QWidget* box = new QWidget(parent);
-
+        QWidget*         box = new QWidget(parent);
         StyleSheetWriter ssw;
         ssw.borderBottom(col, 1);
         ssw.height(2);
@@ -109,11 +109,39 @@ namespace Rt2::View
         return box;
     }
 
+    QWidget* Qu::separator(
+        const Qt::Orientation& orientation,
+        const int              size,
+        const QColor&          col,
+        QWidget*               parent)
+    {
+        QWidget* box = new QWidget(parent);
+        if (orientation == Qt::Horizontal)
+        {
+            StyleSheetWriter w;
+            w.backgroundColor(col);
+            w.height(size);
+            w.minHeight(size);
+            w.noBorder();
+            box->setStyleSheet(w.toString());
+        }
+        else
+        {
+            StyleSheetWriter w;
+            w.backgroundColor(col);
+            w.width(size);
+            w.minWidth(size);
+            w.noBorder();
+            box->setStyleSheet(w.toString());
+        }
+        return box;
+    }
+
     QLabel* Qu::text(const String& str,
                      const QColor& col,
                      QWidget*      parent)
     {
-        return text(str, Metrics::defaultTextSize, col, parent);
+        return text(str, Metrics::h7, col, parent);
     }
 
     QLabel* Qu::text(const String& str,
@@ -121,8 +149,7 @@ namespace Rt2::View
                      const QColor& color,
                      QWidget*      parent)
     {
-        QLabel* la = new QLabel(Qsu::to(str), parent);
-
+        QLabel*          la = new QLabel(Qsu::to(str), parent);
         StyleSheetWriter style;
         style.fontSize(size);
         style.noBackground();
@@ -161,7 +188,8 @@ namespace Rt2::View
                       const QPalette::ColorRole role,
                       const QColor&             value)
     {
-        RT_ASSERT(widget)
+        RT_GUARD_CHECK_VOID(widget)
+
         QPalette pal = widget->palette();
         pal.setColor(role, value);
         widget->setPalette(pal);
@@ -169,7 +197,8 @@ namespace Rt2::View
 
     void Qu::setBackground(QWidget* widget, const QColor& value)
     {
-        RT_ASSERT(widget)
+        RT_GUARD_CHECK_VOID(widget)
+
         widget->setAutoFillBackground(true);
         setColor(widget, QPalette::Window, value);
         setColor(widget, QPalette::Base, value);
@@ -177,41 +206,52 @@ namespace Rt2::View
 
     void Qu::setForeground(QWidget* widget, const QColor& value)
     {
+        RT_GUARD_CHECK_VOID(widget)
+
         setColor(widget, QPalette::WindowText, value);
         setColor(widget, QPalette::Text, value);
     }
 
-    QColor Qu::opacity(const QColor& value, int alpha)
+    QColor Qu::opacity(const QColor& value, const int alpha)
     {
         QColor color = value;
         color.setAlpha(alpha);
         return color;
     }
 
-    void Qu::clearSpace(QObject* top)
+    void Qu::clearSpace(QObject* obj)
     {
-        if (isLayout(top))
-            ((QLayout*)top)->setSpacing(0);
+        RT_GUARD_CHECK_VOID(obj)
+
+        if (isLayout(obj))
+            ((QLayout*)obj)->setSpacing(0);
     }
 
     bool Qu::isLabel(const QObject* obj)
     {
-        return obj && obj->inherits("QLabel");
+        RT_GUARD_CHECK_RET(obj, false)
+
+        return obj->inherits("QLabel");
     }
 
     bool Qu::isWidget(const QObject* obj)
     {
-        return obj && obj->inherits("QWidget");
+        RT_GUARD_CHECK_RET(obj, false)
+
+        return obj->inherits("QWidget");
     }
 
     bool Qu::isLayout(const QObject* obj)
     {
-        return obj && obj->inherits("QLayout");
+        RT_GUARD_CHECK_RET(obj, false)
+
+        return obj->inherits("QLayout");
     }
 
     void Qu::fit(QLayout* layout)
     {
-        RT_ASSERT(layout)
+        RT_GUARD_CHECK_RET(layout)
+
         layout->setContentsMargins(Mt::gm, Mt::gm, Mt::gm, Mt::gm);
         layout->setSpacing(Mt::gs);
     }
@@ -232,7 +272,9 @@ namespace Rt2::View
 
     QSplitter* Qu::split(QWidget* a, QWidget* b, const Qt::Orientation ori, QWidget* parent)
     {
-        RT_ASSERT(a && b)
+        // fall back cases
+        if (!a) a = box();
+        if (!b) b = box();
 
         QSplitter* spl = new QSplitter(parent);
         spl->setOrientation(ori);
@@ -255,14 +297,16 @@ namespace Rt2::View
                                const QColor&        color,
                                const Qt::Alignment& alignment)
     {
-        const auto hor = horizontal();
-        hor->setContentsMargins(Metrics::borderThick);
-        const auto txt = text(str, size, color);
-        hor->addWidget(txt, 1, alignment);
-        hor->addStretch();
+        const auto lo = horizontal();
+        lo->setContentsMargins(Metrics::borderThick);
+        
+        lo->addWidget(text(str, size, color), 1, alignment);
+        lo->addStretch();
+
         for (const auto item : items)
-            hor->addWidget(item);
-        return hor;
+            lo->addWidget(item);
+
+        return lo;
     }
 
     QWidget* Qu::itemList(
@@ -271,45 +315,15 @@ namespace Rt2::View
         const QColor&      color,
         const QColor&      background)
     {
-        class Item : public QWidget
-        {
-        public:
-            Item(
-                const QWidgetList& items,
-                const int&         size,
-                const QColor&      color,
-                const QColor&      background)
-            {
-                const auto lo = horizontal();
-                setAutoFillBackground(true);
-
-                StyleSheetWriter w;
-                w.backgroundColor(background);
-                w.color(color);
-                w.noBorder();
-                setStyleSheet(w.toString());
-
-                lo->addStretch();
-
-                for (const auto item : items)
-                {
-                    item->setFixedHeight(size);
-                    lo->addWidget(item, 0, Qt::AlignCenter);
-                    setBackground(item, background);
-                }
-                lo->addSpacing(size);
-                setLayout(lo);
-            }
-        };
-        return new Item(items, size, color, background);
+        return new ItemListWidget(items, size, Metrics::borderThin, color, background);
     }
 
-    IconButtonView* Qu::icon(IconMap ico, QWidget* parent)
+    IconButtonView* Qu::icon(const IconMap ico, QWidget* parent)
     {
         return new IconButtonView(ico, parent);
     }
 
-    FlatIconButtonView* Qu::flatIcon(IconMap ico, QWidget* parent)
+    FlatIconButtonView* Qu::flatIcon(const IconMap ico, QWidget* parent)
     {
         return new FlatIconButtonView(ico, parent);
     }
@@ -361,7 +375,7 @@ namespace Rt2::View
         return font;
     }
 
-    void Qu::textStyle(QLabel* label, int size, const QColor& color, bool bold)
+    void Qu::textStyle(QLabel* label, const int size, const QColor& color, bool bold)
     {
         setColor(label, QPalette::WindowText, color);
         QFont fnt = label->font();
@@ -396,7 +410,7 @@ namespace Rt2::View
 
     QVariant Qsu::variant(const String& str)
     {
-        return QVariant(to(str));
+        return {to(str)};
     }
 
     QPoint Qmc::point(const QPointF& pt)
