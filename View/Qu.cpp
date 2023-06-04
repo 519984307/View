@@ -250,7 +250,7 @@ namespace Rt2::View
 
     void Qu::fit(QLayout* layout)
     {
-        RT_GUARD_CHECK_RET(layout)
+        RT_GUARD_CHECK_VOID(layout)
 
         layout->setContentsMargins(Mt::gm, Mt::gm, Mt::gm, Mt::gm);
         layout->setSpacing(Mt::gs);
