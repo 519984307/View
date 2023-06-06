@@ -71,12 +71,23 @@ namespace Rt2::View
             const QColor& col    = QColor(0xFF, 0x00, 0xFF),
             QWidget*      parent = nullptr);
 
-        static QHBoxLayout* titleList(
+        [[deprecated]]static QHBoxLayout* titleList(
             const String&        str,
             const QWidgetList&   items,
             const int&           size      = Metrics::h5,
             const QColor&        color     = Colors::Emphasis[5],
             const Qt::Alignment& alignment = {});
+
+        static QWidget* titleWidget(
+            const String&        str,
+            const QWidgetList&   items,
+            const int&           size,
+            const int&           height     = Metrics::iconPadding.width(),
+            const QMargins&      margins    = {1, 3, 1, 3},
+            const QColor&        color      = Colors::up(Colors::Emphasis[4]),
+            const QColor&        background = Colors::down(Colors::Emphasis[0]),
+            const Qt::Alignment& alignment  = {},
+            QWidget*             parent     = nullptr);
 
         static QWidget* itemList(
             const QWidgetList& items,
@@ -171,6 +182,8 @@ namespace Rt2::View
         static QString to(const String& str);
 
         static QVariant variant(const String& str);
+
+        static String wrap(const String& str, const int width, const int maxWidth);
     };
 
     class Qmc

@@ -61,11 +61,22 @@ namespace Rt2::View
                 &QListView::doubleClicked,
                 this,
                 &StringListView::itemDoubleClickedImpl);
+        connect(_listing,
+                &QListView::clicked,
+                this,
+                &StringListView::itemClickedImpl);
     }
 
     void StringListView::itemDoubleClickedImpl(const QModelIndex& index)
     {
-        _string.setValue(
+        _doubleClick.setValue(
+            index.data(Qt::UserRole),
+            ViewModel::OUTPUT);
+    }
+
+    void StringListView::itemClickedImpl(const QModelIndex& index)
+    {
+        _click.setValue(
             index.data(Qt::UserRole),
             ViewModel::OUTPUT);
     }
@@ -109,8 +120,13 @@ namespace Rt2::View
         _strings.addInput(ot);
     }
 
-    void StringListView::addOutput(const VariantModel::Observer& ot)
+    void StringListView::addDoubleClickOutput(const VariantModel::Observer& ot)
     {
-        _string.addOutput(ot);
+        _doubleClick.addOutput(ot);
+    }
+
+    void StringListView::addClickOutput(const VariantModel::Observer& ot)
+    {
+        _click.addOutput(ot);
     }
 }  // namespace Rt2::View

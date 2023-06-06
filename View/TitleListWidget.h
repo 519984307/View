@@ -20,46 +20,27 @@
 -------------------------------------------------------------------------------
 */
 #pragma once
-#include <QListView>
-#include "View/Definitions.h"
-#include "View/View.h"
-
-class QLineEdit;
+#include <QWidget>
+#include "Utils/String.h"
+#include "View/Colors.h"
+#include "View/Metrics.h"
 
 namespace Rt2::View
 {
-
-    class StringListView final : public View
+    class TitleListWidget final : public QWidget
     {
-        Q_OBJECT
-    private:
-        QListView*      _listing{nullptr};
-        StringListModel _strings;
-        VariantModel    _doubleClick;
-        VariantModel    _click;
-
     public:
-        explicit StringListView(QWidget* parent = nullptr);
-        ~StringListView() override;
+        explicit TitleListWidget(
+            const String&        str,
+            const QWidgetList&   items,
+            const int&           size,
+            const int&           height     = Metrics::iconPadding.width(),
+            const QMargins&      margins    = {0, 0, 0, 0},
+            const QColor&        color      = Colors::Foreground,
+            const QColor&        background = Colors::CtrlBackground,
+            const Qt::Alignment& alignment  = {},
+            QWidget*             parent     = nullptr);
 
-        void addEntry(const String& string, const QVariant& data = {}) const;
-
-        void addEntry(const QIcon& ico, const String& string, const QVariant& data = {}) const;
-
-        void clear() const;
-
-        void addInput(const StringListModel::Observer& ot);
-
-        void addDoubleClickOutput(const VariantModel::Observer& ot);
-
-        void addClickOutput(const VariantModel::Observer& ot);
-
-    private:
-        void construct();
-
-        void itemDoubleClickedImpl(const QModelIndex& index);
-
-        void itemClickedImpl(const QModelIndex& index);
+        ~TitleListWidget() override = default;
     };
-
 }  // namespace Rt2::View

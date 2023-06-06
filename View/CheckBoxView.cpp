@@ -103,7 +103,7 @@ namespace Rt2::View
             CheckBoxStates::unchecked(_icon);
 
         _states->inactive(_icon);
-        _check.setValue(v, ViewModel::NONE);
+        _check.setValue(v, ViewModel::OUTPUT);
     }
 
     void CheckBoxView::addInput(const BoolModel::Observer& ob)

@@ -27,6 +27,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QSplitter>
+#include "View/TitleListWidget.h"
 #include "Utils/Console.h"
 #include "Utils/Definitions.h"
 #include "Utils/StreamConverters/Tab.h"
@@ -299,7 +300,7 @@ namespace Rt2::View
     {
         const auto lo = horizontal();
         lo->setContentsMargins(Metrics::borderThick);
-        
+
         lo->addWidget(text(str, size, color), 1, alignment);
         lo->addStretch();
 
@@ -307,6 +308,24 @@ namespace Rt2::View
             lo->addWidget(item);
 
         return lo;
+    }
+
+    QWidget* Qu::titleWidget(
+        const String&        str,
+        const QWidgetList&   items,
+        const int&           size,
+        const int&           height,
+        const QMargins&      margins,
+        const QColor&        color,
+        const QColor&        background,
+        const Qt::Alignment& alignment,
+        QWidget*             parent)
+    {
+        // clang-format off
+        return new TitleListWidget(
+            str, items, size, height, margins, 
+            color, background, alignment, parent);
+        // clang-format on
     }
 
     QWidget* Qu::itemList(
@@ -411,6 +430,23 @@ namespace Rt2::View
     QVariant Qsu::variant(const String& str)
     {
         return {to(str)};
+    }
+
+    String Qsu::wrap(const String& str, const int width, const int maxWidth)
+    {
+        String wn;
+        int    cy = 0;
+        for (const char ch : str)
+        {
+            if (cy * width > maxWidth)
+            {
+                wn.push_back('\n');
+                cy = 0;
+            }
+            wn.push_back(ch);
+            ++cy;
+        }
+        return wn;
     }
 
     QPoint Qmc::point(const QPointF& pt)
