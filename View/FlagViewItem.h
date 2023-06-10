@@ -26,15 +26,15 @@
 
 namespace Rt2::View
 {
-    class FlagViewItemStates;
 
     class FlagViewItem final : public CustomView
     {
         Q_OBJECT
     private:
-        FlagViewItemStates* _states{nullptr};
-        int                 _state{NONE};
-        int                 _index{0};
+        int    _state{NONE};
+        int    _index{0};
+        QColor _accent;
+        QColor _background;
 
     signals:
         void stateChanged(bool state, int index);
@@ -45,6 +45,10 @@ namespace Rt2::View
         bool isOn() const;
 
         void setState(bool state);
+
+        void setAccentColor(const QColor& col);
+
+        void setBackgroundColor(const QColor& col);
 
     private:
         void construct();

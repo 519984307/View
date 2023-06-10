@@ -20,6 +20,9 @@ namespace Rt2::Samples
         const auto lo = View::Qu::vertical();
 
         _flag = new View::FlagView();
+        _flag->setAccentColor(View::Colors::Ac11);
+        _flag->setBackgroundColor(View::Colors::highlight(View::Colors::CtrlBackgroundLight));
+
         _bin  = View::Qu::text("00000000", View::Metrics::h5, View::Colors::Foreground);
         _oct  = View::Qu::text("000", View::Metrics::h5, View::Colors::Foreground);
         _hex  = View::Qu::text("00", View::Metrics::h5, View::Colors::Foreground);

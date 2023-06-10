@@ -55,6 +55,7 @@ namespace Rt2::View
     {
         symbolLink();
         QFontDatabase::addApplicationFont(":/fonts/IconFont.ttf");
+        QFontDatabase::addApplicationFont(":/fonts/JetBrainsMono-Thin.ttf");
         Palette::applyInternal();
         writeStyleSheet(app);
 
@@ -391,6 +392,13 @@ namespace Rt2::View
     {
         QFont font("ViewIcon");
         font.setPointSize(Metrics::iconFontSize);
+        return font;
+    }
+
+    QFont Qu::fixedWidthFont()
+    {
+        QFont font("JetBrains Mono Thin");
+        font.setPointSize(Metrics::h6);
         return font;
     }
 

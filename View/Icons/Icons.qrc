@@ -1,6 +1,7 @@
 <RCC>
   <qresource prefix="/fonts">
     <file>IconFont.ttf</file>
+    <file>JetBrainsMono-Thin.ttf</file>
   </qresource>
   <!-- Tree widget -->
   <qresource prefix="/images">

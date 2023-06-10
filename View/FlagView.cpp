@@ -39,7 +39,7 @@ namespace Rt2::View
     }
 
     FlagView::~FlagView() = default;
-    
+
     void FlagView::construct()
     {
         _content = Qu::horizontal();
@@ -49,6 +49,26 @@ namespace Rt2::View
         setBorder(1);
         setPadding(0);
         setBorderColor(Colors::up(Colors::CtrlBackgroundLight));
+        _background = Colors::CtrlBackground;
+        _accent     = Colors::Accent;
+    }
+
+    void FlagView::updateFlags() const
+    {
+        RT_GUARD_CHECK_VOID(_content)
+
+        for (int i = 0; i < _content->count(); ++i)
+        {
+            const QLayoutItem* item = _content->itemAt(i);
+
+            if (QWidget* wdg = item->widget();
+                wdg && wdg->inherits("Rt2::View::FlagViewItem"))
+            {
+                FlagViewItem* fv = (FlagViewItem*)wdg;
+                fv->setBackgroundColor(_background);
+                fv->setAccentColor(_accent);
+            }
+        }
     }
 
     void FlagView::addFlag(const bool state, const String& text)
@@ -59,6 +79,9 @@ namespace Rt2::View
                                           _content->count(),
                                           Qsu::to(text),
                                           this);
+
+        box->setBackgroundColor(_background);
+        box->setAccentColor(_accent);
 
         const auto stateChanged = [this](const bool st, const int index)
         {
@@ -101,4 +124,15 @@ namespace Rt2::View
         _bits.addInput(ot);
     }
 
+    void FlagView::setAccentColor(const QColor& col)
+    {
+        _accent = col;
+        updateFlags();
+    }
+
+    void FlagView::setBackgroundColor(const QColor& col)
+    {
+        _background = col;
+        updateFlags();
+    }
 }  // namespace Rt2::View

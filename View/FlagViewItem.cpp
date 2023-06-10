@@ -45,6 +45,8 @@ namespace Rt2::View
         setPadding(0);
         setFlags(CvFullView);
         setMinimumSize(Metrics::iconMin);
+        _background = Colors::CtrlBackground;
+        _accent = Colors::Accent;
     }
 
     void FlagViewItem::setState(const bool state)
@@ -56,19 +58,31 @@ namespace Rt2::View
         refresh();
     }
 
+    void FlagViewItem::setAccentColor(const QColor& col)
+    {
+        _accent = col;
+        refresh();
+    }
+
+    void FlagViewItem::setBackgroundColor(const QColor& col)
+    {
+        _background = col;
+        refresh();
+    }
+
     void FlagViewItem::render(QPainter& paint, const QRectF& rect)
     {
         if (!isOn())
         {
             if (_state & ENTER)
             {
-                paint.fillRect(rect, Colors::up(Colors::CtrlBackground));
-                paint.setPen(QPen(Colors::Accent, 1));
+                paint.fillRect(rect, Colors::up(_background));
+                paint.setPen(QPen(_accent, 1));
                 paint.drawRect(rect.adjusted(1, 1, -1, -1));
             }
             else
             {
-                paint.fillRect(rect, Colors::down(Colors::CtrlBackground));
+                paint.fillRect(rect, Colors::down(_background));
             }
         }
         else
@@ -77,18 +91,18 @@ namespace Rt2::View
             g.setStart(rect.topLeft());
             g.setFinalStop(rect.bottomRight());
 
-            g.setColorAt(0, Colors::shadow(Colors::Accent));
-            g.setColorAt(1, Colors::highlight(Colors::Accent));
+            g.setColorAt(0, Colors::shadow(_accent));
+            g.setColorAt(1, Colors::highlight(_accent));
             paint.fillRect(rect, g);
 
             if (_state & ENTER)
             {
-                paint.setPen(QPen(Colors::Accent, 1));
+                paint.setPen(QPen(_accent, 1));
                 paint.drawRect(rect.adjusted(1, 1, -1, -1));
             }
             else
             {
-                paint.setPen(QPen(Colors::up(Colors::CtrlBackground), 1));
+                paint.setPen(QPen(Colors::up(_background), 1));
                 paint.drawRect(rect.adjusted(1, 1, -1, -1));
             }
         }
