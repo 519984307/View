@@ -46,7 +46,7 @@ namespace Rt2::View
         _content->setAlignment(Qt::AlignTop | Qt::AlignLeft);
         constructView(_content, 0);
 
-        setBorder(1);
+        setBorder(0);
         setPadding(0);
         setBorderColor(Colors::up(Colors::CtrlBackgroundLight));
         _background = Colors::CtrlBackground;
@@ -97,9 +97,10 @@ namespace Rt2::View
         _content->addWidget(box);
     }
 
-    void FlagView::setBits(const int bits) const
+    void FlagView::setBits(const int bits)
     {
         RT_GUARD_CHECK_VOID(_content)
+        _bits.setValue(bits, ViewModel::NONE);
 
         for (int i = 0; i < _content->count(); ++i)
         {

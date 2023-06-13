@@ -330,6 +330,26 @@ namespace Rt2::View
         _out.print("margin-bottom:", v, "px;");
     }
 
+    void StyleSheetWriter::left(const int& v)
+    {
+        _out.print("left:", v, "px;");
+    }
+
+    void StyleSheetWriter::top(const int& v)
+    {
+        _out.print("top:", v, "px;");
+    }
+
+    void StyleSheetWriter::right(const int& v)
+    {
+        _out.print("right:", v, "px;");
+    }
+
+    void StyleSheetWriter::bottom(const int& v)
+    {
+        _out.print("bottom:", v, "px;");
+    }
+
     void StyleSheetWriter::writePaletteColorRole(QPalette::ColorRole cr)
     {
         _out.print("palette(");

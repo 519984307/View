@@ -36,7 +36,6 @@ namespace Rt2::View
         QWidget(parent)
     {
         const auto lo = Qu::horizontal();
-        setAutoFillBackground(true);
         lo->setContentsMargins(margins);
 
 
@@ -44,6 +43,7 @@ namespace Rt2::View
         w.backgroundColor(background);
         w.color(color);
         w.noBorder();
+        w.height(Metrics::iconPadding.height());
         setStyleSheet(w.toString());
 
         lo->addStretch();

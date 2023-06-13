@@ -134,7 +134,8 @@ namespace Rt2::View
         _content = content;
         _layout  = Qu::vertical();
 
-        RT_ASSERT(_content)  // keep fail
+        if (!_content)
+            _content = Qu::box();
 
         Palette::applyCtrlPalette(this);
         Palette::applyCtrlPalette(_content);

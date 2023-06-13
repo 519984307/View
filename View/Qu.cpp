@@ -312,20 +312,20 @@ namespace Rt2::View
     }
 
     QWidget* Qu::titleWidget(
-        const String&        str,
-        const QWidgetList&   items,
-        const int&           size,
-        const int&           height,
-        const QMargins&      margins,
-        const QColor&        color,
+        const String&        titleText,
+        const QWidgetList&   titleItems,
+        const int&           textSize,
+        const int&           maxHeight,
+        const QMargins&      margin,
+        const QColor&        foreground,
         const QColor&        background,
-        const Qt::Alignment& alignment,
+        const Qt::Alignment& titleAlignment,
         QWidget*             parent)
     {
         // clang-format off
         return new TitleListWidget(
-            str, items, size, height, margins, 
-            color, background, alignment, parent);
+            titleText, titleItems, textSize, maxHeight, margin, 
+            foreground, background, titleAlignment, parent);
         // clang-format on
     }
 

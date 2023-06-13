@@ -48,7 +48,7 @@ namespace Rt2::View
 
         void setAccentColor(const QColor& col);
 
-        void setBackgroundColor(const QColor& col);
+        void setBackgroundColor(const QColor& col) override;
 
     private:
         void construct();

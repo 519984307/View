@@ -45,7 +45,7 @@ namespace Rt2::View
 
         void addFlag(bool state, const String& text);
 
-        void setBits(int bits) const;
+        void setBits(int bits);
 
         void addOutput(const IntModel::Observer& ot);
 

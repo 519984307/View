@@ -27,41 +27,30 @@
 namespace Rt2::View
 {
     TitleListWidget::TitleListWidget(
-        const String&        str,
-        const QWidgetList&   items,
-        const int&           size,
-        const int&           height,
-        const QMargins&      margins,
-        const QColor&        color,
+        const String&        titleText,
+        const QWidgetList&   titleItems,
+        const int&           textSize,
+        const int&           maxHeight,
+        const QMargins&      margin,
+        const QColor&        foreground,
         const QColor&        background,
-        const Qt::Alignment& alignment,
+        const Qt::Alignment& titleAlignment,
         QWidget*             parent) :
         QWidget(parent)
     {
         const auto lo = Qu::horizontal();
-        //lo->setContentsMargins(margins);
+        //lo->setContentsMargins(margin);
 
         StyleSheetWriter w;
-
-        // clang-format off
-        //w.backgroundColor(
-        //    {0, 0, 0, 1},
-        //    {
-        //        {0.00, Colors::up(background)},
-        //        {0.25, Colors::highlight(background)},
-        //        {0.85, Colors::down(background)},
-        //        {1.00, Colors::shadow(background)},
-        //    });
-        // clang-format on
-        w.backgroundColor(Colors::shadow(background));
-        w.color(Colors::highlight(color));
-        w.minHeight(height);
+        w.backgroundColor(background);
+        w.color(foreground);
+        w.height(maxHeight);
         setStyleSheet(w.toString());
 
-        lo->addWidget(Qu::text(str, size, color), 1, alignment);
+        lo->addWidget(Qu::text(titleText, textSize, foreground), 1, titleAlignment);
         lo->addStretch();
 
-        for (const auto item : items)
+        for (const auto item : titleItems)
         {
             lo->addWidget(item, 0, Qt::AlignCenter);
             item->setAttribute(Qt::WA_TranslucentBackground);

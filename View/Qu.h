@@ -79,14 +79,14 @@ namespace Rt2::View
             const Qt::Alignment& alignment = {});
 
         static QWidget* titleWidget(
-            const String&        str,
-            const QWidgetList&   items,
-            const int&           size,
-            const int&           height     = Metrics::iconPadding.width(),
-            const QMargins&      margins    = {1, 3, 1, 3},
-            const QColor&        color      = Colors::up(Colors::Emphasis[4]),
+            const String&        titleText,
+            const QWidgetList&   titleItems,
+            const int&           textSize,
+            const int&           maxHeight     = Metrics::iconPadding.width(),
+            const QMargins&      margin    = {1, 3, 1, 3},
+            const QColor&        foreground      = Colors::up(Colors::Emphasis[4]),
             const QColor&        background = Colors::down(Colors::Emphasis[0]),
-            const Qt::Alignment& alignment  = {},
+            const Qt::Alignment& titleAlignment  = {},
             QWidget*             parent     = nullptr);
 
         static QWidget* itemList(

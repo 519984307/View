@@ -31,15 +31,15 @@ namespace Rt2::View
     {
     public:
         explicit TitleListWidget(
-            const String&        str,
-            const QWidgetList&   items,
-            const int&           size,
-            const int&           height     = Metrics::iconPadding.width(),
-            const QMargins&      margins    = {0, 0, 0, 0},
-            const QColor&        color      = Colors::Foreground,
-            const QColor&        background = Colors::CtrlBackground,
-            const Qt::Alignment& alignment  = {},
-            QWidget*             parent     = nullptr);
+            const String&        titleText,
+            const QWidgetList&   titleItems,
+            const int&           textSize,
+            const int&           maxHeight      = Metrics::iconPadding.width(),
+            const QMargins&      margin         = {0, 0, 0, 0},
+            const QColor&        foreground     = Colors::Foreground,
+            const QColor&        background     = Colors::CtrlBackground,
+            const Qt::Alignment& titleAlignment = {},
+            QWidget*             parent         = nullptr);
 
         ~TitleListWidget() override = default;
     };

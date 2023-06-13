@@ -45,8 +45,9 @@ namespace Rt2::View
     {
         _edit = new QLineEdit(this);
         constructView(_edit);
+        Qu::fit(_edit);
 
-        setMaximumHeight(Metrics::ctrlMin.height());
+        setFixedHeight(Metrics::ctrlMin.height());
         setBorderColor(Colors::BorderDark);
         setBackgroundColor(Colors::Transparent);
         setColor(QPalette::Highlight, Colors::Accent);

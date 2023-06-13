@@ -139,6 +139,14 @@ namespace Rt2::View
 
         void marginBottom(const int& v);
 
+        void left(const int& v);
+
+        void top(const int& v);
+
+        void right(const int& v);
+
+        void bottom(const int& v);
+
         void end();
     };
 }  // namespace Rt2::View

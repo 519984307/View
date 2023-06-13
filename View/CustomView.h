@@ -56,11 +56,11 @@ namespace Rt2::View
 
         void setColor(QPalette::ColorRole role, const QColor& col);
 
-        void setHighlightColor(const QColor& col);
+        virtual void setHighlightColor(const QColor& col);
 
-        void setBackgroundColor(const QColor& col);
+        virtual void setBackgroundColor(const QColor& col);
 
-        void setBorderColor(const QColor& col);
+        virtual void setBorderColor(const QColor& col);
 
         void setMargin(const QMargins& border);
 
