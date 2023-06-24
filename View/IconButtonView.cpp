@@ -25,75 +25,29 @@
 #include <QMouseEvent>
 #include <QPainter>
 #include <QWidget>
-#include "View/Colors.h"
-#include "View/Metrics.h"
 #include "View/Qu.h"
+#include "View/States/Data.h"
+#include "View/States/Icon.h"
 #include "View/StyleSheetWriter.h"
 
 namespace Rt2::View
 {
-
-    class IconButtonStates
-    {
-    private:
-        QString _active;
-        QString _inactive;
-        QString _pressed;
-        QColor  _accent;
-
-        void makeActive();
-        void makeInactive();
-        void makePressed();
-
-        void update();
-
-    public:
-        IconButtonStates();
-
-        void active(QLabel* label) const;
-        void inactive(QLabel* label) const;
-        void pressed(QLabel* label) const;
-
-        void setAccent(const QColor& col);
-    };
+    constexpr int IconFlags = VisualFlag::HoverState;
 
     IconButtonView::IconButtonView(const IconMap icon, QWidget* parent) :
-        View(parent),
-        _states(new IconButtonStates())
+        View(parent, new Visual::Icon(), IconFlags)
     {
         construct(icon);
     }
 
-    IconButtonView::~IconButtonView()
-    {
-        delete _states;
-        _states = nullptr;
-    }
+    IconButtonView::~IconButtonView() = default;
 
     void IconButtonView::construct(const IconMap icon)
     {
-        _button = new QLabel(this);
-        constructView(_button);
-        setPadding(0);
-        setBorder(0);
-        setMinimumSize(Metrics::iconPadding);
-        setMaximumSize(Metrics::iconPadding);
-
-        _button->setFont(Qu::iconFont());
-        _button->setFrameShape(QFrame::Shape::NoFrame);
-        _button->setText(QChar(icon));
-        _button->setAlignment(Qt::AlignCenter);
-        _button->setMinimumSize(Metrics::iconMin);
-        _button->setAttribute(Qt::WA_TransparentForMouseEvents);
-
-        _states->inactive(_button);
-    }
-
-    void IconButtonView::setAccent(const QColor& col) const
-    {
-        if (!_states) return;
-
-        _states->setAccent(col);
+        _icon = Style::Widget::iconLabel(icon, Style::Icon::Normal, Style::Icon::Bounds);
+        constructView(_icon);
+        Style::Constraint::fixed(this, Style::Icon::Bounds);
+        apply(VisualType::Normal);
     }
 
     void IconButtonView::addOutput(const BoolModel::Observer& ot)
@@ -101,47 +55,64 @@ namespace Rt2::View
         _model.addOutput(ot);
     }
 
+    void IconButtonView::setFlat(const bool v)
+    {
+        setAttributeState(VisualAttribute::NoBackground, v);
+        setBorder(0, VisualType::Normal);
+        setForegroundColor(Style::PressedPrimary::Highlight, VisualType::Normal);
+        setBorder(0, VisualType::Hover);
+        setForegroundColor(Style::PressedPrimary::HighlightText, VisualType::Hover);
+        setBorder(0, VisualType::Pressed);
+        setForegroundColor(Style::PressedSecondary::BorderLight, VisualType::Pressed);
+        apply(VisualType::Normal);
+    }
+
+
+    
+    void IconButtonView::setIconSize(const int size)
+    {
+        RT_GUARD_CHECK_VOID(_icon)
+        setFontSize(size, VisualType::Normal);
+        setFontSize(size, VisualType::Hover);
+        setFontSize(size, VisualType::Pressed);
+        apply(VisualType::Normal);
+    }
+
+    void IconButtonView::setIcon(const int ico) const
+    {
+        RT_GUARD_CHECK_VOID(_icon)
+        _icon->setText(QChar(Clamp<int>(ico, Style::Icon::FirstIcon, Style::Icon::LastIcon)));
+    }
+
+    int IconButtonView::icon() const
+    {
+        RT_GUARD_CHECK_RET(_icon, 0)
+        if (const QString text = _icon->text(); text.isEmpty())
+            return 0;
+        else
+            return text.at(0).cell();
+    }
+
 
     void IconButtonView::mousePressEvent(QMouseEvent* event)
     {
-        RT_GUARD_CHECK_VOID(event && _button && _states)
-
-        _state |= PRESSED;
-        _states->pressed(_button);
-
+        RT_GUARD_CHECK_VOID(event)
+        if (event->button() == Qt::LeftButton)
+            apply(VisualType::Pressed);
         event->accept();
     }
 
     void IconButtonView::mouseReleaseEvent(QMouseEvent* event)
     {
-        RT_GUARD_CHECK_VOID(event && _button && _states)
+        RT_GUARD_CHECK_VOID(event && _icon)
 
-        _state &= ~PRESSED;
-        _states->inactive(_button);
-
+        apply(VisualType::Normal);
         if (event->button() == Qt::LeftButton)
         {
             if (const QPoint pt = Qmc::point(event->position());
-                _button->geometry().contains(pt))
+                _icon->geometry().contains(pt))
                 _model.dispatch(ViewModel::OUTPUT);
         }
-        event->accept();
-    }
-
-    void IconButtonView::enterEvent(QEnterEvent* event)
-    {
-        RT_GUARD_CHECK_VOID(event && _button && _states)
-
-        _states->active(_button);
-        event->accept();
-    }
-
-    void IconButtonView::leaveEvent(QEvent* event)
-    {
-        RT_GUARD_CHECK_VOID(event && _button && _states)
-
-        if (!isPressed())
-            _states->inactive(_button);
         event->accept();
     }
 
@@ -150,67 +121,4 @@ namespace Rt2::View
         return (_state & PRESSED) != 0;
     }
 
-    IconButtonStates::IconButtonStates() :
-        _accent(Colors::Accent)
-    {
-        update();
-    }
-
-    void IconButtonStates::active(QLabel* label) const
-    {
-        RT_GUARD_CHECK_VOID(label)
-        label->setStyleSheet(_active);
-    }
-
-    void IconButtonStates::inactive(QLabel* label) const
-    {
-        RT_GUARD_CHECK_VOID(label)
-        label->setStyleSheet(_inactive);
-    }
-
-    void IconButtonStates::pressed(QLabel* label) const
-    {
-        RT_GUARD_CHECK_VOID(label)
-        label->setStyleSheet(_pressed);
-    }
-
-    void IconButtonStates::setAccent(const QColor& col)
-    {
-        _accent = col;
-        update();
-    }
-
-    void IconButtonStates::makeActive()
-    {
-        StyleSheetWriter w;
-        w.backgroundColor(Colors::CtrlBackgroundLight);
-        w.border(Colors::Accent, 1);
-        w.color(Colors::ForegroundLight);
-        _active = w.toString();
-    }
-
-    void IconButtonStates::makeInactive()
-    {
-        StyleSheetWriter w;
-        w.backgroundColor(Colors::CtrlBackground);
-        w.border(Colors::down(Colors::CtrlBackground), 1);
-        w.color(Colors::Foreground);
-        _inactive = w.toString();
-    }
-
-    void IconButtonStates::makePressed()
-    {
-        StyleSheetWriter w;
-        w.backgroundColor(Colors::shadow(Colors::CtrlBackground));
-        w.border(Colors::up(Colors::CtrlBackground), 1);
-        w.color(Colors::highlight(_accent));
-        _pressed = w.toString();
-    }
-
-    void IconButtonStates::update()
-    {
-        makeActive();
-        makeInactive();
-        makePressed();
-    }
 }  // namespace Rt2::View

@@ -20,12 +20,9 @@
 -------------------------------------------------------------------------------
 */
 #pragma once
-#include <QPalette>
-#include "Colors.h"
-#include "Metrics.h"
 #include "Utils/String.h"
 #include "View/IconFontMapping.h"
-#include "View/LabelView.h"
+#include "View/Style.h"
 
 class QGuiApplication;
 class QLayout;
@@ -50,113 +47,6 @@ namespace Rt2::View
     public:
         static void initResources(QApplication& app);
 
-        static void dropShadow(
-            QLinearGradient& gradient,
-            const QRectF&    into,
-            const QColor&    base);
-
-        static void fit(QWidget* widget);
-
-        static void fit(QLayout* layout);
-
-        static QVBoxLayout* vertical(QWidget* parent = nullptr);
-
-        static QHBoxLayout* horizontal(QWidget* parent = nullptr);
-
-        static QSplitter* split(QWidget* a, QWidget* b, Qt::Orientation ori, QWidget* parent = nullptr);
-
-        [[deprecated("use text")]] static QLabel* title(
-            const String& str,
-            const int&    size   = Metrics::h5,
-            const QColor& col    = QColor(0xFF, 0x00, 0xFF),
-            QWidget*      parent = nullptr);
-
-        [[deprecated]]static QHBoxLayout* titleList(
-            const String&        str,
-            const QWidgetList&   items,
-            const int&           size      = Metrics::h5,
-            const QColor&        color     = Colors::Emphasis[5],
-            const Qt::Alignment& alignment = {});
-
-        static QWidget* titleWidget(
-            const String&        titleText,
-            const QWidgetList&   titleItems,
-            const int&           textSize,
-            const int&           maxHeight     = Metrics::iconPadding.width(),
-            const QMargins&      margin    = {1, 3, 1, 3},
-            const QColor&        foreground      = Colors::up(Colors::Emphasis[4]),
-            const QColor&        background = Colors::down(Colors::Emphasis[0]),
-            const Qt::Alignment& titleAlignment  = {},
-            QWidget*             parent     = nullptr);
-
-        static QWidget* itemList(
-            const QWidgetList& items,
-            const int&         size       = Metrics::h5,
-            const QColor&      color      = Colors::Emphasis[5],
-            const QColor&      background = Colors::CtrlBackground);
-
-        static IconButtonView* icon(IconMap ico, QWidget* parent = nullptr);
-
-        static FlatIconButtonView* flatIcon(IconMap ico, QWidget* parent = nullptr);
-
-        [[deprecated]] static QPushButton* flatButton(QWidget* parent = nullptr);
-
-        static PushButtonView* button(const String& label, QWidget* parent = nullptr);
-
-        static QWidget* box(
-            const QColor& col    = QColor(0xFF, 0x00, 0xFF),
-            QWidget*      parent = nullptr);
-
-        static QWidget* separator(
-            const QColor& col    = QColor(0xFF, 0x00, 0xFF),
-            QWidget*      parent = nullptr);
-
-        static QWidget* separator(
-            const Qt::Orientation& orientation,
-            const int              size   = 2,
-            const QColor&          col    = QColor(0xFF, 0x00, 0xFF),
-            QWidget*               parent = nullptr);
-
-        static QLabel* text(
-            const String& str,
-            const QColor& col    = QColor(0xFF, 0x00, 0xFF),
-            QWidget*      parent = nullptr);
-
-        static QLabel* text(
-            const String& str,
-            const int&    size,
-            const QColor& color  = QColor(0xFF, 0x00, 0xFF),
-            QWidget*      parent = nullptr);
-
-        static LabelView* label(
-            const String& str,
-            const int&    size,
-            const QColor& color  = QColor(0xFF, 0x00, 0xFF),
-            QWidget*      parent = nullptr);
-
-        static QLabel* emphasis(
-            const String& str,
-            const int&    size,
-            const int&    level,  // [0..5]
-            QWidget*      parent = nullptr);
-
-        static void setColor(
-            QWidget*            widget,
-            QPalette::ColorRole role,
-            const QColor&       value);
-
-        static void setBackground(
-            QWidget*      widget,
-            const QColor& value);
-
-        static void setForeground(
-            QWidget*      widget,
-            const QColor& value);
-
-        static QColor opacity(const QColor& value, int alpha);
-
-        static void clearSpace(QObject* obj);
-
         static bool isLabel(const QObject* obj);
 
         static bool isWidget(const QObject* obj);
@@ -164,12 +54,6 @@ namespace Rt2::View
         static bool isLayout(const QObject* obj);
 
         static void logRecursive(const QObject* root, int depth);
-
-        static QFont iconFont();
-
-        static QFont fixedWidthFont();
-
-        [[deprecated]] static void textStyle(QLabel* label, int size, const QColor& color, bool bold = false);
 
         static QRectF measure(const String& str, int size);
     };
@@ -186,6 +70,12 @@ namespace Rt2::View
         static QVariant variant(const String& str);
 
         static String wrap(const String& str, const int width, const int maxWidth);
+
+        static QString color(const QColor& color);
+
+        static QString name(const void* address);
+
+        static String colorString(const QColor& color);
     };
 
     class Qmc
@@ -200,6 +90,8 @@ namespace Rt2::View
         static QRectF rect(const QRect& v);
 
         static QSizeF size(const QSize& size);
+
+        static QSize size(const QSizeF& size);
     };
 
 }  // namespace Rt2::View

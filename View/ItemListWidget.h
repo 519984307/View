@@ -21,8 +21,7 @@
 */
 #pragma once
 #include <QWidget>
-#include "View/Colors.h"
-#include "View/Metrics.h"
+#include "View/Style.h"
 
 namespace Rt2::View
 {
@@ -31,10 +30,10 @@ namespace Rt2::View
     public:
         explicit ItemListWidget(
             const QWidgetList& items,
-            const int&         size       = Metrics::iconPadding.width(),
-            const QMargins&    margins    = {0, 0, 0, 0},
-            const QColor&      color      = Colors::Foreground,
-            const QColor&      background = Colors::CtrlBackground,
+            const int&         size       = Style::Icon::BoundingHeight,
+            const QMargins&    margins    = Style::Margin::None,
+            const QColor&      color      = Style::Window::Foreground,
+            const QColor&      background = Style::Window::Background,
             QWidget*           parent     = nullptr);
 
         ~ItemListWidget() override = default;

@@ -20,62 +20,35 @@
 -------------------------------------------------------------------------------
 */
 #pragma once
-#include <QWidget>
-#include "View/Definitions.h"
-
-class QVBoxLayout;
+#include "View/StateView.h"
 
 namespace Rt2::View
 {
-    class View : public QWidget
+    class View : public StateView
     {
         Q_OBJECT
     protected:
         QWidget*     _content{nullptr};
         QVBoxLayout* _layout{nullptr};
-        QColor       _highlight;
-
-        void constructView(
-            QWidget*             content,
-            int                  stretch = 1,
-            const Qt::Alignment& al      = {});
 
     public:
-        explicit View(QWidget* parent = nullptr);
-
-        void setColor(QPalette::ColorRole role, const QColor& col) const;
-
-        QColor backgroundColor() const;
-
-        QColor borderColor() const;
-
-        void setHighlightColor(const QColor& col);
-
-        void setBorderColor(const QColor& col);
-
-        void setBackgroundColor(const QColor& col) const;
-
-        void setForegroundColor(const QColor& col) const;
-
-        void setBorder(const QMargins& border);
-
-        void setBorder(int v);
-
-        void setBorder(int start, int end);
-
-        void setBorder(int left, int top, int right, int bottom);
-
-        void setPadding(const QMargins& margins) const;
-
-        void setPadding(int v) const;
-
-        void setPadding(int start, int end) const;
-
-        void setPadding(int left, int top, int right, int bottom) const;
-
-        void setFontSize(int size) const;
+        explicit View(QWidget* parent = nullptr, VisualState* states = nullptr, int eventFlags = 0);
+        ~View() override = default;
 
         void refresh();
+
+    protected:
+        void constructView(QWidget*             content,
+                           int                  stretch = 1,
+                           const Qt::Alignment& al      = {});
+
+        void mousePressEvent(QMouseEvent* event) override;
+
+        void mouseReleaseEvent(QMouseEvent* event) override;
+
+        bool clickHitEvent(const QPointF& co);
+
+        virtual void contentClicked() {}
     };
 
 }  // namespace Rt2::View

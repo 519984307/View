@@ -20,10 +20,19 @@
 -------------------------------------------------------------------------------
 */
 #pragma once
+#include <QColor>
 #include <QEvent>
 #include <QVariant>
 #include "Utils/Definitions.h"
 #include "ViewModel/Property.h"
+
+class QVBoxLayout;
+class QHBoxLayout;
+class QBoxLayout;
+class QLabel;
+class QSplitter;
+class QLineEdit;
+class QWidget;
 
 namespace Rt2::View
 {
@@ -37,12 +46,58 @@ namespace Rt2::View
     using StringListModel = ViewModel::StringListModel;
     using VariantModel    = ViewModel::ViewModel<QVariant>;
 
+    class StyleSheetWriter;
     class IconButtonView;
     class TextEditView;
     class StringListView;
     class FlagView;
     class CheckBoxView;
     class PushButtonView;
+    class LabelView;
+
+    namespace Visual
+    {
+        class Data;
+        class State;
+        class Layout;
+
+        enum StateType
+        {
+            None,
+            Normal,
+            Hover,
+            Pressed,
+            Disabled,
+            Focused,
+            Error,
+            On,
+            Off,
+        };
+
+        enum StateAttribute
+        {
+            NoAttribute,
+            NoBackground = 0x00000001,
+            ToggleOn     = 0x00000002,
+            ToggleOff    = 0x00000003,
+            Dirty        = 0x10000000,
+        };
+
+        enum EventFlag
+        {
+            HoverState        = 0x01,
+            ApplyOnShow       = 0x02,
+            LeftClickActive   = 0x04,
+            LeftReleaseActive = 0x08,
+        };
+    }  // namespace Visual
+
+    using VisualState     = Visual::State;
+    using VisualLayout    = Visual::Layout;
+    using VisualData      = Visual::Data;
+    using VisualType      = Visual::StateType;
+    using VisualFlag      = Visual::EventFlag;
+    using VisualAttribute = Visual::StateAttribute;
 
     enum States
     {
@@ -70,5 +125,21 @@ namespace Rt2::View
         EC_009,                           // unused
         EC_010,                           // unused, etc...
     };
+
+    struct Stops
+    {
+        qreal  offs{0};
+        QColor color{0, 0, 0};
+    };
+
+    struct GradientBox
+    {
+        qreal x1, y1, x2, y2;
+    };
+
+    using GradientStops = SimpleArray<Stops>;
+
+    constexpr GradientBox GradientHor = {0, 0, 1, 0};
+    constexpr GradientBox GradientVer = {0, 0, 0, 1};
 
 }  // namespace Rt2::View

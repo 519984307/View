@@ -24,8 +24,6 @@
 #include "View/SliderView.h"
 #include <QMouseEvent>
 #include <QPainter>
-#include "Colors.h"
-#include "Metrics.h"
 #include "Qu.h"
 
 namespace Rt2::View
@@ -45,8 +43,8 @@ namespace Rt2::View
         setPadding(0);
         setMargin(0);
         setFlags(CvFullView);
-        setMinimumHeight(Metrics::iconHeight);
-        setBackgroundColor(Colors::down(Colors::CtrlBackground));
+        setMinimumHeight(Style::Icon::BoundingHeight);
+        setBackgroundColor(Style::Window::Background);
     }
 
     void SliderView::setRange(const double& min, const double& max)
@@ -154,13 +152,13 @@ namespace Rt2::View
 
         if (_state & ENTER)
         {
-            paint.setPen(QPen(Colors::highlight(backgroundColor())));
+            paint.setPen(QPen(Style::Window::Background));
             paint.drawRect(rect.adjusted(1, 1, -1, -1));
         }
 
         const double value = _value.value() / (_rangeRate[1] - _rangeRate[0]);
         const double v     = rect.width() * value;
 
-        paint.fillRect(QRectF{2, 2, v, rect.height() - 2}, Colors::Accent);
+        paint.fillRect(QRectF{2, 2, v, rect.height() - 2}, Style::Window::Accent);
     }
 }  // namespace Rt2::View

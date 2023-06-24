@@ -5,9 +5,6 @@
 #include <QWidget>
 #include "Utils/Char.h"
 #include "Utils/Exception.h"
-#include "View/Colors.h"
-#include "View/FlagView.h"
-#include "View/Metrics.h"
 #include "View/Qu.h"
 
 using namespace Rt2::View;
@@ -15,43 +12,58 @@ using namespace Rt2::View;
 namespace Rt2::Samples
 {
 
-    QWidget* SampleTextLine::load()
+    String merge(const String& a, const String& b)
     {
-        const auto wig = new QWidget();
-        wig->setMinimumSize(Metrics::minWindow);
+        String c;
 
-        const auto lo = Qu::vertical();
-        lo->setContentsMargins(Metrics::borderThick);
-
-        _label = Qu::text("", 12, Colors::Foreground);
-
-        const auto te = new TextEditView();
-        lo->addWidget(te);
-        lo->addWidget(_label, 1, Qt::AlignTop|Qt::AlignCenter);
-
-        te->addOutput(
-            [this](const String& text)
-            {
-                _label->setText(Qsu::to(text));
-            });
-
-        wig->setLayout(lo);
-        return wig;
+        const size_t n = Max(a.size(), b.size());
+        for (size_t i = 0; i < n; ++i)
+        {
+            if (i < a.size()) c.push_back(a[i]);
+            if (i < b.size()) c.push_back(b[i]);
+        }
+        return c;
     }
 
-    int SampleTextLine::go()
+    QWidget* SampleTextLine::load() const
     {
-        int unused = 0;
+        using namespace Style;
+        const auto lo     = Layout::vl(Margin::Large, Size::XLarge);
+        const auto label1 = Widget::label();
+        const auto a      = Views::textEdit();
+        const auto b      = Views::textEdit();
 
-        QApplication app(unused, nullptr);
+        const auto cba =
+            [label1, b](const String& text)
+        {
+            label1->setText(Qsu::to(merge(text, b->text())));
+        };
+        const auto cbb =
+            [label1, a](const String& text)
+        {
+            label1->setText(Qsu::to(merge(a->text(), text)));
+        };
+
+        a->addOutput(cba);
+        b->addOutput(cbb);
+
+        lo->addWidget(a);
+        lo->addWidget(b);
+        lo->addWidget(label1);
+        lo->addStretch();
+        return Widget::blank(lo, Window::Small);
+    }
+
+    int SampleTextLine::go() const
+    {
+        int          temp = 0;
+        QApplication app(temp, nullptr);
         Qu::initResources(app);
-
         const auto view = load();
         view->show();
-
-        unused = QApplication::exec();
+        temp = QApplication::exec();
         delete view;
-        return unused;
+        return temp;
     }
 
 }  // namespace Rt2::Samples
@@ -61,12 +73,12 @@ int main(int, char*[])
     int rc;
     try
     {
-        Rt2::Samples::SampleTextLine app;
+        constexpr Rt2::Samples::SampleTextLine app;
         rc = app.go();
     }
     catch (Rt2::Exception& ex)
     {
-        Rt2::Console::writeLine(ex.what());
+        Rt2::Console::println(ex.what());
         rc = 1;
     }
     return rc;

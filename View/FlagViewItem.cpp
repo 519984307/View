@@ -20,105 +20,60 @@
 -------------------------------------------------------------------------------
 */
 #include "View/FlagViewItem.h"
+#include <QLabel>
 #include <QMouseEvent>
-#include <QPainter>
 #include <QWidget>
-#include "View/Colors.h"
-#include "View/Metrics.h"
+#include "States/Flag.h"
 #include "View/Qu.h"
 
 namespace Rt2::View
 {
     FlagViewItem::FlagViewItem(const bool on, const int index, const QString& toolTip, QWidget* parent) :
-        CustomView(parent),
+        View(parent, new Visual::Flag(), VisualFlag::HoverState | VisualFlag::ApplyOnShow),
         _index(index)
     {
-        if (on) _state |= ON;
         setToolTip(toolTip);
         construct();
+        setState(on);
     }
 
     void FlagViewItem::construct()
     {
-        constructView();
-        setMargin(0);
-        setPadding(0);
-        setFlags(CvFullView);
-        setMinimumSize(Metrics::iconMin);
-        _background = Colors::CtrlBackground;
-        _accent = Colors::Accent;
+        _box = Style::Widget::iconLabel(IconNone, Style::Icon::Normal, Style::Icon::Bounds);
+        constructView(_box);
+
+        setMinimumSize(Style::Icon::Bounds);
+        setMaximumSize(Style::Icon::Bounds);
     }
 
-    void FlagViewItem::setState(const bool state)
+    bool FlagViewItem::isOn() const
     {
+        RT_GUARD_CHECK_RET(_viewStates, false)
+        return _viewStates->isToggleOn();
+    }
+
+    void FlagViewItem::setState(const bool state) const
+    {
+        RT_GUARD_CHECK_VOID(_viewStates && _box)
+
+        _viewStates->setAttribute(VisualAttribute::ToggleOn, state);
         if (state)
-            _state |= ON;
+            _box->setText(QChar(IconFlagOn));
         else
-            _state &= ~ON;
-        refresh();
-    }
-
-    void FlagViewItem::setAccentColor(const QColor& col)
-    {
-        _accent = col;
-        refresh();
-    }
-
-    void FlagViewItem::setBackgroundColor(const QColor& col)
-    {
-        _background = col;
-        refresh();
-    }
-
-    void FlagViewItem::render(QPainter& paint, const QRectF& rect)
-    {
-        if (!isOn())
-        {
-            if (_state & ENTER)
-            {
-                paint.fillRect(rect, Colors::up(_background));
-                paint.setPen(QPen(_accent, 1));
-                paint.drawRect(rect.adjusted(1, 1, -1, -1));
-            }
-            else
-            {
-                paint.fillRect(rect, Colors::down(_background));
-            }
-        }
-        else
-        {
-            QLinearGradient g;
-            g.setStart(rect.topLeft());
-            g.setFinalStop(rect.bottomRight());
-
-            g.setColorAt(0, Colors::shadow(_accent));
-            g.setColorAt(1, Colors::highlight(_accent));
-            paint.fillRect(rect, g);
-
-            if (_state & ENTER)
-            {
-                paint.setPen(QPen(_accent, 1));
-                paint.drawRect(rect.adjusted(1, 1, -1, -1));
-            }
-            else
-            {
-                paint.setPen(QPen(Colors::up(_background), 1));
-                paint.drawRect(rect.adjusted(1, 1, -1, -1));
-            }
-        }
+            _box->setText(QChar(IconFlagOff));
     }
 
     void FlagViewItem::mousePressEvent(QMouseEvent* event)
     {
-        _state |= PRESSED;
-        _state &= ~RELEASED;
+        RT_GUARD_CHECK_VOID(_viewStates && event)
+
+        if (event->button() == Qt::LeftButton)
+            apply(VisualType::Pressed);
     }
 
     void FlagViewItem::mouseReleaseEvent(QMouseEvent* event)
     {
-        _state &= ~PRESSED;
-        _state |= RELEASED;
-        refresh();
+        RT_GUARD_CHECK_VOID(_box && event)
 
         if (event->button() == Qt::LeftButton)
         {
@@ -127,28 +82,15 @@ namespace Rt2::View
             rect.setBottomRight(mapFromParent(geometry().bottomRight()));
 
             if (const QPointF pt = event->position();
-                rect.contains(Qmc::point(pt)))
+                rect.contains(Qmc::point(pt)) ||
+                _box->geometry().contains(Qmc::point(pt)))
             {
-                if (isOn())
-                    _state &= ~ON;
-                else
-                    _state |= ON;
+                setState(!isOn());
+                apply(VisualType::Normal);
 
                 emit stateChanged(isOn(), _index);
             }
         }
-    }
-
-    void FlagViewItem::enterEvent(QEnterEvent* event)
-    {
-        _state |= ENTER;
-        update();
-    }
-
-    void FlagViewItem::leaveEvent(QEvent* event)
-    {
-        _state &= ~ENTER;
-        update();
     }
 
 }  // namespace Rt2::View

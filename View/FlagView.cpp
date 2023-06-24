@@ -22,15 +22,22 @@
 #include "View/FlagView.h"
 #include <QVBoxLayout>
 #include <QWidget>
-#include "View/Colors.h"
 #include "View/FlagViewItem.h"
 #include "View/LayoutView.h"
 #include "View/Qu.h"
 
-class QLabel;
-
 namespace Rt2::View
 {
+    namespace Detail
+    {
+        FlagViewItem* flagItem(const QLayoutItem* obj)
+        {
+            RT_GUARD_CHECK_RET(obj, nullptr)
+            if (QWidget* wi = obj->widget(); wi && wi->inherits("Rt2::View::FlagViewItem"))
+                return (FlagViewItem*)wi;
+            return nullptr;
+        }
+    }  // namespace Detail
 
     FlagView::FlagView(QWidget* parent) :
         LayoutView(parent)
@@ -42,46 +49,14 @@ namespace Rt2::View
 
     void FlagView::construct()
     {
-        _content = Qu::horizontal();
-        _content->setAlignment(Qt::AlignTop | Qt::AlignLeft);
-        constructView(_content, 0);
-
-        setBorder(0);
-        setPadding(0);
-        setBorderColor(Colors::up(Colors::CtrlBackgroundLight));
-        _background = Colors::CtrlBackground;
-        _accent     = Colors::Accent;
-    }
-
-    void FlagView::updateFlags() const
-    {
-        RT_GUARD_CHECK_VOID(_content)
-
-        for (int i = 0; i < _content->count(); ++i)
-        {
-            const QLayoutItem* item = _content->itemAt(i);
-
-            if (QWidget* wdg = item->widget();
-                wdg && wdg->inherits("Rt2::View::FlagViewItem"))
-            {
-                FlagViewItem* fv = (FlagViewItem*)wdg;
-                fv->setBackgroundColor(_background);
-                fv->setAccentColor(_accent);
-            }
-        }
+        constructView(Style::Layout::h0());
     }
 
     void FlagView::addFlag(const bool state, const String& text)
     {
         RT_GUARD_CHECK_VOID(_content)
 
-        const auto box = new FlagViewItem(state,
-                                          _content->count(),
-                                          Qsu::to(text),
-                                          this);
-
-        box->setBackgroundColor(_background);
-        box->setAccentColor(_accent);
+        const auto box = new FlagViewItem(state, _content->count(), Qsu::to(text), this);
 
         const auto stateChanged = [this](const bool st, const int index)
         {
@@ -92,7 +67,6 @@ namespace Rt2::View
                 v &= ~(1 << index);
             _bits.setValue(v, ViewModel::OUTPUT);
         };
-
         connect(box, &FlagViewItem::stateChanged, this, stateChanged);
         _content->addWidget(box);
     }
@@ -104,14 +78,8 @@ namespace Rt2::View
 
         for (int i = 0; i < _content->count(); ++i)
         {
-            const QLayoutItem* item = _content->itemAt(i);
-
-            if (QWidget* wdg = item->widget();
-                wdg && wdg->inherits("Rt2::View::FlagViewItem"))
-            {
-                FlagViewItem* fv = (FlagViewItem*)wdg;
-                fv->setState((bits & (1 << i)) != 0);
-            }
+            if (const auto item = Detail::flagItem(_content->itemAt(i)))
+                item->setState((bits & 1 << i) != 0);
         }
     }
 
@@ -123,17 +91,5 @@ namespace Rt2::View
     void FlagView::addInput(const IntModel::Observer& ot)
     {
         _bits.addInput(ot);
-    }
-
-    void FlagView::setAccentColor(const QColor& col)
-    {
-        _accent = col;
-        updateFlags();
-    }
-
-    void FlagView::setBackgroundColor(const QColor& col)
-    {
-        _background = col;
-        updateFlags();
     }
 }  // namespace Rt2::View

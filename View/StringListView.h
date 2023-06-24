@@ -24,11 +24,8 @@
 #include "View/Definitions.h"
 #include "View/View.h"
 
-class QLineEdit;
-
 namespace Rt2::View
 {
-
     class StringListView final : public View
     {
         Q_OBJECT

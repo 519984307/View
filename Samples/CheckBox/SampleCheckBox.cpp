@@ -4,18 +4,17 @@
 #include <QLabel>
 #include <QWidget>
 #include "Utils/Exception.h"
-#include "View/CheckBoxLabelView.h"
+#include "Utils/Win32/CrtUtils.h"
 #include "View/CheckBoxView.h"
-#include "View/Colors.h"
-#include "View/Metrics.h"
 #include "View/Qu.h"
+
+using namespace Rt2::View;
 
 namespace Rt2::Samples
 {
     QHBoxLayout* group(QWidget* a, QWidget* b)
     {
-        const auto hg = View::Qu::horizontal();
-        hg->setSpacing(2);
+        const auto hg = Style::Layout::h3();
         hg->addWidget(a);
         hg->addWidget(b);
         return hg;
@@ -23,61 +22,41 @@ namespace Rt2::Samples
 
     QWidget* SampleCheckBox::load()
     {
-        const auto wig = new QWidget();
-        wig->setMinimumSize(View::Metrics::minWindow);
+        const auto lo = Style::Layout::v3();
 
-        const auto lo = View::Qu::vertical();
+        _check1 = Style::Views::check();
+        _text1  = Style::Widget::label("Left");
 
-        _check1 = new View::CheckBoxView();
-        _text1  = View::Qu::text("Left", View::Colors::Foreground);
-
-        _check2 = new View::CheckBoxView();
-        _text2  = View::Qu::text("Right", View::Colors::Foreground);
+        _check2 = Style::Views::check();
+        _text2  = Style::Widget::label("Right");
 
         lo->addLayout(group(_check1, _text1));
         lo->addLayout(group(_check2, _text2));
-        const auto cb = new View::CheckBoxLabelView("Label");
-        lo->addWidget(cb,0, Qt::AlignTop);
-        
-        wig->setLayout(lo);
 
         _check1->addOutput(
-            [this, cb](const bool v)
+            [this](const bool v)
             {
-                cb->setTextAlignment(Qt::AlignLeft);
-                cb->setChecked(v);
                 _check2->setChecked(!v);
             });
         _check2->addOutput(
-            [this, cb](const bool v)
+            [this](const bool v)
             {
-                cb->setTextAlignment(Qt::AlignRight);
-                cb->setChecked(v);
                 _check1->setChecked(!v);
             });
-
-        cb->addOutput([this, cb](const bool v)
-        {
-            cb->setText(v ? "Label On" : "Label Off");
-        });
-
         _check1->setChecked(true);
-        return wig;
+        return Style::Widget::blank(lo);
     }
 
     int SampleCheckBox::go()
     {
-        int unused = 0;
-
-        QApplication app(unused, nullptr);
-        View::Qu::initResources(app);
-
+        int          temp = 0;
+        QApplication app(temp, nullptr);
+        Qu::initResources(app);
         const auto view = load();
         view->show();
-
-        unused = QApplication::exec();
+        temp = QApplication::exec();
         delete view;
-        return unused;
+        return temp;
     }
 
 }  // namespace Rt2::Samples
@@ -92,7 +71,7 @@ int main(int, char*[])
     }
     catch (Rt2::Exception& ex)
     {
-        Rt2::Console::writeLine(ex.what());
+        Rt2::Console::println(ex.what());
         rc = 1;
     }
     return rc;

@@ -22,20 +22,18 @@
 #pragma once
 #include <QWidget>
 #include "Definitions.h"
-#include "View/CustomView.h"
+#include "States/State.h"
+#include "View/View.h"
 
 namespace Rt2::View
 {
 
-    class FlagViewItem final : public CustomView
+    class FlagViewItem final : public View
     {
         Q_OBJECT
     private:
-        int    _state{NONE};
-        int    _index{0};
-        QColor _accent;
-        QColor _background;
-
+        QLabel* _box{nullptr};
+        int     _index{0};
     signals:
         void stateChanged(bool state, int index);
 
@@ -44,29 +42,15 @@ namespace Rt2::View
 
         bool isOn() const;
 
-        void setState(bool state);
-
-        void setAccentColor(const QColor& col);
-
-        void setBackgroundColor(const QColor& col) override;
+        void setState(bool state) const;
 
     private:
         void construct();
 
-        void render(QPainter& paint, const QRectF& rect) override;
-
         void mousePressEvent(QMouseEvent* event) override;
 
         void mouseReleaseEvent(QMouseEvent* event) override;
-
-        void enterEvent(QEnterEvent* event) override;
-
-        void leaveEvent(QEvent* event) override;
     };
 
-    inline bool FlagViewItem::isOn() const
-    {
-        return (_state & ON) != 0;
-    }
 
 }  // namespace Rt2::View

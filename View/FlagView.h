@@ -35,8 +35,6 @@ namespace Rt2::View
         Q_OBJECT
     private:
         IntModel _bits{0};
-        QColor   _accent;
-        QColor   _background;
 
     public:
         explicit FlagView(QWidget* parent = nullptr);
@@ -51,14 +49,8 @@ namespace Rt2::View
 
         void addInput(const IntModel::Observer& ot);
 
-        void setAccentColor(const QColor &col);
-
-        void setBackgroundColor(const QColor &col);
-
     private:
         void construct();
-
-        void updateFlags() const;
     };
 
 }  // namespace Rt2::View

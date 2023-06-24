@@ -57,14 +57,73 @@ namespace Rt2::View
         _out.print(widget, '{');
     }
 
+    void StyleSheetWriter::beginUniversal()
+    {
+        _out.print('*', '{');
+    }
+
+    void StyleSheetWriter::beginType(const String& type)
+    {
+        _out.print(type, '{');
+    }
+
+    void StyleSheetWriter::beginProperty(const String& type, const String& property, const String& value)
+    {
+        _out.print(type, '[', property, '=', '"', value, '"', ']', '{');
+    }
+
+    void StyleSheetWriter::beginClass(const String& type)
+    {
+        _out.print('.', type, '{');
+    }
+
+    void StyleSheetWriter::beginClassId(const String& type, const String& id)
+    {
+        if (type.empty())
+            beginId(id);
+        else
+            _out.print('.', type, '#', id, '{');
+    }
+
+    void StyleSheetWriter::beginId(const String& type, const String& id)
+    {
+        if (type.empty())
+            beginId(id);
+        else
+            _out.print(type, '#', id, '{');
+    }
+
+    void StyleSheetWriter::beginId(const String& id)
+    {
+        _out.print('#', id, '{');
+    }
+
     void StyleSheetWriter::outline(const qreal& v)
     {
         _out.print("outline:", v, ';');
     }
 
+    void StyleSheetWriter::outlineColor(const QColor& col)
+    {
+        _out.print("outline-color:#",
+                   Hex((uint8_t)Min(col.red(), 0xFF)),
+                   Hex((uint8_t)Min(col.green(), 0xFF)),
+                   Hex((uint8_t)Min(col.blue(), 0xFF)),
+                   ';');
+    }
+
     void StyleSheetWriter::noOutline()
     {
         _out.print("outline:none;");
+    }
+
+    void StyleSheetWriter::background(const QColor& col)
+    {
+        _out.print("background:#",
+                   Hex((uint8_t)Min(col.red(), 0xFF)),
+                   Hex((uint8_t)Min(col.green(), 0xFF)),
+                   Hex((uint8_t)Min(col.blue(), 0xFF)),
+                   ';');
     }
 
     void StyleSheetWriter::backgroundColor(const QColor& col)
@@ -86,9 +145,9 @@ namespace Rt2::View
         _out.print("image:url", '(', url, ')', ';');
     }
 
-    void StyleSheetWriter::backgroundColor(const GradientBox& co, const SimpleArray<Stops>& stops)
+    void StyleSheetWriter::backgroundColor(const GradientBox& co, const GradientStops& stops)
     {
-        _out.print("background:qlineargradient(");
+        _out.print("background-color:qlineargradient(");
         _out.print("x1:", co.x1, ",y1:", co.y1, ",x2:", co.x2, ",y2:", co.y2);
 
         for (const auto& [offs, col] : stops)
@@ -136,6 +195,29 @@ namespace Rt2::View
     void StyleSheetWriter::noBorder()
     {
         _out.print("border:none;");
+    }
+
+    void StyleSheetWriter::border(const QColor& col, const QMargins& m)
+    {
+        border(col, m.left(), m.top(), m.right(), m.bottom());
+    }
+
+    void StyleSheetWriter::border(const QColor& col, int l, int t, int r, int b)
+    {
+        if (l == r && t == b && l == b)
+        {
+            if (l > 0)
+                border(col, l);
+            else
+                noBorder();
+        }
+        else
+        {
+            if (l > 0) borderLeft(col, l);
+            if (t > 0) borderTop(col, t);
+            if (r > 0) borderRight(col, r);
+            if (b > 0) borderBottom(col, b);
+        }
     }
 
     void StyleSheetWriter::border(const QColor& col, qreal size)
@@ -277,7 +359,22 @@ namespace Rt2::View
 
     void StyleSheetWriter::padding(const int& l, const int& t, const int& r, const int& b)
     {
-        _out.print("padding: ", l, "px ", t, "px ", r, "px ", b, "px;");
+        if (l == r && t == b && l == b)
+        {
+            if (l > 0) padding(l);
+        }
+        else
+        {
+            if (l > 0) paddingLeft(l);
+            if (t > 0) paddingTop(t);
+            if (r > 0) paddingRight(r);
+            if (b > 0) paddingBottom(b);
+        }
+    }
+
+    void StyleSheetWriter::padding(const QMargins& margins)
+    {
+        padding(margins.left(), margins.top(), margins.right(), margins.bottom());
     }
 
     void StyleSheetWriter::paddingLeft(const int& v)
@@ -305,9 +402,27 @@ namespace Rt2::View
         _out.print("margin: ", v, "px;");
     }
 
+    void StyleSheetWriter::margin(const QMargins& margins)
+    {
+        margin(margins.left(),
+               margins.top(),
+               margins.right(),
+               margins.bottom());
+    }
+
     void StyleSheetWriter::margin(const int& l, const int& t, const int& r, const int& b)
     {
-        _out.print("margin: ", l, "px ", t, "px ", r, "px ", b, "px;");
+        if (l == r && t == b && l == b)
+        {
+            if (l > 0) margin(l);
+        }
+        else
+        {
+            if (l > 0) marginLeft(l);
+            if (t > 0) marginTop(t);
+            if (r > 0) marginRight(r);
+            if (b > 0) marginBottom(b);
+        }
     }
 
     void StyleSheetWriter::marginLeft(const int& v)
@@ -422,5 +537,4 @@ namespace Rt2::View
     {
         _out.print('}');
     }
-
 }  // namespace Rt2::View

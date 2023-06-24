@@ -42,6 +42,8 @@ namespace Rt2::View
         QMargins _padding{0, 0, 0, 0};
         int      _flags{CvDefaultFlags};
         QColor   _highlight;
+        QColor   _background;
+        QColor   _border;
 
         void constructView();
 

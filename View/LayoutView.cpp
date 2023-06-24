@@ -21,98 +21,48 @@
 */
 #include "View/LayoutView.h"
 #include <QVBoxLayout>
-#include "Utils/Definitions.h"
-#include "View/Colors.h"
-#include "View/Metrics.h"
-#include "View/Palette.h"
-#include "View/Qu.h"
+#include "View/States/Layout.h"
 
 namespace Rt2::View
 {
 
-    LayoutView::LayoutView(QWidget* parent) :
-        QWidget(parent)
+    LayoutView::LayoutView(QWidget* parent, VisualState* states) :
+        StateView(parent, states ? states : new Visual::Layout(), VisualFlag::ApplyOnShow)
     {
+        setMinimumSize(Style::Window::Panel);
     }
 
-    void LayoutView::setColor(const QPalette::ColorRole role, const QColor& col)
-    {
-        Qu::setColor(this, role, col);
-    }
+    LayoutView::~LayoutView() = default;
 
-    void LayoutView::setBorderColor(const QColor& col)
-    {
-        Qu::setBackground(this, col);  // this->Window
-    }
-
-    void LayoutView::setBorder(const QMargins& border)
-    {
-        setContentsMargins(border);
-    }
-
-    void LayoutView::setBorder(int v)
-    {
-        setBorder({v, v, v, v});
-    }
-
-    void LayoutView::setBorder(int start, int end)
-    {
-        setBorder({start, 0, end, 0});
-    }
-
-    void LayoutView::setBorder(int left, int top, int right, int bottom)
-    {
-        setBorder({left, top, right, bottom});
-    }
-
-    void LayoutView::setPadding(const QMargins& margins) const
-    {
-        RT_GUARD_CHECK_VOID(_content)
-        _content->setContentsMargins(margins);
-    }
-
-    void LayoutView::setPadding(int v) const
-    {
-        setPadding({v, v, v, v});
-    }
-
-    void LayoutView::setPadding(int start, int end) const
-    {
-        setPadding({start, 0, end, 0});
-    }
-
-    void LayoutView::setPadding(int left, int top, int right, int bottom) const
-    {
-        setPadding({left, top, right, bottom});
-    }
-
-    void LayoutView::refresh()
-    {
-        RT_GUARD_CHECK_VOID(_content)
-        update();
-        _content->invalidate();
-    }
-
-    void LayoutView::resizeEvent(QResizeEvent* event)
+    void LayoutView::refresh() const
     {
         RT_GUARD_CHECK_VOID(_content)
         _content->invalidate();
-        QWidget::resizeEvent(event);
     }
 
-    void LayoutView::constructView(QLayout* content, int stretch)
+    void LayoutView::tinted(const bool v)
     {
-        RT_ASSERT(content)  // keep fail
+        setAttribute(Qt::WA_TintedBackground, v);
+    }
+
+    void LayoutView::constructView(QLayout* content)
+    {
+        if (!content)
+            content = Style::Layout::v0();
 
         _content = content;
-        Palette::applyCtrlPalette(this);
-        setMinimumSize(Metrics::ctrlMin);
-        setBorder(Metrics::borderSizeThin);
-        setBorderColor(Colors::Background);
-        setPadding(Metrics::borderSizeThick);
-
         _content->setSizeConstraint(QLayout::SetMinAndMaxSize);
-        setLayout(content);
+        tinted(true);
+
+        this->setLayout(content);
+        connect(this,
+                &StateView::marginChanged,
+                this,
+                [this](const QMargins& m)
+                {
+                    RT_GUARD_CHECK_VOID(_content)
+                    _content->setContentsMargins(m);
+                });
     }
 
     QBoxLayout* LayoutView::boxLayout() const

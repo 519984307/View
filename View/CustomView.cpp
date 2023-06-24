@@ -22,8 +22,6 @@
 #include "View/CustomView.h"
 #include <QPainter>
 #include <QVBoxLayout>
-#include "View/Colors.h"
-#include "View/Palette.h"
 #include "View/Qu.h"
 
 namespace Rt2::View
@@ -40,11 +38,6 @@ namespace Rt2::View
         refresh();
     }
 
-    void CustomView::setColor(const QPalette::ColorRole role, const QColor& col)
-    {
-        Qu::setColor(this, role, col);
-    }
-
     void CustomView::setHighlightColor(const QColor& col)
     {
         _highlight = col;
@@ -52,22 +45,22 @@ namespace Rt2::View
 
     QColor CustomView::backgroundColor() const
     {
-        return palette().color(Colors::CustomViewBackground);
+        return _background;
     }
 
     QColor CustomView::borderColor() const
     {
-        return palette().color(Colors::CustomViewBorder);
+        return _border;
     }
 
     void CustomView::setBackgroundColor(const QColor& col)
     {
-        setColor(Colors::CustomViewBackground, col);
+        _background = col;
     }
 
     void CustomView::setBorderColor(const QColor& col)
     {
-        setColor(Colors::CustomViewBorder, col);
+        _border = col;
     }
 
     void CustomView::setMargin(const QMargins& border)
@@ -118,15 +111,12 @@ namespace Rt2::View
     void CustomView::constructView()
     {
         setUpdatesEnabled(true);
-
-        Palette::applyCtrlPalette(this);
-
         setMargin(1);
         setPadding(0);
 
-        setBorderColor(Colors::CtrlBackgroundLight);
-        setBackgroundColor(Colors::CtrlBackground);
-        _highlight = Colors::BorderLight;
+        setBorderColor(Style::Window::Border);
+        setBackgroundColor(Style::Window::Background);
+        setHighlightColor(Style::Window::Accent);
     }
 
     void CustomView::paintEvent(QPaintEvent* event)
@@ -145,13 +135,13 @@ namespace Rt2::View
         {
             if ((_flags & CvMargin) != 0)
             {
-                paint.fillRect(modRect, colors.color(Colors::CustomViewBorder));
+                paint.fillRect(modRect, _border);
                 modRect = modRect.marginsRemoved(contentsMargins());
             }
 
             if ((_flags & CvPadding) != 0)
             {
-                paint.fillRect(modRect, colors.color(Colors::CustomViewBackground));
+                paint.fillRect(modRect, _background);
                 modRect = modRect.marginsRemoved(_padding);
             }
 

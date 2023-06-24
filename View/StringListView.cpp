@@ -23,16 +23,13 @@
 #include <QBoxLayout>
 #include <QListView>
 #include <QStandardItemModel>
-#include "View/Colors.h"
-#include "View/Metrics.h"
 #include "View/Qu.h"
 
-class QLineEdit;
 
 namespace Rt2::View
 {
     StringListView::StringListView(QWidget* parent) :
-        View(parent)
+        View(parent, nullptr, VisualFlag::ApplyOnShow)
     {
         construct();
     }
@@ -47,20 +44,17 @@ namespace Rt2::View
     {
         _listing = new QListView(this);
         _listing->setModel(new QStandardItemModel());
-        constructView(_listing);
-        setColor(QPalette::AlternateBase, Colors::Emphasis[0]);
-        setPadding(Metrics::borderSizeThin);
-
         _listing->setSelectionRectVisible(false);
         _listing->setAlternatingRowColors(true);
         _listing->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
         _listing->setFrameShape(QFrame::NoFrame);
+        constructView(_listing);
 
         connect(_listing,
                 &QListView::doubleClicked,
                 this,
                 &StringListView::itemDoubleClickedImpl);
+
         connect(_listing,
                 &QListView::clicked,
                 this,

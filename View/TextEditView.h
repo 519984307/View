@@ -24,8 +24,6 @@
 #include "View/Definitions.h"
 #include "View/View.h"
 
-class QLineEdit;
-
 namespace Rt2::View
 {
     class TextEditView final : public View
@@ -49,8 +47,5 @@ namespace Rt2::View
         void construct();
 
         void textChanged(const QString&);
-
-        void paintEvent(QPaintEvent* event) override;
     };
-
 }  // namespace Rt2::View

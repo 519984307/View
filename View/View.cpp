@@ -20,135 +20,74 @@
 -------------------------------------------------------------------------------
 */
 #include "View/View.h"
+#include <QMouseEvent>
 #include <QVBoxLayout>
-#include "View/Colors.h"
-#include "View/Palette.h"
+#include "States/Default.h"
 #include "View/Qu.h"
+#include "View/States/State.h"
+#include "View/StyleSheetWriter.h"
 
 namespace Rt2::View
 {
-
-    View::View(QWidget* parent) :
-        QWidget(parent)
+    View::View(QWidget* parent, VisualState* states, const int eventFlags) :
+        StateView(parent, states, eventFlags)
     {
-    }
-
-    void View::setColor(const QPalette::ColorRole role, const QColor& col) const
-    {
-        RT_GUARD_CHECK_VOID(_content)
-        Qu::setColor(_content, role, col);
-    }
-
-    QColor View::backgroundColor() const
-    {
-        return palette().color(QPalette::Window);
-    }
-
-    QColor View::borderColor() const
-    {
-        return palette().color(QPalette::Base);
-    }
-
-    void View::setHighlightColor(const QColor& col)
-    {
-        _highlight = col;
-    }
-
-    void View::setBorderColor(const QColor& col)
-    {
-        Qu::setBackground(this, col);
-    }
-
-    void View::setBorder(const QMargins& border)
-    {
-        setContentsMargins(border);
-    }
-
-    void View::setBorder(int v)
-    {
-        setBorder({v, v, v, v});
-    }
-
-    void View::setBorder(int start, int end)
-    {
-        setBorder({start, 0, end, 0});
-    }
-
-    void View::setBorder(int left, int top, int right, int bottom)
-    {
-        setBorder({left, top, right, bottom});
-    }
-
-    void View::setBackgroundColor(const QColor& col) const
-    {
-        RT_GUARD_CHECK_VOID(_content)
-        Qu::setBackground(_content, col);
-    }
-
-    void View::setForegroundColor(const QColor& col) const
-    {
-        RT_GUARD_CHECK_VOID(_content)
-        Qu::setForeground(_content, col);
-    }
-
-    void View::setPadding(const QMargins& margins) const
-    {
-        RT_GUARD_CHECK_VOID(_content)
-        _layout->setContentsMargins(margins);
-    }
-
-    void View::setPadding(int v) const
-    {
-        setPadding({v, v, v, v});
-    }
-
-    void View::setPadding(int start, int end) const
-    {
-        setPadding({start, 0, end, 0});
-    }
-
-    void View::setPadding(int left, int top, int right, int bottom) const
-    {
-        setPadding({left, top, right, bottom});
-    }
-
-    void View::setFontSize(const int size) const
-    {
-        RT_GUARD_CHECK_VOID(_content)
-
-        QFont fnt = _content->font();
-        fnt.setPointSize(size);
-        _content->setFont(fnt);
-    }
-
-    void View::refresh()
-    {
-        RT_GUARD_CHECK_VOID(_content)
-
-        update();
-        _content->update();
     }
 
     void View::constructView(QWidget* content, const int stretch, const Qt::Alignment& al)
     {
         _content = content;
-        _layout  = Qu::vertical();
-
-        if (!_content)
-            _content = Qu::box();
-
-        Palette::applyCtrlPalette(this);
-        Palette::applyCtrlPalette(_content);
-
-        setBackgroundColor(Colors::Background);
-        setForegroundColor(Colors::Foreground);
-        setBorder(1);
-        setBorderColor(Colors::Border);
-        setPadding(0);
-        _highlight = Colors::Accent;
-
+        if (!_content) _content = Style::Widget::box();
+        _layout = Style::Layout::v0();
         _layout->addWidget(_content, stretch, al);
+        setAttribute(Qt::WA_TranslucentBackground);
         setLayout(_layout);
+    }
+
+    void View::refresh()
+    {
+        update();
+    }
+
+    void View::mousePressEvent(QMouseEvent* event)
+    {
+        RT_GUARD_CHECK_VOID(event)
+        if (_eventFlags & VisualFlag::LeftClickActive && event->button() == Qt::LeftButton)
+        {
+            if (clickHitEvent(event->position()))
+            {
+                event->accept();
+                return;
+            }
+        }
+        StateView::mousePressEvent(event);
+    }
+
+    void View::mouseReleaseEvent(QMouseEvent* event)
+    {
+        RT_GUARD_CHECK_VOID(event)
+        if (_eventFlags & VisualFlag::LeftReleaseActive && event->button() == Qt::LeftButton)
+        {
+            if (clickHitEvent(event->position()))
+            {
+                event->accept();
+                return;
+            }
+        }
+        StateView::mouseReleaseEvent(event);
+    }
+
+    bool View::clickHitEvent(const QPointF& co)
+    {
+        RT_GUARD_CHECK_RET(_content, false)
+        if (const QPoint pt = Qmc::point(co);
+            geometry().contains(pt) ||
+            _content->geometry().contains(pt))
+        {
+            contentClicked();
+            return true;
+        }
+        return false;
     }
 
 }  // namespace Rt2::View

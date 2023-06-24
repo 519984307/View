@@ -5,12 +5,10 @@
 #include <QWidget>
 #include "Utils/Char.h"
 #include "Utils/Exception.h"
-#include "View/Colors.h"
-#include "View/FlagView.h"
 #include "View/IconButtonView.h"
-#include "View/Metrics.h"
 #include "View/Qu.h"
 #include "View/StringListView.h"
+#include "View/TitleListWidget.h"
 
 using namespace Rt2::View;
 
@@ -19,33 +17,34 @@ namespace Rt2::Samples
 
     QWidget* SampleStringList::load()
     {
-        const auto wig = new QWidget();
-        wig->setMinimumSize(Metrics::minWindow);
+        using namespace Style;
 
-        const auto lo = Qu::vertical();
-        lo->setContentsMargins(Metrics::borderThick);
+        _list = new StringListView();
+        
+        const auto lo = Layout::v4(0);
 
-        const auto add  = Qu::icon(IconAdd);
-        const auto clear  = Qu::icon(IconClear);
-
-        _list= new StringListView();
-
-        lo->addLayout(Qu::titleList("StringList", {add, clear}));
+        lo->addWidget(
+            Views::title(
+                "String List",
+                {
+                    Views::flatIcon(
+                        IconAdd,
+                        [this](bool)
+                        {
+                            _list->addEntry(Su::join("item #", _cur++));
+                        }),  // flatIcon
+                    Views::flatIcon(
+                        IconClear,
+                        [this](bool)
+                        {
+                            _cur = 0;
+                            _list->clear();
+                        }),  // flatIcon
+                }            // widget list
+                )            // title
+        );
         lo->addWidget(_list, 1);
-
-        add->addOutput(
-            [this](bool) {
-                _list->addEntry(Su::join("item #", _cur++));
-            });
-
-        clear->addOutput(
-            [this](bool) {
-                _cur = 0;
-                _list->clear();
-            });
-
-        wig->setLayout(lo);
-        return wig;
+        return Widget::blank(lo, Style::Window::BackgroundLight);
     }
 
     int SampleStringList::go()

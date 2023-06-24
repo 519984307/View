@@ -21,6 +21,7 @@
 */
 #pragma once
 #include <QWidget>
+#include "View/Definitions.h"
 #include "View/IconFontMapping.h"
 #include "View/View.h"
 
@@ -35,19 +36,23 @@ namespace Rt2::View
     {
         Q_OBJECT
     private:
-        BoolModel         _model;
-        QLabel*           _button{nullptr};
-        IconButtonStates* _states{nullptr};
-        int               _state{NONE};
+        BoolModel _model;
+        QLabel*   _icon{nullptr};
+        int       _state{NONE};
 
     public:
         explicit IconButtonView(IconMap icon, QWidget* parent = nullptr);
-
         ~IconButtonView() override;
 
-        void setAccent(const QColor& col) const;
+        void setIconSize(int size);
 
-        void addOutput(const BoolModel::Observer &ot);
+        void setIcon(int ico) const;
+
+        int  icon() const;
+
+        void setFlat(bool v);
+
+        void addOutput(const BoolModel::Observer& ot);
 
     private:
         void construct(IconMap icon);
@@ -55,10 +60,6 @@ namespace Rt2::View
         void mousePressEvent(QMouseEvent* event) override;
 
         void mouseReleaseEvent(QMouseEvent* event) override;
-
-        void enterEvent(QEnterEvent* event) override;
-
-        void leaveEvent(QEvent* event) override;
 
         bool isPressed() const;
     };

@@ -21,22 +21,17 @@
 */
 #pragma once
 #include <QWidget>
+#include "View/Definitions.h"
 #include "View/View.h"
-
-class QLabel;
-class QPushButton;
 
 namespace Rt2::View
 {
-    class PushButtonStates;
-
     class PushButtonView final : public View
     {
         Q_OBJECT
     private:
-        QLabel*           _text{nullptr};
-        PushButtonStates* _states{nullptr};
-        BoolModel         _state{};
+        QLabel*   _text{nullptr};
+        BoolModel _state{};
 
     public:
         explicit PushButtonView(QWidget* parent = nullptr);
@@ -45,8 +40,6 @@ namespace Rt2::View
         ~PushButtonView() override;
 
         void setLabel(const String& label) const;
-
-        void setAccent(const QColor& col) const;
 
         String label() const;
 
@@ -58,10 +51,6 @@ namespace Rt2::View
         void mousePressEvent(QMouseEvent* event) override;
 
         void mouseReleaseEvent(QMouseEvent* event) override;
-
-        void enterEvent(QEnterEvent* event) override;
-
-        void leaveEvent(QEvent* event) override;
     };
 
 }  // namespace Rt2::View

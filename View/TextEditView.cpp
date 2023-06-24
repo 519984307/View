@@ -25,16 +25,15 @@
 #include <QPainter>
 #include <QPainterPath>
 #include <QWidget>
-#include "StyleSheetWriter.h"
-#include "View/Colors.h"
-#include "View/Metrics.h"
+#include "States/TextEdit.h"
 #include "View/Qu.h"
+#include "View/States/State.h"
 #include "ViewModel/ViewModel.h"
 
 namespace Rt2::View
 {
     TextEditView::TextEditView(QWidget* parent) :
-        View(parent)
+        View(parent, new Visual::TextEdit(), VisualFlag::HoverState | VisualFlag::ApplyOnShow)
     {
         construct();
     }
@@ -43,16 +42,10 @@ namespace Rt2::View
 
     void TextEditView::construct()
     {
-        _edit = new QLineEdit(this);
+        _edit = Style::Widget::lineEdit();
+        _edit->setMaxLength(512);
         constructView(_edit);
-        Qu::fit(_edit);
-
-        setFixedHeight(Metrics::ctrlMin.height());
-        setBorderColor(Colors::BorderDark);
-        setBackgroundColor(Colors::Transparent);
-        setColor(QPalette::Highlight, Colors::Accent);
-
-        _edit->setFrame(false);
+        Style::Constraint::height(this, Style::Ctrl::BaseHeight);
 
         _model.addInput(
             [=](const String& text)
@@ -87,24 +80,4 @@ namespace Rt2::View
         _model.setValue(Qsu::from(val), ViewModel::OUTPUT);
     }
 
-    void TextEditView::paintEvent(QPaintEvent* event)
-    {
-        QPainter paint(this);
-        paint.setRenderHint(QPainter::Antialiasing);
-
-        QRectF ctx = {0, 0, (qreal)width(), (qreal)height()};
-
-        ctx = ctx.marginsRemoved(contentsMargins());
-
-        const QColor col = palette().color(QPalette::Window);
-
-        QLinearGradient gradient(ctx.topLeft(), ctx.bottomLeft());
-        gradient.setColorAt(0.0, col.darker(Colors::Drk050));
-        gradient.setColorAt(0.2, col.darker(Colors::Drk010));
-        gradient.setColorAt(1.0, col);
-
-        paint.fillRect(ctx, col.darker(150));
-        paint.setPen(QPen(col.lighter(), Metrics::borderSizeTiny));
-        paint.drawRect(ctx.adjusted(-1, -1, 1, 1));
-    }
 }  // namespace Rt2::View

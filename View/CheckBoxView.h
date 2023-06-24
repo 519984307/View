@@ -20,29 +20,21 @@
 -------------------------------------------------------------------------------
 */
 #pragma once
-#include <QWidget>
 #include "View/View.h"
-
-class QLabel;
-class QPushButton;
 
 namespace Rt2::View
 {
-    class CheckBoxStates;
-
     class CheckBoxView final : public View
     {
         Q_OBJECT
     private:
-        QLabel*         _icon{nullptr};
-        CheckBoxStates* _states{nullptr};
-        BoolModel       _check{false};
-        int             _state{NONE};
+        QLabel*   _icon{nullptr};
+        BoolModel _check{false};
 
     public:
         explicit CheckBoxView(QWidget* parent = nullptr);
 
-        ~CheckBoxView() override;
+        ~CheckBoxView() override = default;
 
         void setChecked(bool v);
 
@@ -55,11 +47,9 @@ namespace Rt2::View
     private:
         void construct();
 
-        void mousePressEvent(QMouseEvent* event) override;
+        void setCheckedText(bool v) const;
 
-        void enterEvent(QEnterEvent* event) override;
-
-        void leaveEvent(QEvent* event) override;
+        void contentClicked() override;
     };
 
     inline bool CheckBoxView::isChecked() const

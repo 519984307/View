@@ -21,9 +21,9 @@
 */
 #pragma once
 #include <QWidget>
+#include "View/LayoutView.h"
+#include "View/Style.h"
 #include "Utils/String.h"
-#include "View/Colors.h"
-#include "View/Metrics.h"
 
 namespace Rt2::View
 {
@@ -34,13 +34,34 @@ namespace Rt2::View
             const String&        titleText,
             const QWidgetList&   titleItems,
             const int&           textSize,
-            const int&           maxHeight      = Metrics::iconPadding.width(),
+            const int&           maxHeight      = Style::Icon::BoundingHeight,
             const QMargins&      margin         = {0, 0, 0, 0},
-            const QColor&        foreground     = Colors::Foreground,
-            const QColor&        background     = Colors::CtrlBackground,
+            const QColor&        foreground     = Style::Window::Foreground,
+            const QColor&        background     = Style::Window::Background,
             const Qt::Alignment& titleAlignment = {},
             QWidget*             parent         = nullptr);
 
         ~TitleListWidget() override = default;
+    };
+
+
+
+    class TitleListView final : public LayoutView
+    {
+        Q_OBJECT
+    private:
+        QLabel *_title{nullptr};
+
+    public:
+        explicit TitleListView(QWidget *parent = nullptr);
+
+        ~TitleListView() override = default;
+
+        void setTitle(const String &title) const;
+
+        void setWidgetList(const QWidgetList &widgets) const;
+
+    private:
+        void construct();
     };
 }  // namespace Rt2::View

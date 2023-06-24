@@ -23,86 +23,44 @@
 #include <QLabel>
 #include <QMouseEvent>
 #include <QWidget>
-#include "Colors.h"
 #include "View/IconButtonView.h"
-#include "View/Metrics.h"
-#include "View/Qu.h"
+#include "View/States/CheckBox.h"
+#include "View/States/Data.h"
+#include "View/States/State.h"
 #include "View/StyleSheetWriter.h"
 #include "View/View.h"
 
-class QLabel;
-class QPushButton;
-
 namespace Rt2::View
 {
-    class CheckBoxStates
-    {
-    private:
-        QString _inactive;
-        QString _active;
-        QString _inactiveCheck;
-        QString _activeCheck;
-        QColor  _accent;
-
-        void makeInactive();
-        void makeInactiveChecked();
-        void makeActive();
-        void makeActiveChecked();
-        void update();
-
-    public:
-        CheckBoxStates();
-
-        void setAccent(const QColor& col);
-
-        static void unchecked(QLabel* widget);
-
-        static void checked(QLabel* widget);
-
-        void active(QLabel* widget) const;
-
-        void inactive(QLabel* widget) const;
-    };
+    constexpr int CheckFlags = VisualFlag::HoverState |
+                               VisualFlag::ApplyOnShow |
+                               VisualFlag::LeftReleaseActive;
 
     CheckBoxView::CheckBoxView(QWidget* parent) :
-        View(parent),
-        _states(new CheckBoxStates())
+        View(parent, new Visual::CheckBox(), CheckFlags)
     {
         construct();
     }
 
-    CheckBoxView::~CheckBoxView()
-    {
-        delete _states;
-    }
-
     void CheckBoxView::construct()
     {
-        _icon = new QLabel(this);
+        _icon = Style::Widget::iconLabel(IconNone, Style::Icon::Normal, Style::Icon::Bounds);
         constructView(_icon);
-        setPadding(0);
-        setBorder(Metrics::borderSizeThick);
-        setMinimumSize(Metrics::iconPadding);
-        setMaximumSize(Metrics::iconPadding);
-
-        _icon->setFont(Qu::iconFont());
-        _icon->setAlignment(Qt::AlignCenter);
-        _icon->setMinimumSize(Metrics::iconMin);
-        _icon->setAttribute(Qt::WA_TransparentForMouseEvents);
-
+        setMinimumSize(Style::Icon::Bounds);
+        setMaximumSize(Style::Icon::Bounds);
         setChecked(false);
+    }
+
+    void CheckBoxView::setCheckedText(const bool v) const
+    {
+        RT_GUARD_CHECK_VOID(_icon)
+        _icon->setText(v ? QString(QChar(IconCheck0)) : "");
     }
 
     void CheckBoxView::setChecked(const bool v)
     {
-        RT_GUARD_CHECK_VOID(_states && _icon)
-
-        if (v)
-            CheckBoxStates::checked(_icon);
-        else
-            CheckBoxStates::unchecked(_icon);
-
-        _states->inactive(_icon);
+        setCheckedText(v);
+        apply(VisualType::Normal);
         _check.setValue(v, ViewModel::OUTPUT);
     }
 
@@ -116,126 +74,10 @@ namespace Rt2::View
         _check.addOutput(ob);
     }
 
-    void CheckBoxView::mousePressEvent(QMouseEvent* event)
+    void CheckBoxView::contentClicked()
     {
-        RT_GUARD_CHECK_VOID(_states && _icon && event)
-
-        if (event->button() == Qt::LeftButton)
-        {
-
-            if (const QPoint pt = Qmc::point(event->position());
-                _icon->geometry().contains(pt))
-            {
-                setChecked(!isChecked());
-                _check.dispatch(ViewModel::OUTPUT);
-            }
-            _states->active(_icon);
-            event->accept();
-        }
-    }
-
-    void CheckBoxView::enterEvent(QEnterEvent* event)
-    {
-        RT_GUARD_CHECK_VOID(event && _states)
-
-        _states->active(_icon);
-        event->accept();
-    }
-
-    void CheckBoxView::leaveEvent(QEvent* event)
-    {
-        RT_GUARD_CHECK_VOID(event && _states)
-
-        _states->inactive(_icon);
-        event->accept();
-    }
-
-    CheckBoxStates::CheckBoxStates() :
-        _accent(Colors::Accent)
-    {
-        update();
-    }
-
-    void CheckBoxStates::setAccent(const QColor& col)
-    {
-        _accent = col;
-        update();
-    }
-
-    void CheckBoxStates::unchecked(QLabel* widget)
-    {
-        RT_GUARD_CHECK_VOID(widget)
-
-        widget->setText("");
-    }
-
-    void CheckBoxStates::checked(QLabel* widget)
-    {
-        RT_GUARD_CHECK_VOID(widget)
-
-        widget->setText(QChar(IconCheck0));
-    }
-
-    void CheckBoxStates::active(QLabel* widget) const
-    {
-        RT_GUARD_CHECK_VOID(widget)
-
-        if (widget->text().isEmpty())
-            widget->setStyleSheet(_active);
-        else
-            widget->setStyleSheet(_activeCheck);
-    }
-
-    void CheckBoxStates::inactive(QLabel* widget) const
-    {
-        RT_GUARD_CHECK_VOID(widget)
-
-        if (widget->text().isEmpty())
-            widget->setStyleSheet(_inactive);
-        else
-            widget->setStyleSheet(_inactiveCheck);
-    }
-
-    void CheckBoxStates::makeInactive()
-    {
-        StyleSheetWriter w;
-        w.padding(5);
-        w.backgroundColor(Colors::shadow(Colors::CtrlBackground));
-        w.color(Colors::Foreground);
-        _inactive = w.toString();
-    }
-
-    void CheckBoxStates::makeInactiveChecked()
-    {
-        StyleSheetWriter w;
-        w.backgroundColor(Colors::up(Colors::CtrlBackground));
-        w.border(Colors::down(Colors::CtrlBackground), 1);
-        w.color(Colors::highlight(Colors::highlight(_accent)));
-        _inactiveCheck = w.toString();
-    }
-
-    void CheckBoxStates::makeActive()
-    {
-        StyleSheetWriter w;
-        w.backgroundColor(Colors::shadow(_accent));
-        w.border(Colors::up(Colors::CtrlBackground), 1);
-        _active = w.toString();
-    }
-
-    void CheckBoxStates::makeActiveChecked()
-    {
-        StyleSheetWriter w;
-        w.backgroundColor(Colors::down(_accent));
-        w.color(Colors::highlight(Colors::highlight(_accent)));
-        _activeCheck = w.toString();
-    }
-
-    void CheckBoxStates::update()
-    {
-        makeActive();
-        makeActiveChecked();
-        makeInactive();
-        makeInactiveChecked();
+        setChecked(!isChecked());
+        _check.dispatch(ViewModel::OUTPUT);
     }
 
 }  // namespace Rt2::View

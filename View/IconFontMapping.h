@@ -25,6 +25,9 @@ namespace Rt2::View
 {
     enum IconMap
     {
+        IconNone,
+        IconFlagOn,
+        IconFlagOff,
         IconsStart   = ' ' - 1,
         //
         IconAdd,

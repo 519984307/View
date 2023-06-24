@@ -3,14 +3,16 @@ include(GroupSet)
 set_group(
     TargetName_SRC 
     Source:*.cpp
+    Source/States:States/*.cpp
     Header:*.h
-    Resource:Icons/*.qrc
+    Header/States:States/*.h
+    Content/Resource:Icons/*.qrc
 )
 
-qt_add_resources(
-    TargetName_RES 
-    Icons/Icons.qrc
-)
+#qt_add_resources(
+#    TargetName_RES 
+#    Icons/Icons.qrc
+#)
 
 include_directories(
     ${Utils_INCLUDE} 
@@ -36,3 +38,5 @@ set_target_properties(
     ${TargetName} 
     PROPERTIES FOLDER "${TargetGroup}"
 )
+
+qt_auto_resource(${TargetName})

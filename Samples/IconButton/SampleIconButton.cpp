@@ -5,9 +5,6 @@
 #include <QWidget>
 #include "Utils/Char.h"
 #include "Utils/Exception.h"
-#include "View/Colors.h"
-#include "View/FlagView.h"
-#include "View/Metrics.h"
 #include "View/Qu.h"
 
 using namespace Rt2::View;
@@ -15,24 +12,18 @@ using namespace Rt2::View;
 namespace Rt2::Samples
 {
 
-    QHBoxLayout* addIcon(IconMap ico, const String& text)
+    QHBoxLayout* addIcon(const IconMap ico, const String& text)
     {
-        const auto lo = Qu::horizontal();
-        lo->setSpacing(2);
-        lo->addWidget(new IconButtonView(ico));
-        lo->addWidget(Qu::text(text, Metrics::defaultTextSize, Colors::Foreground));
-
+        const auto lo = Style::Layout::hl(Style::Size::Large);
+        lo->addWidget(Style::Views::icon(ico));
+        lo->addWidget(Style::Widget::label(text));
         return lo;
     }
 
     QWidget* SampleIconButton::load()
     {
-        const auto wig = new QWidget();
-        wig->setMinimumSize(Metrics::minWindow);
-        const auto root = Qu::horizontal();
-
-        auto lo1 = Qu::vertical();
-        lo1->setContentsMargins(Metrics::borderThick);
+        const auto root   = Style::Layout::h4();
+        auto       layout = Style::Layout::v2();
 
         for (int i = 0; i < (IconsEnd - IconsStart) - 1; ++i)
         {
@@ -40,32 +31,31 @@ namespace Rt2::Samples
             s.push_back('\'');
             s.push_back((char)(i + IconsStart + 1));
             s.push_back('\'');
-            lo1->addLayout(addIcon((IconMap)(i + IconsStart + 1), s));
+            layout->addLayout(addIcon((IconMap)(i + IconsStart + 1), s));
+
             if (i % 12 == 11)
             {
-                root->addLayout(lo1);
-                lo1 = Qu::vertical();
-                lo1->setContentsMargins(Metrics::borderThick);
+                layout->addStretch();
+                root->addLayout(layout);
+                layout = Style::Layout::v2();
             }
         }
-        root->addLayout(lo1);
-        wig->setLayout(root);
-        return wig;
+
+        layout->addStretch();
+        root->addLayout(layout);
+        return Style::Widget::blank(root);
     }
 
     int SampleIconButton::go()
     {
-        int unused = 0;
-
-        QApplication app(unused, nullptr);
+        int temp = 0;
+        QApplication app(temp, nullptr);
         Qu::initResources(app);
-
         const auto view = load();
         view->show();
-
-        unused = QApplication::exec();
+        temp = QApplication::exec();
         delete view;
-        return unused;
+        return temp;
     }
 
 }  // namespace Rt2::Samples
@@ -80,7 +70,7 @@ int main(int, char*[])
     }
     catch (Rt2::Exception& ex)
     {
-        Rt2::Console::writeLine(ex.what());
+        Rt2::Console::println(ex.what());
         rc = 1;
     }
     return rc;

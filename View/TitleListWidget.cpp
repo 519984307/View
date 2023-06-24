@@ -21,6 +21,7 @@
 */
 #include "View/TitleListWidget.h"
 #include <QBoxLayout>
+#include <QLabel>
 #include "Qu.h"
 #include "View/StyleSheetWriter.h"
 
@@ -38,8 +39,8 @@ namespace Rt2::View
         QWidget*             parent) :
         QWidget(parent)
     {
-        const auto lo = Qu::horizontal();
-        //lo->setContentsMargins(margin);
+        const auto lo = Style::Layout::h0();
+        lo->setContentsMargins(margin);
 
         StyleSheetWriter w;
         w.backgroundColor(background);
@@ -47,7 +48,7 @@ namespace Rt2::View
         w.height(maxHeight);
         setStyleSheet(w.toString());
 
-        lo->addWidget(Qu::text(titleText, textSize, foreground), 1, titleAlignment);
+        lo->addWidget(Style::Widget::label(titleText, textSize, foreground), 1, titleAlignment);
         lo->addStretch();
 
         for (const auto item : titleItems)
@@ -56,6 +57,37 @@ namespace Rt2::View
             item->setAttribute(Qt::WA_TranslucentBackground);
         }
         setLayout(lo);
+    }
+
+    TitleListView::TitleListView(QWidget* parent) :
+        LayoutView(parent)
+    {
+        construct();
+    }
+
+    void TitleListView::construct()
+    {
+        using namespace Style;
+
+        const auto layout = Layout::h1();
+        constructView(layout);
+
+        _title = Widget::label(Style::FontSize::Large);
+        layout->addWidget(_title, 1);
+        layout->addStretch();
+    }
+
+    void TitleListView::setTitle(const String& title) const
+    {
+        RT_GUARD_CHECK_VOID(_title)
+        _title->setText(Qsu::to(title));
+    }
+
+    void TitleListView::setWidgetList(const QWidgetList& widgets) const
+    {
+        RT_GUARD_CHECK_VOID(_content)
+        for (const auto w : widgets)
+            _content->addWidget(w);
     }
 
 }  // namespace Rt2::View

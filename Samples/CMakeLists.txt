@@ -1,9 +1,7 @@
 add_subdirectory(CheckBox)
-add_subdirectory(FlagView)
+add_subdirectory(ColorPalette)
 add_subdirectory(IconButton)
-add_subdirectory(FlatIconButton)
-add_subdirectory(PushButton)
 add_subdirectory(TextEdit)
-add_subdirectory(Slider)
-add_subdirectory(Emphasis)
 add_subdirectory(StringList)
+add_subdirectory(Layout)
+

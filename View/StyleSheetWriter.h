@@ -20,22 +20,13 @@
 -------------------------------------------------------------------------------
 */
 #pragma once
+#include <QPalette>
+
 #include "Utils/StackStream.h"
-#include "View/Palette.h"
+#include "View/Definitions.h"
 
 namespace Rt2::View
 {
-    struct Stops
-    {
-        qreal  offs{0};
-        QColor color{0, 0, 0};
-    };
-
-    struct GradientBox
-    {
-        qreal x1, y1, x2, y2;
-    };
-
     class StyleSheetWriter
     {
     private:
@@ -55,9 +46,27 @@ namespace Rt2::View
 
         void begin(const String& widget);
 
+        void beginUniversal();
+
+        void beginType(const String& type);
+
+        void beginProperty(const String& type, const String& property, const String& value);
+
+        void beginClass(const String& type);
+
+        void beginClassId(const String& type, const String& id);
+
+        void beginId(const String& type, const String& id);
+
+        void beginId(const String& id);
+
         void outline(const qreal& v);
 
+        void outlineColor(const QColor& col);
+    
         void noOutline();
+
+        void background(const QColor& col);
 
         void backgroundColor(const QColor& col);
 
@@ -65,7 +74,7 @@ namespace Rt2::View
 
         void image(const String& url);
 
-        void backgroundColor(const GradientBox& co, const SimpleArray<Stops>& stops);
+        void backgroundColor(const GradientBox& co, const GradientStops& stops);
 
         void backgroundColor(const QPalette::ColorRole& col);
 
@@ -76,6 +85,10 @@ namespace Rt2::View
         void showSelectedDecoration(bool v);
 
         void noBorder();
+
+        void border(const QColor& col, const QMargins &m);
+
+        void border(const QColor& col, int l, int t, int r, int b);
 
         void border(const QColor& col, qreal size);
 
@@ -119,6 +132,8 @@ namespace Rt2::View
 
         void padding(const int& l, const int& t, const int& r, const int& b);
 
+        void padding(const QMargins &margins);
+
         void paddingLeft(const int& v);
 
         void paddingTop(const int& v);
@@ -128,6 +143,8 @@ namespace Rt2::View
         void paddingBottom(const int& v);
 
         void margin(const int& v);
+
+        void margin(const QMargins &margins);
 
         void margin(const int& l, const int& t, const int& r, const int& b);
 

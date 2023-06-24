@@ -35,24 +35,22 @@ namespace Rt2::View
         QWidget*           parent) :
         QWidget(parent)
     {
-        const auto lo = Qu::horizontal();
+        setAttribute(Qt::WA_TintedBackground);
+        const auto lo = Style::Layout::h1(Style::Spacing::Normal);
         lo->setContentsMargins(margins);
-
 
         StyleSheetWriter w;
         w.backgroundColor(background);
         w.color(color);
         w.noBorder();
-        w.height(Metrics::iconPadding.height());
         setStyleSheet(w.toString());
 
         lo->addStretch();
 
         for (const auto item : items)
         {
-            item->setFixedHeight(size);
+            item->setMinimumHeight(size);
             item->setAttribute(Qt::WA_TranslucentBackground);
-
             lo->addWidget(item, 0, Qt::AlignCenter);
         }
         lo->addSpacing(size);
