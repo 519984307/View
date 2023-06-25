@@ -21,24 +21,12 @@
 */
 #pragma once
 #include "Utils/String.h"
-#include "View/IconFontMapping.h"
+#include "Utils/TextStreamWriter.h"
 #include "View/Style.h"
 
-class QGuiApplication;
-class QLayout;
-class QPushButton;
-class QLabel;
-class QHBoxLayout;
-class QVBoxLayout;
-class QSplitter;
 
 namespace Rt2::View
 {
-    class WorkspaceTab;
-    class PushButtonView;
-    class FlatIconButtonView;
-    class IconButtonView;
-
     class Qu
     {
     private:
@@ -76,6 +64,14 @@ namespace Rt2::View
         static QString name(const void* address);
 
         static String colorString(const QColor& color);
+
+        template<typename ...Args>
+        static QString format(Args&& ... args)
+        {
+            OutputStringStream oss;
+            Ts::print(oss, (std::forward<Args>(args),...));
+            return to(oss.str());
+        }
     };
 
     class Qmc

@@ -7,12 +7,15 @@
 #include <QSplitter>
 #include <QTabWidget>
 #include <QWidget>
+
+#include "Utils/Char.h"
 #include "Utils/Exception.h"
 #include "View/CheckBoxView.h"
 #include "View/FlagView.h"
 #include "View/IconButtonView.h"
 #include "View/PushButtonView.h"
 #include "View/Qu.h"
+#include "View/SliderView.h"
 #include "View/StyleSheetWriter.h"
 #include "View/TextEditView.h"
 
@@ -279,17 +282,17 @@ namespace Rt2::Samples
             constructView(Style::Layout::h2());
 
             const auto h1 = Style::Layout::h2();
-            h1->addWidget(Style::Views::icon(IconAdd));
-            h1->addWidget(Style::Views::icon(IconEdit));
-            h1->addWidget(Style::Views::icon(IconDelete));
-            h1->addWidget(Style::Views::icon(IconClear));
+            h1->addWidget(Style::Views::icon(IconAdd), 0, Qt::AlignCenter);
+            h1->addWidget(Style::Views::icon(IconEdit), 0, Qt::AlignCenter);
+            h1->addWidget(Style::Views::icon(IconDelete), 0, Qt::AlignCenter);
+            h1->addWidget(Style::Views::icon(IconClear), 0, Qt::AlignCenter);
             boxLayout()->addLayout(h1, 1);
 
             const auto h2 = Style::Layout::h2();
-            h2->addWidget(Style::Views::flatIcon(IconAdd));
-            h2->addWidget(Style::Views::flatIcon(IconEdit));
-            h2->addWidget(Style::Views::flatIcon(IconDelete));
-            h2->addWidget(Style::Views::flatIcon(IconClear));
+            h2->addWidget(Style::Views::flatIcon(IconAdd), 0, Qt::AlignCenter);
+            h2->addWidget(Style::Views::flatIcon(IconEdit), 0, Qt::AlignCenter);
+            h2->addWidget(Style::Views::flatIcon(IconDelete), 0, Qt::AlignCenter);
+            h2->addWidget(Style::Views::flatIcon(IconClear), 0, Qt::AlignCenter);
             boxLayout()->addLayout(h2, 1);
 
         }
@@ -303,6 +306,32 @@ namespace Rt2::Samples
             constructView(Style::Layout::h2());
             const auto flag = Style::Views::flag((uint16_t)0b0011001100110011);
             boxLayout()->addWidget(flag, 0, Qt::AlignCenter);
+        }
+    };
+
+    class SliderButton final : public LayoutView
+    {
+    public:
+        SliderButton()
+        {
+            constructView(Style::Layout::h2(Style::Spacing::None));
+            const auto view = Style::Views::slider();
+
+            view->setMargin(Style::Size::None);
+            view->setPadding(Style::Size::Tiny);
+            view->setRange(-10000, 10000);
+            view->setRate(5);
+            view->setValue(0);
+
+            const auto label = Style::Widget::label();
+            view->addOutput([label](float v)
+            {
+                label->setText(Qsu::format(v));
+            });
+
+
+            boxLayout()->addWidget(view, 0);
+            boxLayout()->addWidget(label, 1);
         }
     };
 
@@ -327,14 +356,15 @@ namespace Rt2::Samples
         const auto fb = Style::Widget::vs(new FlagButton(), new Palette());
         Style::Constraint::stretch(fb, 1, 1);
 
+        const auto sb = Style::Widget::vs(new SliderButton(), new Palette());
+        Style::Constraint::stretch(sb, 1, 1);
+
         v->addTab(Style::Widget::hs(ts, new Swatches()), "Text");
         v->addTab(Style::Widget::hs(ps, new Swatches()), "Button");
         v->addTab(Style::Widget::hs(cb, new Swatches()), "Check");
         v->addTab(Style::Widget::hs(ib, new Swatches()), "Icon");
         v->addTab(Style::Widget::hs(fb, new Swatches()), "Flag");
-
-
-        v->setContextMenuPolicy(Qt::ContextMenuPolicy::DefaultContextMenu);
+        v->addTab(Style::Widget::hs(sb, new Swatches()), "Slider");
 
         return v;
     }

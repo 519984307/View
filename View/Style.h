@@ -20,8 +20,8 @@
 -------------------------------------------------------------------------------
 */
 #pragma once
-#include <QSize>
 #include <QMargins>
+#include <QSize>
 #include <QWidget>
 #include "View/ColorMix.h"
 #include "View/Definitions.h"
@@ -44,9 +44,13 @@ class QHBoxLayout;
 class QBoxLayout;
 class QGroupBox;
 class QTextEdit;
+class QGuiApplication;
+class QLayout;
+class QPushButton;
 
 namespace Rt2::View
 {
+    class SliderView;
     class TitleListView;
     class TextEditView;
     class LayoutView;
@@ -276,7 +280,7 @@ namespace Rt2::View::Style
     {
         constexpr QColor Border        = Palette::PrimaryGrey::Qb20::Qs3;
         constexpr QColor BorderLight   = Palette::PrimaryGrey::Qb25::Qs4;
-        constexpr QColor Background    = Palette::PrimaryGrey::Qb20::Qs1;
+        constexpr QColor Background    = Palette::PrimaryBlend::Qb20::Qs1;
         constexpr QColor Foreground    = Palette::Text::Qs5;
         constexpr QColor Highlight     = Palette::PrimaryBlend::Qb20::Qs2;
         constexpr QColor HighlightText = Palette::ControlBlend::Qb90::Qs5;
@@ -469,5 +473,13 @@ namespace Rt2::View::Style
         static FlagView* flag(uint8_t v);
         static FlagView* flag(uint16_t v);
         static FlagView* flag(uint32_t v);
+
+        static SliderView* slider();
+        static SliderView* slider(const FloatModel::Observer& change);
+        static SliderView* slider(qreal value, qreal rangeStart, qreal rangeStop);
+        static SliderView* slider(qreal                       value,
+                                  qreal                       rangeStart,
+                                  qreal                       rangeStop,
+                                  const FloatModel::Observer& change);
     };
 }  // namespace Rt2::View::Style

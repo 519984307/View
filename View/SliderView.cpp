@@ -19,11 +19,11 @@
   3. This notice may not be removed or altered from any source distribution.
 -------------------------------------------------------------------------------
 */
-#include <cfloat>
-#include <cmath>
 #include "View/SliderView.h"
 #include <QMouseEvent>
 #include <QPainter>
+#include <cfloat>
+#include <cmath>
 #include "Qu.h"
 
 namespace Rt2::View
@@ -36,15 +36,18 @@ namespace Rt2::View
     }
 
     SliderView::~SliderView() = default;
-    
+
     void SliderView::construct()
     {
         constructView();
         setPadding(0);
         setMargin(0);
-        setFlags(CvFullView);
+        setMinimumWidth(Style::Panel::Minimum.width());
         setMinimumHeight(Style::Icon::BoundingHeight);
-        setBackgroundColor(Style::Window::Background);
+
+        _background = Style::Normal::Background;
+        _border     = Style::Normal::Border;
+        _highlight  = Style::Normal::Highlight;
     }
 
     void SliderView::setRange(const double& min, const double& max)
@@ -148,17 +151,16 @@ namespace Rt2::View
 
     void SliderView::render(QPainter& paint, const QRectF& rect)
     {
-        paint.fillRect(rect, backgroundColor());
-
+        
         if (_state & ENTER)
-        {
-            paint.setPen(QPen(Style::Window::Background));
-            paint.drawRect(rect.adjusted(1, 1, -1, -1));
-        }
+            paint.fillRect(rect, borderColor());
+        else
+            paint.fillRect(rect, backgroundColor());
 
-        const double value = _value.value() / (_rangeRate[1] - _rangeRate[0]);
+
+        const double value = (abs(_rangeRate[0]) + _value.value()) / (_rangeRate[1] - _rangeRate[0]);
         const double v     = rect.width() * value;
 
-        paint.fillRect(QRectF{2, 2, v, rect.height() - 2}, Style::Window::Accent);
+        paint.fillRect(QRectF{rect.left(), rect.top(), v, rect.height()}, highlightColor());
     }
 }  // namespace Rt2::View

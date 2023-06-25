@@ -40,12 +40,11 @@ namespace Rt2::View
         Q_OBJECT
     protected:
         QMargins _padding{0, 0, 0, 0};
+        QMargins _margin{0, 0, 0, 0};
         int      _flags{CvDefaultFlags};
         QColor   _highlight;
         QColor   _background;
         QColor   _border;
-
-        void constructView();
 
     public:
         explicit CustomView(QWidget* parent = nullptr);
@@ -56,15 +55,15 @@ namespace Rt2::View
 
         QColor borderColor() const;
 
-        void setColor(QPalette::ColorRole role, const QColor& col);
+        QColor highlightColor() const;
 
-        virtual void setHighlightColor(const QColor& col);
+        void setHighlightColor(const QColor& col);
 
-        virtual void setBackgroundColor(const QColor& col);
+        void setBackgroundColor(const QColor& col);
 
-        virtual void setBorderColor(const QColor& col);
+        void setBorderColor(const QColor& col);
 
-        void setMargin(const QMargins& border);
+        void setMargin(const QMargins& v);
 
         void setMargin(int v);
 
@@ -72,7 +71,7 @@ namespace Rt2::View
 
         void setMargin(int left, int top, int right, int bottom);
 
-        void setPadding(const QMargins& margins);
+        void setPadding(const QMargins& v);
 
         void setPadding(int v);
 
@@ -83,9 +82,16 @@ namespace Rt2::View
         void refresh();
 
     protected:
+        void constructView();
+
         void paintEvent(QPaintEvent* event) override;
 
         virtual void render(QPainter& paint, const QRectF& rect) = 0;
+
+    private:
+
+        void applyNotZero(int apply, const QMargins& test);
+
     };
 
 }  // namespace Rt2::View

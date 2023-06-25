@@ -30,17 +30,14 @@ namespace Rt2::View
     CustomView::CustomView(QWidget* parent) :
         QWidget(parent)
     {
+        setContentsMargins(0, 0, 0, 0);
+        setUpdatesEnabled(true);
     }
 
     void CustomView::setFlags(const int vf)
     {
         _flags = vf;
         refresh();
-    }
-
-    void CustomView::setHighlightColor(const QColor& col)
-    {
-        _highlight = col;
     }
 
     QColor CustomView::backgroundColor() const
@@ -53,6 +50,11 @@ namespace Rt2::View
         return _border;
     }
 
+    QColor CustomView::highlightColor() const
+    {
+        return _highlight;
+    }
+
     void CustomView::setBackgroundColor(const QColor& col)
     {
         _background = col;
@@ -63,9 +65,15 @@ namespace Rt2::View
         _border = col;
     }
 
-    void CustomView::setMargin(const QMargins& border)
+    void CustomView::setHighlightColor(const QColor& col)
     {
-        setContentsMargins(border);
+        _highlight = col;
+    }
+
+    void CustomView::setMargin(const QMargins& v)
+    {
+        applyNotZero(CvMargin, v);
+        _margin = v;
     }
 
     void CustomView::setMargin(int v)
@@ -83,9 +91,10 @@ namespace Rt2::View
         setMargin({left, top, right, bottom});
     }
 
-    void CustomView::setPadding(const QMargins& margins)
+    void CustomView::setPadding(const QMargins& v)
     {
-        _padding = margins;
+        applyNotZero(CvPadding, v);
+        _padding = v;
     }
 
     void CustomView::setPadding(int v)
@@ -111,7 +120,8 @@ namespace Rt2::View
     void CustomView::constructView()
     {
         setUpdatesEnabled(true);
-        setMargin(1);
+        setFlags(0);
+        setMargin(0);
         setPadding(0);
 
         setBorderColor(Style::Window::Border);
@@ -130,13 +140,23 @@ namespace Rt2::View
         QRectF         modRect = base;
 
         if ((_flags & CvFullView) != 0)
+        {
             render(paint, modRect);
+            if (_flags & CvHighLightContent)
+            {
+                paint.setPen(QPen(_highlight, 1));
+                paint.drawRect(base);
+            }
+        }
         else
         {
+            QRectF preCvMargin = base;
+
             if ((_flags & CvMargin) != 0)
             {
+                modRect     = modRect.marginsRemoved(_margin);
+                preCvMargin = modRect;
                 paint.fillRect(modRect, _border);
-                modRect = modRect.marginsRemoved(contentsMargins());
             }
 
             if ((_flags & CvPadding) != 0)
@@ -155,13 +175,28 @@ namespace Rt2::View
             paint.resetTransform();
             paint.setWindow(cw);
             paint.setViewport(cv);
-        }
 
-        if (_flags & CvHighLightContent)
-        {
-            paint.setPen(QPen(_highlight, 1));
-            paint.drawRect(modRect.adjusted(1, 1, -1, -1));
+            if (_flags & CvHighLightContent)
+            {
+                paint.setPen(QPen(_highlight, 1));
+                paint.drawRect(preCvMargin);
+            }
         }
     }
 
+    void CustomView::applyNotZero(const int apply, const QMargins& test)
+    {
+        bool notZero = test.left() > 0;
+
+        notZero = notZero || test.top() > 0;
+        notZero = notZero || test.right() > 0;
+        notZero = notZero || test.bottom() > 0;
+
+        if (notZero)
+        {
+            if (_flags & CvFullView)
+                _flags &= ~CvFullView;
+            _flags |= apply;
+        }
+    }
 }  // namespace Rt2::View

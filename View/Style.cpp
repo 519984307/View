@@ -34,6 +34,7 @@
 #include "ItemListWidget.h"
 #include "PushButtonView.h"
 #include "Qu.h"
+#include "SliderView.h"
 #include "StyleSheetWriter.h"
 #include "TextEditView.h"
 #include "TitleListWidget.h"
@@ -380,7 +381,7 @@ namespace Rt2::View::Style
     {
         RT_GUARD_CHECK_VOID(obj)
         obj->setMinimumHeight(v);
-        obj->setFixedHeight(obj->maximumHeight());
+        obj->setFixedHeight(obj->minimumHeight());
     }
 
     void Constraint::stretch(QSplitter* obj, const int& a, const int& b)
@@ -570,7 +571,7 @@ namespace Rt2::View::Style
         return new FlagView();
     }
 
-    FlagView* Views::flag(uint8_t v)
+    FlagView* Views::flag(const uint8_t v)
     {
         const auto obj = flag();
         for (int i = 0; i < 8; ++i)
@@ -578,7 +579,7 @@ namespace Rt2::View::Style
         return obj;
     }
 
-    FlagView* Views::flag(uint16_t v)
+    FlagView* Views::flag(const uint16_t v)
     {
         const auto obj = flag();
         for (int i = 0; i < 16; ++i)
@@ -586,11 +587,44 @@ namespace Rt2::View::Style
         return obj;
     }
 
-    FlagView* Views::flag(uint32_t v)
+    FlagView* Views::flag(const uint32_t v)
     {
         const auto obj = flag();
         for (int i = 0; i < 32; ++i)
             obj->addFlag((v & (1 << i)) != 0, "");
         return obj;
     }
+
+    SliderView* Views::slider()
+    {
+        return new SliderView();
+    }
+
+    SliderView* Views::slider(const FloatModel::Observer& change)
+    {
+        const auto obj = slider();
+        obj->addOutput(change);
+        return obj;
+    }
+
+    SliderView* Views::slider(const qreal value,
+                              const qreal rangeStart,
+                              const qreal rangeStop)
+    {
+        const auto obj = slider();
+        obj->setRange(rangeStart, rangeStop);
+        obj->setValue(value);
+        return obj;
+    }
+
+    SliderView* Views::slider(const qreal                 value,
+                              const qreal                 rangeStart,
+                              const qreal                 rangeStop,
+                              const FloatModel::Observer& change)
+    {
+        const auto obj = slider(value, rangeStart, rangeStop);
+        obj->addOutput(change);
+        return obj;
+    }
+
 }  // namespace Rt2::View::Style
