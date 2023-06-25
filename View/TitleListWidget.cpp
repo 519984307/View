@@ -72,7 +72,7 @@ namespace Rt2::View
         const auto layout = Layout::h1();
         constructView(layout);
 
-        _title = Widget::label(Style::FontSize::Large);
+        _title = Widget::label(FontSize::Medium);
         layout->addWidget(_title, 1);
         layout->addStretch();
     }
