@@ -216,10 +216,10 @@ namespace Rt2::View::Style
 
     namespace TabBar
     {
-        constexpr QColor   Background = Window::Swatches::Qb10::Qs0;
+        constexpr QColor   Background = Window::Swatches::Qb05::Qs0;
         constexpr QColor   Accent     = Window::Accent;
         constexpr QColor   Tab        = Background;
-        constexpr QColor   Pane       = Window::Swatches::Qb10::Qs0;
+        constexpr QColor   Pane       = Background;
         constexpr int      BaseHeight = Points::Pt24;
         constexpr int      BaseWidth  = Points::Pt12 << 2;
         constexpr QMargins Padding    = Margin::Small;

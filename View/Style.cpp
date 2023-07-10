@@ -289,7 +289,7 @@ namespace Rt2::View::Style
     {
         const auto obj = new QTabWidget();
         Common::clearMargin(obj);
-
+        Common::backgroundStyle(obj, Window::Background);
         return obj;
     }
 
