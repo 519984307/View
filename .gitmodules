@@ -1,9 +1,12 @@
 [submodule "Test/googletest"]
 	path = Test/googletest
 	url = https://github.com/google/googletest.git
+        branch = main
 [submodule "CMake/Modules"]
 	path = CMake/Modules
 	url = git@github.com:i0qh2n/CMakeModules.git
+        branch = main
 [submodule "Internal/Utils"]
 	path = Internal/Utils
 	url = git@github.com:i0qh2n/Module.Utils.git
+        branch = main
