@@ -277,7 +277,7 @@ namespace Rt2::View
         };
         namespace Swatches
         {
-            using Base = Mixer::Swatches<16, 128>;
+            using Base = Mixer::Swatches<0x10, 0x80>;
 
             namespace Values
             {
@@ -337,12 +337,12 @@ namespace Rt2::View
             {
                 using Rm50     = Mixer::MixSwatch<Base::Red, Base::Magenta, 25, 100>;
                 using Yg50     = Mixer::MixSwatch<Base::Yellow, Base::Green>;
-                using OHg90    = Mixer::MixSwatch<Base::Orange, Base::HighGrey, 90, 100>;
-                using BHg90    = Mixer::MixSwatch<Base::Blue, Base::HighGrey, 90, 100>;
-                using DarkGrey = Mixer::MixSwatch<Base::Blue, Base::Black, 95, 100>;
-                using LowGrey  = Mixer::MixSwatch<Base::Blue, Base::LowGrey, 95, 100>;
-                using MidGrey  = Mixer::MixSwatch<Base::Blue, Base::MidGrey, 95, 100>;
-                using HighGrey = Mixer::MixSwatch<Base::Blue, Base::HighGrey, 95, 100>;
+                using OHg90    = Mixer::MixSwatch<Base::Orange, Base::HighGrey, 95, 100>;
+                using BHg90    = Mixer::MixSwatch<Base::Blue, Base::HighGrey, 95, 100>;
+                using DarkGrey = Mixer::MixSwatch<Base::Blue, Base::Black, 97, 100>;
+                using LowGrey  = Mixer::MixSwatch<Base::Blue, Base::LowGrey, 97, 100>;
+                using MidGrey  = Mixer::MixSwatch<Base::Blue, Base::MidGrey, 97, 100>;
+                using HighGrey = Mixer::MixSwatch<Base::Blue, Base::HighGrey, 97, 100>;
 
                 using Bhg90Ohg9050 = Mixer::MixSwatch<BHg90, OHg90, 50, 100>;
 
