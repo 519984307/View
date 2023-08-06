@@ -8,5 +8,5 @@
         branch = main
 [submodule "Internal/Utils"]
 	path = Internal/Utils
-	url = git@github.com:i1qh2n/Module.Utils.git
+	url = git@github.com:i1qh2n/Utils.git
         branch = main
