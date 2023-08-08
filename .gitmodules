@@ -4,9 +4,9 @@
         branch = main
 [submodule "CMake/Modules"]
 	path = CMake/Modules
-	url = git@github.com:i1qh2n/CMakeModules.git
+	url = https://github.com/i1qh2n/CMakeModules.git
         branch = main
 [submodule "Internal/Utils"]
 	path = Internal/Utils
-	url = git@github.com:i1qh2n/Utils.git
+	url = https://github.com/i1qh2n/Utils.git
         branch = main
