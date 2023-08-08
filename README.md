@@ -23,3 +23,19 @@ cmake --build Build
 | :---------------------- | :--------------------------------------------------- | :-----: |
 | View_BUILD_TEST         | Build the unit test program.                         |   ON    |
 | View_AUTO_RUN_TEST      | Automatically run the test program.                  |   OFF   |
+
+# Dependencies 
+
+### Dependencies
+
+Local and external dependencies.
+
+```mermaid
+graph BT;
+      View-->Utils;
+      View-->Qt;
+
+      Qt-->Core;
+      Qt-->Gui;
+      Qt-->Widgets;
+```
