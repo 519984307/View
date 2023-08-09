@@ -53,8 +53,6 @@ namespace Rt2::View::Visual
     {
         _normal.setBackgroundColor(Style::Misc::Transparent);
         _normal.setForegroundColor(Style::PressedPrimary::Background);
-
-
         _normalOn.setBackgroundColor(Style::Misc::Transparent);
         _normalOn.setForegroundColor(Style::PressedPrimary::Border);
     }

@@ -40,6 +40,8 @@ namespace Rt2::View
     void FlagViewItem::construct()
     {
         _box = Style::Widget::iconLabel(IconNone, Style::Icon::Normal, Style::Icon::Bounds);
+        _box->setObjectName("FlagViewItem");
+        setObjectName("FlagViewItem");
         constructView(_box);
 
         setMinimumSize(Style::Icon::Bounds);
