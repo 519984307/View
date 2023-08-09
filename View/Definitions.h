@@ -33,6 +33,7 @@ class QLabel;
 class QSplitter;
 class QLineEdit;
 class QWidget;
+class QTextEdit;
 
 namespace Rt2::View
 {

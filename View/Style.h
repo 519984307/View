@@ -28,10 +28,10 @@
 #include "View/IconFontMapping.h"
 
 #ifdef min
-    #undef min
+#undef min
 #endif
 #ifdef max
-    #undef max
+#undef max
 #endif
 
 class QSplitter;
@@ -56,6 +56,7 @@ namespace Rt2::View
     class LayoutView;
     class PushButtonView;
     class CheckBoxView;
+    class MultiLineTextEditView;
     class IconButtonView;
 }  // namespace Rt2::View
 
@@ -356,6 +357,14 @@ namespace Rt2::View::Style
         constexpr QMargins Margin        = Margin::None;
     }  // namespace Panel
 
+    namespace TextEdit
+    {
+        constexpr QColor   Background = Window::BackgroundLight;
+        constexpr QColor   Foreground = Window::Foreground;
+        constexpr QSize    Minimum    = {200, 100};
+        constexpr QMargins Margin     = Margin::None;
+    }  // namespace TextEdit
+
     class Widget
     {
     public:
@@ -385,6 +394,8 @@ namespace Rt2::View::Style
                               const QColor& background = Window::Background);
 
         static QTextEdit* readonly();
+
+        static QTextEdit* textEdit(bool readonly = false);
 
         static QLineEdit* lineEdit();
 
@@ -453,6 +464,10 @@ namespace Rt2::View::Style
         static TextEditView* textEdit();
         static TextEditView* textEdit(const StringModel::Observer& change);
         static TextEditView* textEdit(const String& label, const StringModel::Observer& change);
+
+        static MultiLineTextEditView* multilineEdit();
+        static MultiLineTextEditView* multilineEdit(const StringModel::Observer& change);
+        static MultiLineTextEditView* multilineEdit(const String& text, const StringModel::Observer& change);
 
         static PushButtonView* push();
         static PushButtonView* push(const String& label);

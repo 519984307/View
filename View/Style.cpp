@@ -32,6 +32,7 @@
 #include "FlagView.h"
 #include "IconButtonView.h"
 #include "ItemListWidget.h"
+#include "MultiLineTextEditView.h"
 #include "PushButtonView.h"
 #include "Qu.h"
 #include "SliderView.h"
@@ -251,20 +252,33 @@ namespace Rt2::View::Style
 
     QTextEdit* Widget::readonly()
     {
+        return textEdit(true);
+    }
+
+    QTextEdit* Widget::textEdit(const bool readonly)
+    {
         const auto obj = new QTextEdit();
         Common::clearMargin(obj);
-        obj->setFrameShape(QFrame::StyledPanel);
+        //obj->setFrameShape(QFrame::StyledPanel);
 
-        obj->setReadOnly(true);
-        obj->setObjectName("readonly");
-        obj->setFont(Common::fixedWidth());
-
+        obj->setReadOnly(readonly);
         StyleSheetWriter w;
-        w.beginClassId("QTextEdit", "readonly");
-        w.backgroundColor(Window::Swatches::Qb15::Qs0);
-        w.color(Window::Foreground);
+        if (readonly)
+        {
+            obj->setObjectName("readonly");
+            w.beginClassId("QTextEdit", "readonly");
+        }
+        else
+        {
+            obj->setObjectName("normal");
+            w.beginClassId("QTextEdit", "normal");
+        }
+
+        w.backgroundColor(TextEdit::Background);
+        w.color(TextEdit::Foreground);
         w.end();
         obj->setStyleSheet(w.toString());
+        obj->setFont(Common::fixedWidth());
         return obj;
     }
 
@@ -501,6 +515,26 @@ namespace Rt2::View::Style
     {
         const auto obj = textEdit(change);
         obj->setText(label);
+        return obj;
+    }
+
+    MultiLineTextEditView* Views::multilineEdit()
+    {
+        return new MultiLineTextEditView();
+    }
+
+    MultiLineTextEditView* Views::multilineEdit(const StringModel::Observer& change)
+    {
+        const auto obj = multilineEdit();
+        obj->addOutput(change);
+        return obj;
+    }
+
+    MultiLineTextEditView* Views::multilineEdit(const String& text, const StringModel::Observer& change)
+    {
+        const auto obj = multilineEdit();
+        obj->addOutput(change);
+        obj->setText(text);
         return obj;
     }
 
