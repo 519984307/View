@@ -323,7 +323,7 @@ namespace Rt2::View::Style
     {
         constexpr QColor Background = Palette::PrimaryBlend::Qb50::Qs5;
         constexpr QColor Foreground = Window::Swatches::Qb10::Qs0;
-        constexpr QColor Border     = Palette::PrimaryBlend::Qb90::Qs5;
+        constexpr QColor Border     = Palette::Control0::Qs0;
     }  // namespace ToolTip
 
     namespace Ctrl

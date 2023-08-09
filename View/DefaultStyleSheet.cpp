@@ -25,7 +25,7 @@
 #include "View/StyleSheetWriter.h"
 
 // manual process:
-// + #define DefaultStyleSheetUpdate
+#define DefaultStyleSheetUpdate
 // + Save the stream to a file.
 // + Use ResourceCompiler to convert it.
 // + Adjust the constant below.
