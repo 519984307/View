@@ -260,8 +260,6 @@ namespace Rt2::View::Style
     {
         const auto obj = new QTextEdit();
         obj->setFont(Common::fixedWidth());
-        Common::makeTranslucent(obj);
-        Common::clearFrame(obj);
         Common::clearMargin(obj);
 
         obj->setReadOnly(readonly);
