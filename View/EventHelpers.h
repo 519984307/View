@@ -19,35 +19,33 @@
   3. This notice may not be removed or altered from any source distribution.
 -------------------------------------------------------------------------------
 */
-#include "View/States/MultiLineTextEdit.h"
+#pragma once
+#include "View/Definitions.h"
 
-namespace Rt2::View::Visual
+class QResizeEvent;
+
+namespace Rt2::View
 {
-    using namespace Style;
-
-    MultiLineTextEdit::MultiLineTextEdit()
+    class EventUtils
     {
-        update();
-    }
+    public:
+        template <typename T, int Code>
+        static T* tryCast(QEvent* evt)
+        {
+            if (evt && (int)evt->type() == Code)
+                return static_cast<T*>(evt);
+            return nullptr;
+        }
 
-    Data& MultiLineTextEdit::get(const StateType type)
-    {
-        return _normal;
-    }
+        static QResizeEvent* resize(QEvent*);
 
-    void MultiLineTextEdit::makeNormal()
-    {
-        _normal.setFontSize(FontSize::Normal);
-        _normal.setBorder(Margin::None);
-        _normal.setForegroundColor(TextEdit::Foreground);
-        _normal.setBackgroundColor(TextEdit::Background);
-        _normal.setHighlightBackgroundColor(Normal::Highlight);
-        _normal.setHighlightForegroundColor(Normal::HighlightText);
-    }
+        static void postSize(
+            QObject*     receiver,
+            const QSize& newSize,
+            const QSize& oldSize,
+            int          priority = Qt::NormalEventPriority);
+    };
 
+    using Qeu = EventUtils;
 
-    void MultiLineTextEdit::update()
-    {
-        makeNormal();
-    }
-}  // namespace Rt2::View::Visual
+}  // namespace Rt2::View

@@ -20,8 +20,6 @@
 -------------------------------------------------------------------------------
 */
 #pragma once
-#include <QMargins>
-#include <QSize>
 #include <QWidget>
 #include "View/ColorMix.h"
 #include "View/Definitions.h"
@@ -144,8 +142,8 @@ namespace Rt2::View::Style
         constexpr int   XxLarge = Points::Pt32;
         constexpr QSize Size    = {Points::Pt16, Points::Pt16};
 
-        constexpr int   BoundingHeight = Points::Pt24;
-        constexpr int   BoundingWidth  = Points::Pt24;
+        constexpr int   BoundingHeight = Points::Pt18;
+        constexpr int   BoundingWidth  = Points::Pt18;
         constexpr QSize Bounds         = {BoundingWidth, BoundingHeight};
 
         constexpr int FirstIcon = IconsStart + 1;
@@ -201,7 +199,9 @@ namespace Rt2::View::Style
         constexpr QColor Background      = Swatches::Qb05::Qs0;
         constexpr QColor BackgroundLight = Swatches::Qb10::Qs0;
         constexpr QColor Separator       = Swatches::Qb05::Qs1;
+        constexpr QColor ForegroundDark  = Swatches::Qb90::Qs0;
         constexpr QColor Foreground      = Swatches::Qb90::Qs3;
+        constexpr QColor ForegroundLight = Swatches::Qb90::Qs5;
         constexpr QColor Border          = Separator;
         constexpr QColor Accent          = Palette::PrimaryGrey::Qb20::Qs1;
         constexpr int    BaseHeight      = Points::Pt24;
@@ -211,9 +211,16 @@ namespace Rt2::View::Style
         constexpr QSize  Small           = {320, 240};
         constexpr QSize  Medium          = {640, 480};
         constexpr QSize  Large           = {800, 600};
+        constexpr QSize  XLarge          = {1024, 768};
         constexpr QSize  Panel           = {BaseWidth, BaseHeight};
 
     }  // namespace Window
+
+    namespace Menu
+    {
+        constexpr int MinWidth = Window::BaseWidth;
+
+    }  // namespace Menu
 
     namespace TabBar
     {
@@ -338,6 +345,18 @@ namespace Rt2::View::Style
 
     }  // namespace Ctrl
 
+    namespace Slider
+    {
+        constexpr QColor Background = Palette::Control1::Qs2;
+        constexpr QColor Foreground = Palette::HighGrey::Qs1;
+        constexpr int    BaseHeight = Points::Pt18;
+        constexpr int    BaseWidth  = Points::Pt24;
+        constexpr int    FontSize   = Points::Pt10;
+
+        constexpr QSize MinSize = {BaseWidth, BaseHeight};
+
+    }  // namespace Slider
+
     namespace Title
     {
         constexpr QColor   Background = Palette::Control1::Qs0;
@@ -360,9 +379,10 @@ namespace Rt2::View::Style
     namespace TextEdit
     {
         constexpr QColor   Background = Window::BackgroundLight;
-        constexpr QColor   Foreground = Window::Foreground;
+        constexpr QColor   Foreground = Window::ForegroundLight;
         constexpr QSize    Minimum    = {200, 100};
         constexpr QMargins Margin     = Margin::None;
+        constexpr int      TextSize   = Points::Pt08;
     }  // namespace TextEdit
 
     class Widget
@@ -465,7 +485,7 @@ namespace Rt2::View::Style
         static TextEditView* textEdit(const StringModel::Observer& change);
         static TextEditView* textEdit(const String& label, const StringModel::Observer& change);
 
-        static MultiLineTextEditView* multilineEdit();
+        static MultiLineTextEditView* multilineEdit(bool readonly = false);
         static MultiLineTextEditView* multilineEdit(const StringModel::Observer& change);
         static MultiLineTextEditView* multilineEdit(const String& text, const StringModel::Observer& change);
 
@@ -474,6 +494,7 @@ namespace Rt2::View::Style
         static PushButtonView* push(const String& label, const BoolModel::Observer& pressed);
 
         static CheckBoxView* check();
+        static CheckBoxView* check(const BoolModel::Observer& pressed);
 
         static IconButtonView* icon(const IconMap& ico);
         static IconButtonView* icon(const IconMap& ico, const BoolModel::Observer& click);
@@ -496,5 +517,7 @@ namespace Rt2::View::Style
                                   qreal                       rangeStart,
                                   qreal                       rangeStop,
                                   const FloatModel::Observer& change);
+
+        static StringListView* stringList();
     };
 }  // namespace Rt2::View::Style

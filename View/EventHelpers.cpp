@@ -19,35 +19,21 @@
   3. This notice may not be removed or altered from any source distribution.
 -------------------------------------------------------------------------------
 */
-#include "View/States/MultiLineTextEdit.h"
+#include "View/EventHelpers.h"
+#include <QApplication>
+#include <QResizeEvent>
 
-namespace Rt2::View::Visual
+namespace Rt2::View
 {
-    using namespace Style;
-
-    MultiLineTextEdit::MultiLineTextEdit()
+    QResizeEvent* EventUtils::resize(QEvent* evt)
     {
-        update();
+        return tryCast<QResizeEvent, QEvent::Type::Resize>(evt);
     }
 
-    Data& MultiLineTextEdit::get(const StateType type)
+    void EventUtils::postSize(QObject* receiver, const QSize& newSize, const QSize& oldSize, int priority)
     {
-        return _normal;
+        RT_GUARD_CHECK_VOID(receiver)
+        QApplication::postEvent(receiver, new QResizeEvent(newSize, oldSize), priority);
     }
 
-    void MultiLineTextEdit::makeNormal()
-    {
-        _normal.setFontSize(FontSize::Normal);
-        _normal.setBorder(Margin::None);
-        _normal.setForegroundColor(TextEdit::Foreground);
-        _normal.setBackgroundColor(TextEdit::Background);
-        _normal.setHighlightBackgroundColor(Normal::Highlight);
-        _normal.setHighlightForegroundColor(Normal::HighlightText);
-    }
-
-
-    void MultiLineTextEdit::update()
-    {
-        makeNormal();
-    }
-}  // namespace Rt2::View::Visual
+}  // namespace Rt2::View

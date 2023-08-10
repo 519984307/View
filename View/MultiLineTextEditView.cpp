@@ -45,6 +45,8 @@ namespace Rt2::View
         _edit = Style::Widget::textEdit();
         _edit->setObjectName("MultiLineTextEditView");
         constructView(_edit);
+        _edit->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        _edit->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         Style::Constraint::minimum(this, Style::Ctrl::BaseHeight);
 
         _model.addInput(

@@ -39,7 +39,7 @@ namespace Rt2::View::Visual
 
     void PushButton::makeNormal()
     {
-        _normal.setBackgroundColor(Style::Normal::Background);
+        _normal.setBackgroundColor(Style::Window::Accent);
         _normal.setForegroundColor(Style::Normal::Foreground);
         _normal.setBorderColor(Style::Normal::BorderLight);
         _normal.setBorder(Style::Normal::BorderSize);

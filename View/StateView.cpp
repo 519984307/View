@@ -193,7 +193,7 @@ namespace Rt2::View
         apply(type);
     }
 
-    void StateView::setAttributeState(VisualAttribute attr, bool v) const
+    void StateView::setAttributeState(const VisualAttribute attr, const bool v) const
     {
         RT_GUARD_CHECK_VOID(_viewStates)
         _viewStates->setAttribute(attr, v);

@@ -323,15 +323,7 @@ namespace Rt2::Samples
             view->setRate(5);
             view->setValue(0);
 
-            const auto label = Style::Widget::label();
-            view->addOutput([label](float v)
-            {
-                label->setText(Qsu::format(v));
-            });
-
-
-            boxLayout()->addWidget(view, 0);
-            boxLayout()->addWidget(label, 1);
+            boxLayout()->addWidget(view, 1);
         }
     };
 

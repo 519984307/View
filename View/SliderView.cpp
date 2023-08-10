@@ -25,6 +25,7 @@
 #include <cfloat>
 #include <cmath>
 #include "Qu.h"
+#include "Utils/Char.h"
 
 namespace Rt2::View
 {
@@ -42,12 +43,20 @@ namespace Rt2::View
         constructView();
         setPadding(0);
         setMargin(0);
-        setMinimumWidth(Style::Panel::Minimum.width());
-        setMinimumHeight(Style::Icon::BoundingHeight);
+        Style::Constraint::minimum(this, Style::Slider::MinSize);
+        Style::Constraint::height(this, Style::Slider::MinSize.height());
 
         _background = Style::Normal::Background;
         _border     = Style::Normal::Border;
         _highlight  = Style::Normal::Highlight;
+    }
+
+    void SliderView::updateText()
+    {
+        const String text = Char::toString((int)_value.value());
+
+        _textPos = Qu::measure(text, Style::FontSize::Normal);
+        _text    = Qsu::to(text);
     }
 
     void SliderView::setRange(const double& min, const double& max)
@@ -80,6 +89,7 @@ namespace Rt2::View
     void SliderView::setValue(const double& val)
     {
         _value.setValue(val);
+        updateText();
     }
 
     void SliderView::addInput(const FloatModel::Observer& ob)
@@ -134,6 +144,7 @@ namespace Rt2::View
         double v = (_rangeRate[1] - _rangeRate[0]) * u + _rangeRate[0];
         v -= fmod(v, _rangeRate[2]);
         _value.setValue(v, ViewModel::OUTPUT);
+        updateText();
         refresh();
     }
 
@@ -151,16 +162,20 @@ namespace Rt2::View
 
     void SliderView::render(QPainter& paint, const QRectF& rect)
     {
-        
         if (_state & ENTER)
             paint.fillRect(rect, borderColor());
         else
             paint.fillRect(rect, backgroundColor());
 
-
         const double value = (abs(_rangeRate[0]) + _value.value()) / (_rangeRate[1] - _rangeRate[0]);
         const double v     = rect.width() * value;
 
-        paint.fillRect(QRectF{rect.left(), rect.top(), v, rect.height()}, highlightColor());
+        const auto fr = QRectF{rect.left(), rect.top(), v, rect.height()};
+
+        paint.fillRect(fr, highlightColor());
+
+        const QPointF loc = rect.center() - _textPos.center();
+
+        paint.drawText(loc, _text);
     }
 }  // namespace Rt2::View

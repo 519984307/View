@@ -20,8 +20,8 @@
 -------------------------------------------------------------------------------
 */
 #include "View/DefaultStyleSheet.h"
-#include "View/Style.h"
 #include "View/Qu.h"
+#include "View/Style.h"
 #include "View/StyleSheetWriter.h"
 
 // manual process:
@@ -55,21 +55,43 @@ namespace Rt2::View
             style.padding(Style::Size::Medium);
             style.end();
 
+            style.beginClass("QMenuBar");
+            style.backgroundColor(Style::Window::Background);
+            style.color(Style::Window::Foreground);
+            style.marginRight(Style::Size::Medium);
+            style.noBorder();
+            style.end();
+
+            style.beginClass("QMenuBar::item:selected");
+            style.backgroundColor(Style::Window::BackgroundLight);
+            style.end();
+
             style.beginClass("QMenu");
-            style.backgroundColor(Style::Normal::Background);
-            style.color(Style::Normal::Foreground);
-            style.margin(Style::Margin::Small);
+            style.backgroundColor(Style::Window::BackgroundLight);
+            style.color(Style::Window::ForegroundDark);
+            style.margin(Style::Size::Small);
+            style.noBorder();
+            style.end();
+
+            style.beginClass("QMenu::item");
+            style.backgroundColor(Style::Window::BackgroundLight);
+            style.color(Style::Window::Foreground);
+            style.margin(Style::Size::Tiny);
+            style.padding(Style::Size::Small);
             style.noBorder();
             style.end();
 
             style.beginType("QMenu::separator");
-            style.margin(Style::Margin::Medium);
-            style.borderBottom(Style::Window::Foreground, 1);
+            style.margin(Style::Margin::Small);
+            style.borderBottom(Style::Window::ForegroundDark, 1);
             style.height(Style::FontSize::Normal);
             style.end();
 
-            style.beginType("QMenu::selected");
+            style.beginType("QMenu::item::selected");
             style.backgroundColor(Style::Window::Accent);
+            style.color(Style::Window::ForegroundLight);
+            style.margin(Style::Size::Tiny);
+            style.padding(Style::Size::Small);
             style.noBorder();
             style.end();
 
@@ -108,7 +130,7 @@ namespace Rt2::View
             style.beginType("QListView::item:hover");
             style.backgroundColor(Style::ListView::Hover);
             style.end();
-            
+
             style.beginType("QScrollBar:vertical");
             style.noBackground();
             style.width(Style::ScrollBar::Size);
@@ -141,53 +163,53 @@ namespace Rt2::View
             style.width(0);
             style.end();
 
-            //style.begin("QScrollBar::sub-line:horizontal");
-            //style.width(0);
-            //style.end();
+            // style.begin("QScrollBar::sub-line:horizontal");
+            // style.width(0);
+            // style.end();
 
             style.begin("QScrollBar::add-line:vertical,QScrollBar::sub-line:vertical");
             style.height(0);
             style.end();
 
-            //style.begin("QScrollBar::sub-line:vertical");
-            //style.height(0);
-            //style.end();
+            // style.begin("QScrollBar::sub-line:vertical");
+            // style.height(0);
+            // style.end();
 
             style.begin("QScrollBar::add-page:vertical,QScrollBar::sub-page:vertical");
             style.noBorder();
             style.noBackground();
             style.end();
 
-            //style.begin("QScrollBar::sub-page:vertical");
-            //style.noBorder();
-            //style.noBackground();
-            //style.end();
+            // style.begin("QScrollBar::sub-page:vertical");
+            // style.noBorder();
+            // style.noBackground();
+            // style.end();
 
             style.begin("QScrollBar::add-page:horizontal,QScrollBar::sub-page:horizontal");
             style.noBorder();
             style.noBackground();
             style.end();
 
-            //style.begin("QScrollBar::sub-page:horizontal");
-            //style.noBorder();
-            //style.noBackground();
-            //style.end();
+            // style.begin("QScrollBar::sub-page:horizontal");
+            // style.noBorder();
+            // style.noBackground();
+            // style.end();
 
-            //style.begin("QCheckBox");
-            //style.backgroundColor(Colors::CtrlBackgroundLight);
-            //style.border(Colors::BorderLight, 1);
-            //style.end();
+            // style.begin("QCheckBox");
+            // style.backgroundColor(Colors::CtrlBackgroundLight);
+            // style.border(Colors::BorderLight, 1);
+            // style.end();
 
-            //style.begin("QCheckBox::indicator:unchecked ");
-            //style.backgroundColor(Colors::CtrlBackgroundLight);
-            //style.border(Colors::BorderLight, 1);
-            //style.end();
+            // style.begin("QCheckBox::indicator:unchecked ");
+            // style.backgroundColor(Colors::CtrlBackgroundLight);
+            // style.border(Colors::BorderLight, 1);
+            // style.end();
 
-            //style.begin("QCheckBox::indicator:checked ");
-            //style.backgroundColor(Colors::Accent);
-            //style.color(Colors::CtrlBackgroundLight);
-            //style.border(Colors::BorderLight, 1);
-            //style.end();
+            // style.begin("QCheckBox::indicator:checked ");
+            // style.backgroundColor(Colors::Accent);
+            // style.color(Colors::CtrlBackgroundLight);
+            // style.border(Colors::BorderLight, 1);
+            // style.end();
 
             style.begin("QTreeWidget");
             style.showSelectedDecoration(true);
@@ -249,7 +271,6 @@ namespace Rt2::View
             style.selectionColor(Style::Window::Accent);
             style.color(Style::Window::Foreground);
             style.end();
-
 
             style.begin("QTabWidget");
             style.backgroundColor(Style::TabBar::Background);

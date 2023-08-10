@@ -41,6 +41,8 @@ namespace Rt2::View
         DoubleModel       _value{0};
         double            _rangeRate[3];
         int               _state{0};
+        QRectF            _textPos;
+        QString            _text;
 
     public:
         explicit SliderView(QWidget* parent = nullptr);
@@ -59,6 +61,8 @@ namespace Rt2::View
 
     private:
         void construct();
+
+        void updateText();
 
     protected:
         void mousePressEvent(QMouseEvent* event) override;

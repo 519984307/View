@@ -36,6 +36,7 @@
 #include "PushButtonView.h"
 #include "Qu.h"
 #include "SliderView.h"
+#include "StringListView.h"
 #include "StyleSheetWriter.h"
 #include "TextEditView.h"
 #include "TitleListWidget.h"
@@ -258,8 +259,10 @@ namespace Rt2::View::Style
     QTextEdit* Widget::textEdit(const bool readonly)
     {
         const auto obj = new QTextEdit();
+        obj->setFont(Common::fixedWidth());
+        Common::makeTranslucent(obj);
+        Common::clearFrame(obj);
         Common::clearMargin(obj);
-        //obj->setFrameShape(QFrame::StyledPanel);
 
         obj->setReadOnly(readonly);
         StyleSheetWriter w;
@@ -276,9 +279,9 @@ namespace Rt2::View::Style
 
         w.backgroundColor(TextEdit::Background);
         w.color(TextEdit::Foreground);
+        w.fontSize(TextEdit::TextSize);
         w.end();
         obj->setStyleSheet(w.toString());
-        obj->setFont(Common::fixedWidth());
         return obj;
     }
 
@@ -518,9 +521,11 @@ namespace Rt2::View::Style
         return obj;
     }
 
-    MultiLineTextEditView* Views::multilineEdit()
+    MultiLineTextEditView* Views::multilineEdit(const bool readonly)
     {
-        return new MultiLineTextEditView();
+        const auto obj = new MultiLineTextEditView();
+        obj->setReadonly(readonly);
+        return obj;
     }
 
     MultiLineTextEditView* Views::multilineEdit(const StringModel::Observer& change)
@@ -558,6 +563,13 @@ namespace Rt2::View::Style
     CheckBoxView* Views::check()
     {
         return new CheckBoxView();
+    }
+
+    CheckBoxView* Views::check(const BoolModel::Observer& pressed)
+    {
+        const auto obj = check();
+        obj->addOutput(pressed);
+        return obj;
     }
 
     IconButtonView* Views::icon(const IconMap& ico)
@@ -659,6 +671,11 @@ namespace Rt2::View::Style
         const auto obj = slider(value, rangeStart, rangeStop);
         obj->addOutput(change);
         return obj;
+    }
+
+    StringListView* Views::stringList()
+    {
+        return new StringListView();
     }
 
 }  // namespace Rt2::View::Style
