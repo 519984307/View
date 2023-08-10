@@ -73,6 +73,12 @@ namespace Rt2::View
         _edit->setReadOnly(v);
     }
 
+    void MultiLineTextEditView::setWordWrap(const bool v) const
+    {
+        RT_GUARD_CHECK_VOID(_edit)
+        _edit->setWordWrapMode(v ? QTextOption::NoWrap : QTextOption::WordWrap);
+    }
+
     String MultiLineTextEditView::text() const
     {
         return _model.value();

@@ -40,7 +40,10 @@ namespace Rt2::View
         String text() const;
 
         void setText(const String& text);
+
         void setReadonly(bool v) const;
+
+        void setWordWrap(bool v) const;
 
         void addOutput(const StringModel::Observer& type);
 
