@@ -167,7 +167,7 @@ namespace Rt2::View
         else
             paint.fillRect(rect, backgroundColor());
 
-        const double value = (abs(_rangeRate[0]) + _value.value()) / (_rangeRate[1] - _rangeRate[0]);
+        const double value = (_value.value()-abs(_rangeRate[0])) / (_rangeRate[1] - _rangeRate[0]);
         const double v     = rect.width() * value;
 
         const auto fr = QRectF{rect.left(), rect.top(), v, rect.height()};
