@@ -277,7 +277,7 @@ namespace Rt2::View
         };
         namespace Swatches
         {
-            using Base = Mixer::Swatches<0x20, 0x90>;
+            using Base = Mixer::Swatches<0x1E, 0x90>;
 
             namespace Values
             {
