@@ -341,6 +341,7 @@ namespace Rt2::View::Style
         if (!right) right = box();
 
         const auto obj = new QSplitter();
+        Common::clearMargin(obj);
         obj->setOrientation(ori);
         obj->addWidget(left);
         obj->addWidget(right);

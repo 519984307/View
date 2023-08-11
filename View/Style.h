@@ -328,9 +328,9 @@ namespace Rt2::View::Style
 
     namespace ToolTip
     {
-        constexpr QColor Background = Palette::PrimaryBlend::Qb50::Qs5;
-        constexpr QColor Foreground = Window::Swatches::Qb10::Qs0;
-        constexpr QColor Border     = Palette::Control0::Qs0;
+        constexpr QColor Background = Window::Background;
+        constexpr QColor Foreground = Window::ForegroundLight;
+        constexpr QColor Border     = Window::BackgroundLight;
     }  // namespace ToolTip
 
     namespace Ctrl
