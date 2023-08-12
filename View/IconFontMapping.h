@@ -78,6 +78,7 @@ namespace Rt2::View
         IconLogOut,
         IconWindow,
         IconHome,
+        IconCopy,
         // 
         IconsEnd,
     };

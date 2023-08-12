@@ -252,13 +252,14 @@ namespace Rt2::View::Style
 
     namespace ListView
     {
-        constexpr QColor Background = Window::Background;
-        constexpr QColor Accent     = Window::Accent;
-        constexpr QColor Item       = Window::Background;
-        constexpr QColor Alternate  = Window::BackgroundLight;
-        constexpr QColor Selection  = Accent;
-        constexpr QColor Hover      = Accent;
-        constexpr QColor Foreground = Window::Foreground;
+        constexpr QColor Background     = Window::Background;
+        constexpr QColor Accent         = Window::Accent;
+        constexpr QColor Item           = Window::Background;
+        constexpr QColor Alternate      = Window::BackgroundLight;
+        constexpr QColor Selection      = Accent;
+        constexpr QColor Hover          = Accent;
+        constexpr QColor Foreground     = Window::Foreground;
+        constexpr QColor ForegroundDark = Window::ForegroundDark;
 
     }  // namespace ListView
 

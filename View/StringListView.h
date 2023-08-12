@@ -34,14 +34,15 @@ namespace Rt2::View
         StringListModel _strings;
         VariantModel    _doubleClick;
         VariantModel    _click;
+        bool            _sortEnabled{false};
 
     public:
         explicit StringListView(QWidget* parent = nullptr);
         ~StringListView() override;
 
-        void addEntry(const String& string, const QVariant& data = {}) const;
+        void addEntry(const String& string, const QVariant& data = {}, const QVariant& sortData = {}) const;
 
-        void addEntry(const QIcon& ico, const String& string, const QVariant& data = {}) const;
+        void addEntry(const QIcon& ico, const String& string, const QVariant& data = {}, const QVariant& sortData = {}) const;
 
         void clear() const;
 
@@ -50,6 +51,8 @@ namespace Rt2::View
         void addDoubleClickOutput(const VariantModel::Observer& ot);
 
         void addClickOutput(const VariantModel::Observer& ot);
+
+        void sort(Qt::SortOrder order = Qt::AscendingOrder) const;
 
     private:
         void construct();

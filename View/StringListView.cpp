@@ -20,11 +20,12 @@
 -------------------------------------------------------------------------------
 */
 #include "View/StringListView.h"
+#include <qsortfilterproxymodel.h>
 #include <QBoxLayout>
 #include <QListView>
 #include <QStandardItemModel>
+#include "Utils/Char.h"
 #include "View/Qu.h"
-
 
 namespace Rt2::View
 {
@@ -42,8 +43,11 @@ namespace Rt2::View
 
     void StringListView::construct()
     {
+        const auto model = new QStandardItemModel();
+        model->setSortRole(Qt::UserRole + 1);
+
         _listing = new QListView(this);
-        _listing->setModel(new QStandardItemModel());
+        _listing->setModel(model);
         _listing->setSelectionRectVisible(false);
         _listing->setAlternatingRowColors(true);
         _listing->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -75,12 +79,12 @@ namespace Rt2::View
             ViewModel::OUTPUT);
     }
 
-    void StringListView::addEntry(const String& string, const QVariant& data) const
+    void StringListView::addEntry(const String& string, const QVariant& data, const QVariant& sortData) const
     {
-        addEntry({}, string, data);
+        addEntry({}, string, data, sortData);
     }
 
-    void StringListView::addEntry(const QIcon& ico, const String& string, const QVariant& data) const
+    void StringListView::addEntry(const QIcon& ico, const String& string, const QVariant& data, const QVariant& sortData) const
     {
         RT_GUARD_CHECK_VOID(!string.empty() && _listing && _listing->model())
 
@@ -93,10 +97,14 @@ namespace Rt2::View
             else
                 model->setItem(cur, new QStandardItem(ico, Qsu::to(string)));
 
+            const QModelIndex idx = model->index(cur, 0);
             if (!data.isNull())
-            {
-                const QModelIndex idx = model->index(cur, 0);
                 model->setData(idx, data, Qt::UserRole);
+
+            if (!sortData.isNull())
+            {
+                model->setData(idx, data, Qt::InitialSortOrderRole);
+                model->setData(idx, sortData, Qt::UserRole + 1);
             }
         }
     }
@@ -106,7 +114,9 @@ namespace Rt2::View
         RT_GUARD_CHECK_VOID(_listing && _listing->model())
 
         delete _listing->model();
-        _listing->setModel(new QStandardItemModel());
+        const auto model = new QStandardItemModel();
+        model->setSortRole(Qt::UserRole + 1);
+        _listing->setModel(model);
     }
 
     void StringListView::addInput(const StringListModel::Observer& ot)
@@ -123,4 +133,11 @@ namespace Rt2::View
     {
         _click.addOutput(ot);
     }
+
+    void StringListView::sort(const Qt::SortOrder order) const
+    {
+        RT_GUARD_VOID(_listing && _listing->model())
+        _listing->model()->sort(0, order);
+    }
+    
 }  // namespace Rt2::View
