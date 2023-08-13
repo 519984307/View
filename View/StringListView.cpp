@@ -43,11 +43,9 @@ namespace Rt2::View
 
     void StringListView::construct()
     {
-        const auto model = new QStandardItemModel();
-        model->setSortRole(Qt::UserRole + 1);
 
         _listing = new QListView(this);
-        _listing->setModel(model);
+        _listing->setModel(createModel());
         _listing->setSelectionRectVisible(false);
         _listing->setAlternatingRowColors(true);
         _listing->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -65,6 +63,15 @@ namespace Rt2::View
                 &StringListView::itemClickedImpl);
     }
 
+
+    QStandardItemModel* StringListView::createModel()
+    {
+        const auto model = new QStandardItemModel();
+        model->setSortRole(Qt::UserRole + 1);
+        model->setColumnCount(1);
+        return model;
+    }
+
     void StringListView::itemDoubleClickedImpl(const QModelIndex& index)
     {
         _doubleClick.setValue(
@@ -79,12 +86,19 @@ namespace Rt2::View
             ViewModel::OUTPUT);
     }
 
-    void StringListView::addEntry(const String& string, const QVariant& data, const QVariant& sortData) const
+    void StringListView::addEntry(
+        const String&   string,
+        const QVariant& index,
+        const QVariant& sortData) const
     {
-        addEntry({}, string, data, sortData);
+        addEntry({}, string, index, sortData);
     }
 
-    void StringListView::addEntry(const QIcon& ico, const String& string, const QVariant& data, const QVariant& sortData) const
+    void StringListView::addEntry(
+        const QIcon&    ico,
+        const String&   string,
+        const QVariant& index,
+        const QVariant& sortData) const
     {
         RT_GUARD_CHECK_VOID(!string.empty() && _listing && _listing->model())
 
@@ -98,25 +112,19 @@ namespace Rt2::View
                 model->setItem(cur, new QStandardItem(ico, Qsu::to(string)));
 
             const QModelIndex idx = model->index(cur, 0);
-            if (!data.isNull())
-                model->setData(idx, data, Qt::UserRole);
+            if (!index.isNull())
+                model->setData(idx, index, Qt::UserRole);
 
             if (!sortData.isNull())
-            {
-                model->setData(idx, data, Qt::InitialSortOrderRole);
                 model->setData(idx, sortData, Qt::UserRole + 1);
-            }
         }
     }
 
     void StringListView::clear() const
     {
         RT_GUARD_CHECK_VOID(_listing && _listing->model())
-
         delete _listing->model();
-        const auto model = new QStandardItemModel();
-        model->setSortRole(Qt::UserRole + 1);
-        _listing->setModel(model);
+        _listing->setModel(createModel());
     }
 
     void StringListView::addInput(const StringListModel::Observer& ot)
@@ -139,5 +147,5 @@ namespace Rt2::View
         RT_GUARD_VOID(_listing && _listing->model())
         _listing->model()->sort(0, order);
     }
-    
+
 }  // namespace Rt2::View

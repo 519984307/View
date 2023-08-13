@@ -24,6 +24,8 @@
 #include "View/Definitions.h"
 #include "View/View.h"
 
+class QStandardItemModel;
+
 namespace Rt2::View
 {
     class StringListView final : public View
@@ -40,9 +42,9 @@ namespace Rt2::View
         explicit StringListView(QWidget* parent = nullptr);
         ~StringListView() override;
 
-        void addEntry(const String& string, const QVariant& data = {}, const QVariant& sortData = {}) const;
+        void addEntry(const String& string, const QVariant& index = {}, const QVariant& sortData = {}) const;
 
-        void addEntry(const QIcon& ico, const String& string, const QVariant& data = {}, const QVariant& sortData = {}) const;
+        void addEntry(const QIcon& ico, const String& string, const QVariant& index = {}, const QVariant& sortData = {}) const;
 
         void clear() const;
 
@@ -56,6 +58,8 @@ namespace Rt2::View
 
     private:
         void construct();
+
+        static QStandardItemModel* createModel();
 
         void itemDoubleClickedImpl(const QModelIndex& index);
 
