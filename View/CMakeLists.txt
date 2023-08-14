@@ -16,6 +16,7 @@ set_group(
 
 include_directories(
     ${Utils_INCLUDE} 
+    ${Thread_INCLUDE} 
     ${View_INCLUDE} 
 )
 
@@ -32,6 +33,7 @@ target_link_libraries(
     Qt6::Core 
     Qt6::Gui 
     ${Utils_LIBRARY}
+    ${Thread_LIBRARY} 
 )
 
 set_target_properties(

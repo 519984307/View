@@ -44,6 +44,7 @@ namespace Rt2::View
         static void logRecursive(const QObject* root, int depth);
 
         static QRectF measure(const String& str, int size);
+        static QRectF measureQString(const QString& str, int size);
     };
 
     class Qsu

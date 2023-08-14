@@ -10,3 +10,6 @@
 	path = Internal/Utils
 	url = https://github.com/i1qh2n/Utils.git
         branch = main
+[submodule "Internal/Thread"]
+	path = Internal/Thread
+	url = https://github.com/i1qh2n/Thread.git

@@ -34,6 +34,7 @@ else()
     add_subdirectory(CMake)
     add_subdirectory(Internal/Utils)
     include(${Utils_SOURCE_DIR}/CMake/Locals.cmake)
+    add_subdirectory(Internal/Thread)
 
     set(TargetFolders TRUE)
     set(TargetName View)

@@ -26,6 +26,14 @@ DefineExternalTargetEx(
     ${View_AUTO_RUN_TEST}
 )
 
+DefineExternalTargetEx(
+    Thread Extern
+    ${View_SOURCE_DIR}/Internal/Thread 
+    ${View_SOURCE_DIR}/Internal/Thread
+    ${View_BUILD_TEST}
+    ${View_AUTO_RUN_TEST}
+)
+
 configure_gtest(${View_SOURCE_DIR}/Test/googletest 
                 ${View_SOURCE_DIR}/Test/googletest/googletest/include)
 

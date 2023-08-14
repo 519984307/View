@@ -25,7 +25,8 @@
 #include "View/StyleSheetWriter.h"
 
 // manual process:
-// + #define DefaultStyleSheetUpdate
+// +
+#define DefaultStyleSheetUpdate
 // + Save the stream to a file.
 // + Use ResourceCompiler to convert it.
 // + Adjust the constant below.
@@ -258,10 +259,10 @@ namespace Rt2::View
             style.backgroundColor(Style::Window::Separator);
             style.end();
             style.begin("QSplitter::handle:horizontal");
-            style.width(Style::Window::BorderSize);
+            style.width(Style::Window::SplitterSize);
             style.end();
             style.begin("QSplitter::handle:vertical");
-            style.height(Style::Window::BorderSize);
+            style.height(Style::Window::SplitterSize);
             style.end();
 
             style.begin("QTextEdit");

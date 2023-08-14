@@ -120,7 +120,7 @@ namespace Rt2::View
         EC_003,                           // DirClickEventCode
         EC_004,                           // reserved
         EC_005,                           // reserved
-        EC_006,                           // unused
+        EC_006,                           // ViewConstruction
         EC_007,                           // unused
         EC_008,                           // unused
         EC_009,                           // unused

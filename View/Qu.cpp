@@ -104,11 +104,16 @@ namespace Rt2::View
 
     QRectF Qu::measure(const String& str, const int size)
     {
+        return measureQString(Qsu::to(str), size);
+    }
+
+    QRectF Qu::measureQString(const QString& str, const int size)
+    {
         QFont fnt = QApplication::font();
         fnt.setPointSize(size);
 
         const QFontMetricsF fm(fnt);
-        return fm.boundingRect(Qsu::to(str));
+        return fm.boundingRect(str);
     }
 
     String Qsu::from(const QString& str)

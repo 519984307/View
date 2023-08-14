@@ -198,7 +198,8 @@ namespace Rt2::View::Style
 
         constexpr QColor Background      = Swatches::Qb05::Qs0;
         constexpr QColor BackgroundLight = Swatches::Qb10::Qs0;
-        constexpr QColor Separator       = Swatches::Qb05::Qs1;
+        constexpr QColor CtrlBackground  = Swatches::Qb15::Qs0;
+        constexpr QColor Separator       = Swatches::Qb05::Qs0;
         constexpr QColor ForegroundDark  = Swatches::Qb90::Qs0;
         constexpr QColor Foreground      = Swatches::Qb90::Qs3;
         constexpr QColor ForegroundLight = Swatches::Qb90::Qs5;
@@ -208,6 +209,7 @@ namespace Rt2::View::Style
         constexpr int    BaseWidth       = Points::Pt24 << 3;
         constexpr int    FontSize        = Points::Pt10;
         constexpr int    BorderSize      = Points::Pt01;
+        constexpr int    SplitterSize    = Points::Pt03;
         constexpr QSize  Small           = {320, 240};
         constexpr QSize  Medium          = {640, 480};
         constexpr QSize  Large           = {800, 600};
