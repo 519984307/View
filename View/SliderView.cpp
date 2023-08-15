@@ -86,10 +86,16 @@ namespace Rt2::View
             _rangeRate[2] = d;
     }
 
-    void SliderView::setValue(const double& val)
+    void SliderView::setValue(const double& val, const ViewModel::Direction dir)
     {
-        _value.setValue(val);
-        updateText();
+        const auto old = _value.value();
+        if (const auto tmp = Clamp(val, _rangeRate[0], _rangeRate[1]);
+            fabs(old - tmp) > 0.00001)
+        {
+            _value.setValue(tmp, dir);
+            updateText();
+            refresh();
+        }
     }
 
     void SliderView::addInput(const FloatModel::Observer& ob)
@@ -143,9 +149,21 @@ namespace Rt2::View
 
         double v = (_rangeRate[1] - _rangeRate[0]) * u + _rangeRate[0];
         v -= fmod(v, _rangeRate[2]);
-        _value.setValue(v, ViewModel::OUTPUT);
-        updateText();
-        refresh();
+        setValue(v, ViewModel::OUTPUT);
+    }
+
+    void SliderView::wheelEvent(QWheelEvent* event)
+    {
+        RT_GUARD_CHECK_VOID(event)
+        CustomView::wheelEvent(event);
+
+        if (_opts & SliderViewScroll)
+        {
+            if (event->angleDelta().y() > 0)
+                setValue(_value.value() + _rangeRate[2], ViewModel::OUTPUT);
+            else
+                setValue(_value.value() - _rangeRate[2], ViewModel::OUTPUT);
+        }
     }
 
     void SliderView::enterEvent(QEnterEvent* event)
@@ -167,7 +185,7 @@ namespace Rt2::View
         else
             paint.fillRect(rect, backgroundColor());
 
-        const double value = (_value.value()-abs(_rangeRate[0])) / (_rangeRate[1] - _rangeRate[0]);
+        const double value = (_value.value() - abs(_rangeRate[0])) / (_rangeRate[1] - _rangeRate[0]);
         const double v     = rect.width() * value;
 
         const auto fr = QRectF{rect.left(), rect.top(), v, rect.height()};

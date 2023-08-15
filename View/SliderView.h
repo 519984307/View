@@ -32,6 +32,12 @@ namespace Rt2::View
 {
     class SliderViewStates;
 
+    enum SliderViewOptions
+    {
+        SliderViewScroll   = 0x01,
+        SliderViewConstant = 0x02
+    };
+
     class SliderView final : public CustomView
     {
         Q_OBJECT
@@ -42,7 +48,8 @@ namespace Rt2::View
         double            _rangeRate[3];
         int               _state{0};
         QRectF            _textPos;
-        QString            _text;
+        QString           _text;
+        int               _opts{SliderViewConstant | SliderViewScroll};
 
     public:
         explicit SliderView(QWidget* parent = nullptr);
@@ -53,7 +60,7 @@ namespace Rt2::View
 
         void setRate(const double& val);
 
-        void setValue(const double& val);
+        void setValue(const double& val, ViewModel::Direction dir = ViewModel::OUTPUT);
 
         void addInput(const FloatModel::Observer& ob);
 
@@ -70,6 +77,8 @@ namespace Rt2::View
         void mouseReleaseEvent(QMouseEvent* event) override;
 
         void mouseMoveEvent(QMouseEvent* event) override;
+
+        void wheelEvent(QWheelEvent* event) override;
 
         void enterEvent(QEnterEvent* event) override;
 
