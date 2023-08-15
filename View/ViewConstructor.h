@@ -26,10 +26,10 @@ namespace Rt2::View
 
     enum ViewConstructorSubCode
     {
-        ViewConstructorStart,
-        ViewConstructorData,
-        ViewConstructorRestart,
-        ViewConstructorStop,
+        ViewConstructorStart,    // High 
+        ViewConstructorRestart,  // 
+        ViewConstructorData,     // Medium
+        ViewConstructorStop,     // Low, => [H, M...M, L]
     };
 
     class ViewConstructorEvent final : public QEvent
@@ -93,8 +93,7 @@ namespace Rt2::View
 
         virtual ConstructorObject* construct() = 0;
 
-
-        static void dispatch(QObject *receiver, int code);
+        static void dispatch(QObject* receiver, int code);
     };
 
 }  // namespace Rt2::View

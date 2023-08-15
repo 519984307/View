@@ -39,7 +39,10 @@ namespace Rt2::View
     void ViewConstructor::dispatch(ConstructorObject* obj) const
     {
         RT_GUARD_VOID(_receiver)
-        QApplication::postEvent(_receiver, new ViewConstructorEvent(obj), Qt::NormalEventPriority);
+        QApplication::postEvent(
+            _receiver, 
+            new ViewConstructorEvent(obj), 
+            Qt::NormalEventPriority);
     }
 
     void ViewConstructor::dispatch(const int code) const
@@ -49,12 +52,7 @@ namespace Rt2::View
 
     bool ViewConstructor::sync()
     {
-        if (isRunning())
-        {
-            Thread::Thread::yield();
-            return false;
-        }
-        return true;
+        Thread::Thread::sleep(5);
+        return !isRunning();
     }
-
 }  // namespace Rt2::View
