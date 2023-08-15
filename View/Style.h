@@ -196,25 +196,29 @@ namespace Rt2::View::Style
     {
         using Swatches = Palette::ControlBlend;
 
-        constexpr QColor Background      = Swatches::Qb05::Qs0;
-        constexpr QColor BackgroundLight = Swatches::Qb10::Qs0;
-        constexpr QColor CtrlBackground  = Swatches::Qb15::Qs0;
-        constexpr QColor Separator       = Swatches::Qb05::Qs0;
-        constexpr QColor ForegroundDark  = Swatches::Qb90::Qs0;
-        constexpr QColor Foreground      = Swatches::Qb90::Qs3;
-        constexpr QColor ForegroundLight = Swatches::Qb90::Qs5;
-        constexpr QColor Border          = Separator;
-        constexpr QColor Accent          = Palette::PrimaryGrey::Qb20::Qs1;
-        constexpr int    BaseHeight      = Points::Pt24;
-        constexpr int    BaseWidth       = Points::Pt24 << 3;
-        constexpr int    FontSize        = Points::Pt10;
-        constexpr int    BorderSize      = Points::Pt01;
-        constexpr int    SplitterSize    = Points::Pt03;
-        constexpr QSize  Small           = {320, 240};
-        constexpr QSize  Medium          = {640, 480};
-        constexpr QSize  Large           = {800, 600};
-        constexpr QSize  XLarge          = {1024, 768};
-        constexpr QSize  Panel           = {BaseWidth, BaseHeight};
+        constexpr QColor Background          = Swatches::Qb05::Qs0;
+        constexpr QColor BackgroundMedium    = Swatches::Qb10::Qs0;
+        constexpr QColor BackgroundLight     = Swatches::Qb15::Qs0;
+        constexpr QColor BackgroundHighLight = Swatches::Qb15::Qs1;
+        constexpr QColor CtrlBackground      = BackgroundLight;
+        constexpr QColor Separator           = Background;
+        constexpr QColor ForegroundDark      = Swatches::Qb90::Qs0;
+        constexpr QColor Foreground          = Swatches::Qb90::Qs3;
+        constexpr QColor ForegroundLight     = Swatches::Qb90::Qs5;
+        constexpr QColor Border              = Separator;
+        constexpr QColor AccentDark          = Palette::PrimaryGrey::Qb10::Qs0;
+        constexpr QColor Accent              = Palette::PrimaryGrey::Qb15::Qs1;
+        constexpr QColor AccentLight         = Palette::PrimaryGrey::Qb20::Qs2;
+        constexpr int    BaseHeight          = Points::Pt24;
+        constexpr int    BaseWidth           = Points::Pt24 << 3;
+        constexpr int    FontSize            = Points::Pt10;
+        constexpr int    BorderSize          = Points::Pt01;
+        constexpr int    SplitterSize        = Points::Pt03;
+        constexpr QSize  Small               = {320, 240};
+        constexpr QSize  Medium              = {640, 480};
+        constexpr QSize  Large               = {800, 600};
+        constexpr QSize  XLarge              = {1024, 768};
+        constexpr QSize  Panel               = {BaseWidth, BaseHeight};
 
     }  // namespace Window
 

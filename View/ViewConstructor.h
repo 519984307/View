@@ -24,20 +24,31 @@ namespace Rt2::View
 
     constexpr int ViewConstructorEventCode = EC_006;
 
+    enum ViewConstructorSubCode
+    {
+        ViewConstructorStart,
+        ViewConstructorData,
+        ViewConstructorRestart,
+        ViewConstructorStop,
+    };
+
     class ViewConstructorEvent final : public QEvent
     {
     private:
         ConstructorObject* _object{nullptr};  // is owner
+        int                _subCode{ViewConstructorStart};
 
     public:
-        ViewConstructorEvent() :
-            QEvent((Type)ViewConstructorEventCode)
+        explicit ViewConstructorEvent(const int subCode = ViewConstructorStart) :
+            QEvent((Type)ViewConstructorEventCode),
+            _subCode{subCode}
         {
         }
 
-        explicit ViewConstructorEvent(ConstructorObject* obj) :  // passes ownership
+        explicit ViewConstructorEvent(ConstructorObject* obj, const int subCode = ViewConstructorData) :  // passes ownership
             QEvent((Type)ViewConstructorEventCode),
-            _object(obj)
+            _object(obj),
+            _subCode{subCode}
         {
         }
 
@@ -46,6 +57,8 @@ namespace Rt2::View
             delete _object;
             _object = nullptr;
         }
+
+        int subCode() const { return _subCode; }
 
         ConstructorObject* object() const
         {
@@ -72,11 +85,16 @@ namespace Rt2::View
 
         void dispatch(ConstructorObject*) const;
 
+        void dispatch(int code) const;
+
     public:
         explicit ViewConstructor(QObject* receiver);
         ~ViewConstructor() override = default;
 
         virtual ConstructorObject* construct() = 0;
+
+
+        static void dispatch(QObject *receiver, int code);
     };
 
 }  // namespace Rt2::View

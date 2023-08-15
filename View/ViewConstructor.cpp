@@ -8,10 +8,22 @@ namespace Rt2::View
     {
     }
 
+    void ViewConstructor::dispatch(QObject* receiver, const int code)
+    {
+        if (code < ViewConstructorStart || code > ViewConstructorStop) return;
+
+        RT_GUARD_VOID(receiver)
+        QApplication::postEvent(
+            receiver,
+            new ViewConstructorEvent(code),
+            code == ViewConstructorStop ? Qt::LowEventPriority : Qt::HighEventPriority);
+    }
+
     void ViewConstructor::update()
     {
         RT_GUARD_VOID(_receiver)
 
+        dispatch(ViewConstructorStart);
         while (isRunning())
         {
             if (sync()) break;
@@ -21,12 +33,18 @@ namespace Rt2::View
             else
                 break;
         }
+        dispatch(ViewConstructorStop);
     }
 
     void ViewConstructor::dispatch(ConstructorObject* obj) const
     {
         RT_GUARD_VOID(_receiver)
-        QApplication::postEvent(_receiver, new ViewConstructorEvent(obj));
+        QApplication::postEvent(_receiver, new ViewConstructorEvent(obj), Qt::NormalEventPriority);
+    }
+
+    void ViewConstructor::dispatch(const int code) const
+    {
+        dispatch(_receiver, code);
     }
 
     bool ViewConstructor::sync()

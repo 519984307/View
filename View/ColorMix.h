@@ -145,6 +145,14 @@ namespace Rt2::View
                     return to(MixRgb<0, 0, 0>::mix(c, {b.red(), b.green(), b.blue(), 0xFF}, fac));
                 }
 
+                static QColor mix(const QColor& c, const QColor& b, const double fac)
+                {
+                    return to(MixRgb<0, 0, 0>::mix(
+                        {c.red(), c.green(), c.blue(), 0xFF},
+                        {b.red(), b.green(), b.blue(), 0xFF},
+                        fac));
+                }
+
             }  // namespace QtMix
 
             template <int R, int G, int B, int S, int O = 0x00>
