@@ -322,19 +322,30 @@ namespace Rt2::View::Style
         return new ItemListWidget(items, size, margin, color, background);
     }
 
-    QSplitter* Widget::hs(QWidget* left, QWidget* right)
+    QSplitter* Widget::splitHorizontal(
+        QWidget*  left,
+        QWidget*  right,
+        const int ls,
+        const int rs)
     {
-        const auto obj = split(left, right, Qt::Horizontal);
-        return obj;
+        return split(left, right, Qt::Horizontal, ls, rs);
     }
 
-    QSplitter* Widget::vs(QWidget* left, QWidget* right)
+    QSplitter* Widget::splitVertical(
+        QWidget*  left,
+        QWidget*  right,
+        const int ls,
+        const int rs)
     {
-        const auto obj = split(left, right, Qt::Vertical);
-        return obj;
+        return split(left, right, Qt::Vertical, ls, rs);
     }
 
-    QSplitter* Widget::split(QWidget* left, QWidget* right, const Qt::Orientation& ori)
+    QSplitter* Widget::split(
+        QWidget*               left,
+        QWidget*               right,
+        const Qt::Orientation& ori,
+        const int              ls,
+        const int              rs)
     {
         // fall back cases
         if (!left) left = box();
@@ -345,6 +356,8 @@ namespace Rt2::View::Style
         obj->setOrientation(ori);
         obj->addWidget(left);
         obj->addWidget(right);
+        obj->setStretchFactor(0, ls);
+        obj->setStretchFactor(1, rs);
         return obj;
     }
 

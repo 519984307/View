@@ -196,6 +196,7 @@ namespace Rt2::View::Style
     {
         using Swatches = Palette::ControlBlend;
 
+        constexpr QColor Dark                = Palette::Control0::Qs0;
         constexpr QColor Background          = Swatches::Qb05::Qs0;
         constexpr QColor BackgroundMedium    = Swatches::Qb10::Qs0;
         constexpr QColor BackgroundLight     = Swatches::Qb15::Qs0;
@@ -439,9 +440,9 @@ namespace Rt2::View::Style
             const QColor&      color,
             const QColor&      background);
 
-        static QSplitter* hs(QWidget* left, QWidget* right);
-        static QSplitter* vs(QWidget* left, QWidget* right);
-        static QSplitter* split(QWidget* left, QWidget* right, const Qt::Orientation& ori);
+        static QSplitter* splitHorizontal(QWidget* left, QWidget* right,int ls=0, int rs =0);
+        static QSplitter* splitVertical(QWidget* left, QWidget* right, int ls=0, int rs =0);
+        static QSplitter* split(QWidget* left, QWidget* right, const Qt::Orientation& ori, int ls=0, int rs =0);
     };
 
     class Constraint
