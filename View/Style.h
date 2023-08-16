@@ -274,7 +274,7 @@ namespace Rt2::View::Style
     {
         constexpr QColor Border        = Window::Swatches::Qb10::Qs1;
         constexpr QColor BorderLight   = Window::Swatches::Qb05::Qs2;
-        constexpr QColor Background    = Window::Swatches::Qb10::Qs0;
+        constexpr QColor Background    = Window::Swatches::Qb05::Qs0;
         constexpr QColor Foreground    = Palette::Text::Qs3;
         constexpr QColor Highlight     = Palette::PrimaryBlend::Qb20::Qs2;
         constexpr QColor HighlightText = Palette::ControlBlend::Qb90::Qs5;
@@ -285,7 +285,7 @@ namespace Rt2::View::Style
     {
         constexpr QColor Border        = Normal::BorderLight;
         constexpr QColor BorderLight   = Window::Swatches::Qb05::Qs3;
-        constexpr QColor Background    = Window::Swatches::Qb10::Qs1;
+        constexpr QColor Background    = Window::Swatches::Qb10::Qs0;
         constexpr QColor Foreground    = Palette::Text::Qs4;
         constexpr QColor Highlight     = Palette::PrimaryBlend::Qb20::Qs2;
         constexpr QColor HighlightText = Palette::ControlBlend::Qb90::Qs5;

@@ -42,13 +42,12 @@ namespace Rt2::View::Visual
         _normal.setFontSize(FontSize::Normal);
         _normal.setBorder(Margin::Tiny);
         _normal.setForegroundColor(Normal::Foreground);
-        _normal.setBorderColor(Normal::BorderLight);
+        _normal.setBorderColor(Normal::Border);
         _normal.setBackgroundColor(Normal::Background);
         _normal.setHighlightBackgroundColor(Normal::Highlight);
         _normal.setHighlightForegroundColor(Normal::HighlightText);
-
-        _normal.setPadding(Size::Medium, Size::Medium);
-        _normal.setBorderRadius(Size::Medium);
+        _normal.setPadding(Size::Medium, Size::Tiny, Size::Medium, Size::Tiny);
+        _normal.setBorderRadius(Size::None);
     }
 
     void TextEdit::makeHover()
@@ -60,9 +59,8 @@ namespace Rt2::View::Visual
         _hover.setBackgroundColor(Hover::Background);
         _hover.setHighlightBackgroundColor(Normal::Highlight);
         _hover.setHighlightForegroundColor(Normal::HighlightText);
-
-        _hover.setPadding(Size::Medium, Size::Medium);
-        _hover.setBorderRadius(Size::Medium);
+        _hover.setPadding(Size::Medium, Size::Tiny, Size::Medium, Size::Tiny);
+        _hover.setBorderRadius(Size::None);
     }
 
     void TextEdit::update()
