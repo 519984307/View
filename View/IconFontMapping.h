@@ -28,7 +28,7 @@ namespace Rt2::View
         IconNone,
         IconFlagOn,
         IconFlagOff,
-        IconsStart   = ' ' - 1,
+        IconsStart = ' ' - 1,
         //
         IconAdd,
         IconEdit,
@@ -79,8 +79,17 @@ namespace Rt2::View
         IconWindow,
         IconHome,
         IconCopy,
-        // 
+        //
         IconsEnd,
+    };
+
+    class Qiu
+    {
+    public:
+        static QString to(const IconMap& ico)
+        {
+            return QString(QChar(ico));
+        }
     };
 
 }  // namespace Rt2::View

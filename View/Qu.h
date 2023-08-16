@@ -24,7 +24,6 @@
 #include "Utils/TextStreamWriter.h"
 #include "View/Style.h"
 
-
 namespace Rt2::View
 {
     class Qu
@@ -44,7 +43,10 @@ namespace Rt2::View
         static void logRecursive(const QObject* root, int depth);
 
         static QRectF measure(const String& str, int size);
+
         static QRectF measureQString(const QString& str, int size);
+
+        static QString trimToFit(const QString& str, const QRectF& r, int size);
     };
 
     class Qsu
@@ -66,11 +68,11 @@ namespace Rt2::View
 
         static String colorString(const QColor& color);
 
-        template<typename ...Args>
-        static QString format(Args&& ... args)
+        template <typename... Args>
+        static QString format(Args&&... args)
         {
             OutputStringStream oss;
-            Ts::print(oss, (std::forward<Args>(args),...));
+            Ts::print(oss, (std::forward<Args>(args), ...));
             return to(oss.str());
         }
     };

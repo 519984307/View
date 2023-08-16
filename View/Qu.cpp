@@ -54,7 +54,7 @@ namespace Rt2::View
         fnt.setPointSize(Style::Points::Pt10);
         QApplication::setFont(fnt);
     }
-    
+
     bool Qu::isLabel(const QObject* obj)
     {
         RT_GUARD_CHECK_RET(obj, false)
@@ -116,6 +116,24 @@ namespace Rt2::View
         return fm.boundingRect(str);
     }
 
+    QString Qu::trimToFit(const QString& str, const QRectF& r, const int size)
+    {
+        if (const QRectF br = measureQString(str, size); br.width() > r.width())
+        {
+            auto over = (int)(br.width() - r.width()) / size;
+            if (over < str.size())
+            {
+                over += 5;
+                String s = str.toStdString();
+                while (over--)
+                    s.pop_back();
+                s.append("...");
+                return Qsu::to(s);
+            }
+        }
+        return str;
+    }
+
     String Qsu::from(const QString& str)
     {
         return str.toStdString();
@@ -166,8 +184,8 @@ namespace Rt2::View
     String Qsu::colorString(const QColor& color)
     {
         return Su::join(Hex((uint8_t)Min(color.red(), 0xFF)),
-                           Hex((uint8_t)Min(color.green(), 0xFF)),
-                           Hex((uint8_t)Min(color.blue(), 0xFF)));
+                        Hex((uint8_t)Min(color.green(), 0xFF)),
+                        Hex((uint8_t)Min(color.blue(), 0xFF)));
     }
 
     QPoint Qmc::point(const QPointF& pt)
