@@ -52,7 +52,6 @@ namespace Rt2::View
 
     bool ViewConstructor::sync()
     {
-        Thread::Thread::sleep(5);
-        return !isRunning();
+        return !isRunningUnlocked();
     }
 }  // namespace Rt2::View
