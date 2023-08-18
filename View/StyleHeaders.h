@@ -1,0 +1,22 @@
+#pragma once
+
+#include <QGroupBox>
+#include <QLabel>
+#include <QLineEdit>
+#include <QSplitter>
+#include <QStyle>
+#include <QTabWidget>
+#include <QTextEdit>
+#include <QVBoxLayout>
+#include "View/CheckBoxView.h"
+#include "View/FlagView.h"
+#include "View/IconButtonView.h"
+#include "View/ItemListWidget.h"
+#include "View/MultiLineTextEditView.h"
+#include "View/PushButtonView.h"
+#include "View/Qu.h"
+#include "View/SliderView.h"
+#include "View/StringListView.h"
+#include "View/StyleSheetWriter.h"
+#include "View/TextEditView.h"
+#include "View/TitleListWidget.h"

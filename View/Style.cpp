@@ -20,26 +20,7 @@
 -------------------------------------------------------------------------------
 */
 #include "View/Style.h"
-#include <qstyle.h>
-#include <QGroupBox>
-#include <QLabel>
-#include <QLineEdit>
-#include <QSplitter>
-#include <QTabWidget>
-#include <QTextEdit>
-#include <QVBoxLayout>
-#include "CheckBoxView.h"
-#include "FlagView.h"
-#include "IconButtonView.h"
-#include "ItemListWidget.h"
-#include "MultiLineTextEditView.h"
-#include "PushButtonView.h"
-#include "Qu.h"
-#include "SliderView.h"
-#include "StringListView.h"
-#include "StyleSheetWriter.h"
-#include "TextEditView.h"
-#include "TitleListWidget.h"
+#include "View/StyleHeaders.h"
 
 namespace Rt2::View::Style
 {
