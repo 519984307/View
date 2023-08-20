@@ -100,6 +100,39 @@ namespace Rt2::View::Style
             obj->setStyleSheet(w.toString());
         }
 
+        void textEditStyle(QWidget* obj, const bool readonly)
+        {
+            RT_GUARD_CHECK_VOID(obj)
+            StyleSheetWriter w;
+            if (readonly)
+            {
+                obj->setObjectName("readonly");
+                w.beginClassId("QTextEdit", "readonly");
+            }
+            else
+            {
+                obj->setObjectName("normal");
+                w.beginClassId("QTextEdit", "normal");
+            }
+
+            w.backgroundColor(TextEdit::Background);
+            w.color(TextEdit::Foreground);
+            w.fontSize(TextEdit::TextSize);
+            w.end();
+            obj->setStyleSheet(w.toString());
+        }
+
+
+        void lineEditStyle(QWidget* obj)
+        {
+            RT_GUARD_CHECK_VOID(obj)
+            StyleSheetWriter w;
+            w.backgroundColor(TextEdit::Background);
+            w.color(TextEdit::Foreground);
+            w.fontSize(TextEdit::TextSize);
+            obj->setStyleSheet(w.toString());
+        }
+
     }  // namespace Common
 
     QLabel* Widget::label()
@@ -244,23 +277,7 @@ namespace Rt2::View::Style
         Common::clearMargin(obj);
 
         obj->setReadOnly(readonly);
-        StyleSheetWriter w;
-        if (readonly)
-        {
-            obj->setObjectName("readonly");
-            w.beginClassId("QTextEdit", "readonly");
-        }
-        else
-        {
-            obj->setObjectName("normal");
-            w.beginClassId("QTextEdit", "normal");
-        }
-
-        w.backgroundColor(TextEdit::Background);
-        w.color(TextEdit::Foreground);
-        w.fontSize(TextEdit::TextSize);
-        w.end();
-        obj->setStyleSheet(w.toString());
+        Common::textEditStyle(obj, readonly);
         return obj;
     }
 
@@ -269,8 +286,10 @@ namespace Rt2::View::Style
         const auto obj = new QLineEdit();
         Common::clearMargin(obj);
         Constraint::height(obj, Window::BaseHeight);
+
         obj->setFrame(false);
         obj->setContextMenuPolicy(Qt::ContextMenuPolicy::DefaultContextMenu);
+        Common::lineEditStyle(obj);
         return obj;
     }
 
