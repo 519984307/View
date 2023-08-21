@@ -287,7 +287,7 @@ namespace Rt2::View::Style
         Common::clearMargin(obj);
         Constraint::height(obj, Window::BaseHeight);
 
-        obj->setFrame(false);
+        //obj->setFrame(false);
         obj->setContextMenuPolicy(Qt::ContextMenuPolicy::DefaultContextMenu);
         Common::lineEditStyle(obj);
         return obj;
@@ -343,9 +343,9 @@ namespace Rt2::View::Style
     QSplitter* Widget::split(
         QWidget*               left,
         QWidget*               right,
-        const Qt::Orientation& ori,
-        const int              ls,
-        const int              rs)
+        const Qt::Orientation& orientation,
+        const int              leftStretch,
+        const int              rightStretch)
     {
         // fall back cases
         if (!left) left = box();
@@ -353,11 +353,11 @@ namespace Rt2::View::Style
 
         const auto obj = new QSplitter();
         Common::clearMargin(obj);
-        obj->setOrientation(ori);
+        obj->setOrientation(orientation);
         obj->addWidget(left);
         obj->addWidget(right);
-        obj->setStretchFactor(0, ls);
-        obj->setStretchFactor(1, rs);
+        obj->setStretchFactor(0, leftStretch);
+        obj->setStretchFactor(1, rightStretch);
         return obj;
     }
 

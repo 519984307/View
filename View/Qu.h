@@ -58,6 +58,8 @@ namespace Rt2::View
 
         static QString to(const String& str);
 
+        static QString to(const uint8_t *buf, size_t size);
+
         static QVariant variant(const String& str);
 
         static String wrap(const String& str, const int width, const int maxWidth);

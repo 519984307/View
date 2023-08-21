@@ -410,7 +410,7 @@ namespace Rt2::View::Style
 
         static QSplitter* splitHorizontal(QWidget* left, QWidget* right,int ls=0, int rs =0);
         static QSplitter* splitVertical(QWidget* left, QWidget* right, int ls=0, int rs =0);
-        static QSplitter* split(QWidget* left, QWidget* right, const Qt::Orientation& ori, int ls=0, int rs =0);
+        static QSplitter* split(QWidget* left, QWidget* right, const Qt::Orientation& orientation, int leftStretch=0, int rightStretch =0);
     };
 
     class Constraint

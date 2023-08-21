@@ -149,6 +149,11 @@ namespace Rt2::View
         return QString::fromStdString(str);
     }
 
+    QString Qsu::to(const uint8_t* buf, size_t size)
+    {
+        return to({(const char*)buf, size});
+    }
+
     QVariant Qsu::variant(const String& str)
     {
         return {to(str)};
