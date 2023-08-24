@@ -176,6 +176,11 @@ namespace Rt2::View
         return wn;
     }
 
+    QString Qsu::wrapStyle(const String& name, const uint8_t *style, size_t len)
+    {
+        return Qsu::to(Su::join('#', name, '{', String{(char*)style, len}, '}'));
+    }
+
     QString Qsu::color(const QColor& color)
     {
         return to(colorString(color));

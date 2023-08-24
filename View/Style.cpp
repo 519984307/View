@@ -122,7 +122,6 @@ namespace Rt2::View::Style
             obj->setStyleSheet(w.toString());
         }
 
-
         void lineEditStyle(QWidget* obj)
         {
             RT_GUARD_CHECK_VOID(obj)
@@ -224,6 +223,38 @@ namespace Rt2::View::Style
         return obj;
     }
 
+    QPushButton* Widget::push()
+    {
+        const auto obj = new QPushButton();
+        Common::clearMargin(obj);
+        obj->setMinimumSize(Push::MinSize);
+        obj->setMaximumSize(Push::MaxSize);
+        return obj;
+    }
+
+    QPushButton* Widget::push(const String& text)
+    {
+        const auto obj = push();
+        obj->setText(Qsu::to(text));
+        return obj;
+    }
+
+    QCheckBox* Widget::check(const bool checked)
+    {
+        const auto obj = new QCheckBox();
+        Common::clearMargin(obj);
+        obj->setCheckState(checked ? Qt::Checked : Qt::Unchecked);
+        return obj;
+    }
+
+    QCheckBox* Widget::check(const String& text, const bool checked)
+    {
+        const auto obj = check(checked);
+        if (!text.empty())
+            obj->setText(Qsu::to(text));
+        return obj;
+    }
+
     QWidget* Widget::idBox(const QColor& background)
     {
         const auto obj = box();
@@ -287,7 +318,7 @@ namespace Rt2::View::Style
         Common::clearMargin(obj);
         Constraint::height(obj, Window::BaseHeight);
 
-        //obj->setFrame(false);
+        // obj->setFrame(false);
         obj->setContextMenuPolicy(Qt::ContextMenuPolicy::DefaultContextMenu);
         Common::lineEditStyle(obj);
         return obj;
@@ -351,13 +382,30 @@ namespace Rt2::View::Style
         if (!left) left = box();
         if (!right) right = box();
 
-        const auto obj = new QSplitter();
-        Common::clearMargin(obj);
-        obj->setOrientation(orientation);
+        const auto obj = split(orientation);
         obj->addWidget(left);
         obj->addWidget(right);
         obj->setStretchFactor(0, leftStretch);
         obj->setStretchFactor(1, rightStretch);
+        return obj;
+    }
+
+    QSplitter* Widget::split(const Qt::Orientation& orientation)
+    {
+        const auto obj = new QSplitter();
+        Common::clearMargin(obj);
+        obj->setOrientation(orientation);
+        return obj;
+    }
+
+    QWidget* Widget::wrap(QLayout* layout)
+    {
+        RT_GUARD_CHECK_RET(layout, blank(QColor{0xFF, 0x00, 0xFF}));
+
+        const auto obj = new QWidget();
+        Common::clearMargin(obj);
+        obj->setAttribute(Qt::WA_InputMethodTransparent);
+        obj->setLayout(layout);
         return obj;
     }
 
@@ -422,87 +470,87 @@ namespace Rt2::View::Style
 
     QVBoxLayout* Layout::v0(const int spacing)
     {
-        return vl(spacing);
+        return vertical(spacing);
     }
 
     QHBoxLayout* Layout::h0(const int spacing)
     {
-        return hl(spacing);
+        return horizontal(spacing);
     }
 
-    QVBoxLayout* Layout::vl(const QMargins& margin, const int spacing)
+    QVBoxLayout* Layout::vertical(const QMargins& margin, const int spacing)
     {
-        return (QVBoxLayout*)sl(Qt::Vertical, spacing, margin);
+        return (QVBoxLayout*)layout(Qt::Vertical, spacing, margin);
     }
 
     QVBoxLayout* Layout::v1(const int spacing)
     {
-        return vl(spacing, Margin::Small);
+        return vertical(spacing, Margin::Small);
     }
 
     QVBoxLayout* Layout::v2(const int spacing)
     {
-        return vl(spacing, Margin::Medium);
+        return vertical(spacing, Margin::Medium);
     }
 
     QVBoxLayout* Layout::v3(const int spacing)
     {
-        return vl(spacing, Margin::Large);
+        return vertical(spacing, Margin::Large);
     }
 
     QVBoxLayout* Layout::v4(const int spacing)
     {
-        return vl(spacing, Margin::XLarge);
+        return vertical(spacing, Margin::XLarge);
     }
 
     QVBoxLayout* Layout::v5(const int spacing)
     {
-        return vl(spacing, Margin::XxLarge);
+        return vertical(spacing, Margin::XxLarge);
     }
 
     QHBoxLayout* Layout::h5(const int spacing)
     {
-        return hl(spacing, Margin::XxLarge);
+        return horizontal(spacing, Margin::XxLarge);
     }
 
     QHBoxLayout* Layout::h1(const int spacing)
     {
-        return hl(spacing, Margin::Small);
+        return horizontal(spacing, Margin::Small);
     }
 
     QHBoxLayout* Layout::h2(const int spacing)
     {
-        return hl(spacing, Margin::Medium);
+        return horizontal(spacing, Margin::Medium);
     }
 
     QHBoxLayout* Layout::h3(const int spacing)
     {
-        return hl(spacing, Margin::Large);
+        return horizontal(spacing, Margin::Large);
     }
 
     QHBoxLayout* Layout::h4(const int spacing)
     {
-        return hl(spacing, Margin::XLarge);
+        return horizontal(spacing, Margin::XLarge);
     }
 
-    QHBoxLayout* Layout::hl(const QMargins& margin, const int spacing)
+    QHBoxLayout* Layout::horizontal(const QMargins& margin, const int spacing)
     {
-        return (QHBoxLayout*)sl(Qt::Horizontal, spacing, margin);
+        return (QHBoxLayout*)layout(Qt::Horizontal, spacing, margin);
     }
 
-    QVBoxLayout* Layout::vl(const int spacing, const QMargins& margin)
+    QVBoxLayout* Layout::vertical(const int spacing, const QMargins& margin)
     {
-        return (QVBoxLayout*)sl(Qt::Vertical, spacing, margin);
+        return (QVBoxLayout*)layout(Qt::Vertical, spacing, margin);
     }
 
-    QHBoxLayout* Layout::hl(const int spacing, const QMargins& margin)
+    QHBoxLayout* Layout::horizontal(const int spacing, const QMargins& margin)
     {
-        return (QHBoxLayout*)sl(Qt::Horizontal, spacing, margin);
+        return (QHBoxLayout*)layout(Qt::Horizontal, spacing, margin);
     }
 
-    QBoxLayout* Layout::sl(const Qt::Orientation& orientation,
-                           const int              spacing,
-                           const QMargins&        margin)
+    QBoxLayout* Layout::layout(const Qt::Orientation& orientation,
+                               const int              spacing,
+                               const QMargins&        margin)
     {
         QBoxLayout* obj;
         if (orientation == Qt::Vertical)

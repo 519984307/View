@@ -8,6 +8,8 @@
 #include <QTabWidget>
 #include <QTextEdit>
 #include <QVBoxLayout>
+#include <QPushButton>
+#include <QCheckBox>
 #include "View/CheckBoxView.h"
 #include "View/FlagView.h"
 #include "View/IconButtonView.h"

@@ -64,6 +64,8 @@ namespace Rt2::View
 
         static String wrap(const String& str, const int width, const int maxWidth);
 
+        static QString wrapStyle(const String& name, const uint8_t *style, size_t len);
+
         static QString color(const QColor& color);
 
         static QString name(const void* address);

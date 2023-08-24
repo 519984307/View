@@ -73,6 +73,9 @@ namespace Rt2::View::Style
         constexpr int Pt24{24};
         constexpr int Pt28{28};
         constexpr int Pt32{32};
+        constexpr int Pt64{64};
+        constexpr int Pt72{72};
+        constexpr int Pt96{96};
     }  // namespace Points
 
     namespace FontSize
@@ -318,8 +321,16 @@ namespace Rt2::View::Style
         constexpr int    FontSize   = Points::Pt10;
 
         constexpr QSize MinSize = {BaseWidth, BaseHeight};
-
     }  // namespace Ctrl
+
+    namespace Push
+    {
+        constexpr int   BaseHeight = Points::Pt24;
+        constexpr int   BaseWidth  = Points::Pt64;
+        constexpr int   FontSize   = Points::Pt10;
+        constexpr QSize MinSize    = {BaseWidth, BaseHeight};
+        constexpr QSize MaxSize    = {Points::Pt96, Points::Pt32};
+    }  // namespace Push
 
     namespace Slider
     {
@@ -380,6 +391,12 @@ namespace Rt2::View::Style
 
         static QWidget* box();
 
+        static QPushButton* push();
+        static QPushButton* push(const String& text);
+
+        static QCheckBox* check(bool checked=false);
+        static QCheckBox* check(const String& text, bool checked=false);
+
         static QWidget* idBox(const QColor& background);
 
         static QWidget* blank(const QColor& background);
@@ -408,9 +425,12 @@ namespace Rt2::View::Style
             const QColor&      color,
             const QColor&      background);
 
-        static QSplitter* splitHorizontal(QWidget* left, QWidget* right,int ls=0, int rs =0);
-        static QSplitter* splitVertical(QWidget* left, QWidget* right, int ls=0, int rs =0);
-        static QSplitter* split(QWidget* left, QWidget* right, const Qt::Orientation& orientation, int leftStretch=0, int rightStretch =0);
+        static QSplitter* splitHorizontal(QWidget* left, QWidget* right, int ls = 0, int rs = 0);
+        static QSplitter* splitVertical(QWidget* left, QWidget* right, int ls = 0, int rs = 0);
+        static QSplitter* split(QWidget* left, QWidget* right, const Qt::Orientation& orientation, int leftStretch = 0, int rightStretch = 0);
+        static QSplitter* split(const Qt::Orientation& orientation);
+
+        static QWidget* wrap(QLayout* layout);
     };
 
     class Constraint
@@ -434,9 +454,9 @@ namespace Rt2::View::Style
     class Layout
     {
     public:
-        static QBoxLayout*  sl(const Qt::Orientation& orientation, int spacing, const QMargins& margin);
-        static QVBoxLayout* vl(int spacing, const QMargins& margin = Margin::None);
-        static QVBoxLayout* vl(const QMargins& margin, int spacing = Size::None);
+        static QBoxLayout*  layout(const Qt::Orientation& orientation, int spacing, const QMargins& margin);
+        static QVBoxLayout* vertical(int spacing, const QMargins& margin = Margin::None);
+        static QVBoxLayout* vertical(const QMargins& margin, int spacing = Size::None);
         static QVBoxLayout* v0(int spacing = Size::None);
         static QVBoxLayout* v1(int spacing = Size::Small);
         static QVBoxLayout* v2(int spacing = Size::Medium);
@@ -444,8 +464,8 @@ namespace Rt2::View::Style
         static QVBoxLayout* v4(int spacing = Size::XLarge);
         static QVBoxLayout* v5(int spacing = Size::XxLarge);
 
-        static QHBoxLayout* hl(int spacing, const QMargins& margin = Margin::None);
-        static QHBoxLayout* hl(const QMargins& margin, int spacing = Size::None);
+        static QHBoxLayout* horizontal(int spacing, const QMargins& margin = Margin::None);
+        static QHBoxLayout* horizontal(const QMargins& margin, int spacing = Size::None);
         static QHBoxLayout* h0(int spacing = Size::None);
         static QHBoxLayout* h1(int spacing = Size::Small);
         static QHBoxLayout* h2(int spacing = Size::Medium);

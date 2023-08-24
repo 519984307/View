@@ -20,6 +20,7 @@ class QTextEdit;
 class QGuiApplication;
 class QLayout;
 class QPushButton;
+class QCheckBox;
 
 namespace Rt2::View
 {
