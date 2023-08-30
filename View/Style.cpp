@@ -20,6 +20,7 @@
 -------------------------------------------------------------------------------
 */
 #include "View/Style.h"
+#include "LabelView.h"
 #include "View/StyleHeaders.h"
 
 namespace Rt2::View::Style
@@ -134,26 +135,26 @@ namespace Rt2::View::Style
 
     }  // namespace Common
 
-    QLabel* Widget::label()
+    LabelView* Widget::label()
     {
-        const auto obj = new QLabel();
+        const auto obj = new LabelView();
         Common::makeInputStatic(obj);
         Common::clearFrame(obj);
         Common::textStyle(obj, FontSize::Normal, Window::Foreground);
         return obj;
     }
 
-    QLabel* Widget::label(const String& text)
+    LabelView* Widget::label(const String& text)
     {
         return label(text, FontSize::Normal);
     }
 
-    QLabel* Widget::label(const String& text, const int size)
+    LabelView* Widget::label(const String& text, const int size)
     {
         return label(text, size, Normal::Foreground);
     }
 
-    QLabel* Widget::label(const String& text, const int size, const QColor& color)
+    LabelView* Widget::label(const String& text, const int size, const QColor& color)
     {
         const auto obj = label();
         obj->setText(Qsu::to(text));
@@ -161,30 +162,30 @@ namespace Rt2::View::Style
         return obj;
     }
 
-    QLabel* Widget::label(const int size)
+    LabelView* Widget::label(const int size)
     {
         return label(size, Window::Foreground);
     }
 
-    QLabel* Widget::label(const int size, const QColor& color)
+    LabelView* Widget::label(const int size, const QColor& color)
     {
         const auto obj = label();
         Common::textStyle(obj, size, color);
         return obj;
     }
 
-    QLabel* Widget::iconLabel(const IconMap& ico)
+    LabelView* Widget::iconLabel(const IconMap& ico)
     {
         return iconLabel(ico, FontSize::Normal);
     }
 
-    QLabel* Widget::iconLabel(const IconMap& ico, const int size)
+    LabelView* Widget::iconLabel(const IconMap& ico, const int size)
     {
-        const auto obj = new QLabel();
+        const auto obj = new LabelView();
         if (ico != IconNone)
             obj->setText(QChar(ico));
 
-        Common::makeInputStatic(obj);
+        // Common::makeInputStatic(obj);
         Common::clearFrame(obj);
 
         QFont fnt(Fonts::IconFamily);
@@ -195,7 +196,7 @@ namespace Rt2::View::Style
         return obj;
     }
 
-    QLabel* Widget::iconLabel(const IconMap& ico, const int size, const QSize& bounds)
+    LabelView* Widget::iconLabel(const IconMap& ico, const int size, const QSize& bounds)
     {
         const auto obj = iconLabel(ico, size);
         Common::alignCenter(obj, bounds);
@@ -328,6 +329,24 @@ namespace Rt2::View::Style
     {
         const auto obj = new QGroupBox(Qsu::to(text));
         Common::clearMargin(obj);
+        return obj;
+    }
+
+    QComboBox* Widget::combo()
+    {
+        const auto obj = new QComboBox();
+        Common::clearMargin(obj);
+        return obj;
+    }
+
+    QComboBox* Widget::combo(const StringArray& choices, const size_t index)
+    {
+        const auto obj = combo();
+        for (const auto& choice : choices)
+            obj->addItem(Qsu::to(choice));
+
+        if (index < choices.size())
+            obj->setCurrentIndex((int)index);
         return obj;
     }
 

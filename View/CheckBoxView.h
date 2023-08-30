@@ -28,8 +28,8 @@ namespace Rt2::View
     {
         Q_OBJECT
     private:
-        QLabel*   _icon{nullptr};
-        BoolModel _check{false};
+        LabelView* _icon{nullptr};
+        BoolModel  _check{false};
 
     public:
         explicit CheckBoxView(QWidget* parent = nullptr);

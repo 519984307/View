@@ -23,23 +23,25 @@
 #include <QLabel>
 #include "View/Definitions.h"
 
-
 namespace Rt2::View
 {
     class LabelView final : public QLabel
     {
-    private:
-        StringModel _model;
-
+        Q_OBJECT
+    signals:
+        void changed(const QString& str);
+        void pressed();
+        void released();
     public:
-        explicit LabelView(const QString& text, QWidget* parent = nullptr);
+        explicit LabelView(QWidget* parent = nullptr);
 
         ~LabelView() override;
 
-        void addOutput(const StringModel::Observer& ot);
-    private:
+        void setLabelText(const QString& v);
 
-        void changeEvent(QEvent*) override;
+    private:
+        void mousePressEvent(QMouseEvent* ev) override;
+        void mouseReleaseEvent(QMouseEvent* ev) override;
     };
 
 }  // namespace Rt2::View

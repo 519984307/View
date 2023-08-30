@@ -22,6 +22,8 @@
 #include "View/TitleListWidget.h"
 #include <QBoxLayout>
 #include <QLabel>
+
+#include "LabelView.h"
 #include "Qu.h"
 #include "View/StyleSheetWriter.h"
 

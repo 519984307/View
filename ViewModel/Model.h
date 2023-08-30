@@ -45,9 +45,20 @@ namespace Rt2::ViewModel
 
         friend class ViewModel<T>;
 
-        bool setValue(const T& val);
+        bool setValue(const T& val)
+        {
+            if (_data != val)  // may require an operator
+            {
+                _data = val;
+                return true;
+            }
+            return false;
+        }
 
-        T& ref();
+        T& ref()
+        {
+            return _data;
+        }
 
         Model(const SelfType& rhs) :
             _data{rhs._data}
@@ -66,30 +77,10 @@ namespace Rt2::ViewModel
     public:
         Model() = default;
 
-        const T& value() const;
-    };
-
-    template <typename T>
-    bool Model<T>::setValue(const T& val)
-    {
-        if (_data != val)  // may require an operator
+        const T& value() const
         {
-            _data = val;
-            return true;
+            return _data;
         }
-        return false;
-    }
-
-    template <typename T>
-    const T& Model<T>::value() const
-    {
-        return _data;
-    }
-
-    template <typename T>
-    T& Model<T>::ref()
-    {
-        return _data;
-    }
+    };
 
 }  // namespace Rt2::ViewModel

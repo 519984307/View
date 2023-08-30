@@ -40,11 +40,44 @@ namespace Rt2::ViewModel
         ModelType _model{};
         bool      _callLock{false};
 
-        void dispatchInput();
+        void dispatchInput()
+        {
+            for (const auto& input : _inputs)
+                input(_model.value());
+        }
 
-        void dispatchOutput();
+        void dispatchOutput()
+        {
+            for (const auto& output : _outputs)
+                output(_model.value());
+        }
 
-        void invoke(Direction dir);
+        void invoke(const Direction dir)
+        {
+            if (_callLock)
+                return;
+
+            switch (dir)
+            {
+            case INPUT:  // src to data
+                _callLock = true;
+                dispatchInput();
+                break;
+            case OUTPUT:  // data to src
+                _callLock = true;
+                dispatchOutput();
+                break;
+            case BOTH:
+                _callLock = true;
+                dispatchInput();
+                dispatchOutput();
+                break;
+            case NONE:
+            default:  // nadda
+                break;
+            }
+            _callLock = false;
+        }
 
     private:
         ViewModel(const SelfType& rhs) :
@@ -68,122 +101,156 @@ namespace Rt2::ViewModel
     public:
         ViewModel() = default;
 
-        explicit ViewModel(const T& v);
+        explicit ViewModel(const T& v)
+        {
+            _model.setValue(v);
+        }
 
-        virtual ~ViewModel();
+        virtual ~ViewModel()
+        {
+            clear();
+        }
 
-        void setValue(const T& val, Direction dir = INPUT);
+        void setValue(const T& val, Direction dir = INPUT)
+        {
+            if (_model.setValue(val))
+                invoke(dir);
+        }
 
-        const T& value() const;
+        const T& value() const
+        {
+            return _model.value();
+        }
 
-        T& ref();
+        T& ref()
+        {
+            return _model.ref();
+        }
 
-        void addInput(const Observer& ot);
+        void addInput(const Observer& ot)
+        {
+            _inputs.push_back(ot);
+        }
 
-        void addOutput(const Observer& ot);
+        void addOutput(const Observer& ot)
+        {
+            _outputs.push_back(ot);
+        }
 
-        void clear();
+        void clear()
+        {
+            _inputs.clear();
+            _outputs.clear();
+        }
 
-        void dispatch(const Direction& dir);
+        void dispatch(const Direction& dir)
+        {
+            invoke(dir);
+        }
     };
 
-    template <typename T>
-    ViewModel<T>::ViewModel(const T& v)
+    template <>
+    class ViewModel<void>
     {
-        _model.setValue(v);
-    }
+    public:
+        using Observer  = std::function<void()>;
+        using Observers = SimpleArray<Observer>;
+        using SelfType  = ViewModel<void>;
 
-    template <typename T>
-    ViewModel<T>::~ViewModel()
-    {
-        clear();
-    }
+    protected:
+        Observers _inputs;
+        Observers _outputs;
+        bool      _callLock{false};
 
-    template <typename T>
-    void ViewModel<T>::dispatchInput()
-    {
-        for (const auto& input : _inputs)
-            input(_model.value());
-    }
-
-    template <typename T>
-    void ViewModel<T>::dispatchOutput()
-    {
-        for (const auto& output : _outputs)
-            output(_model.value());
-    }
-
-    template <typename T>
-    void ViewModel<T>::setValue(const T& val, const Direction dir)
-    {
-        if (_model.setValue(val))
-            invoke(dir);
-    }
-
-    template <typename T>
-    const T& ViewModel<T>::value() const
-    {
-        return _model.value();
-    }
-
-    template <typename T>
-    T& ViewModel<T>::ref()
-    {
-        return _model.ref();
-    }
-
-    template <typename T>
-    void ViewModel<T>::invoke(const Direction dir)
-    {
-        if (_callLock)
-            return;
-
-        switch (dir)
+        void dispatchInput()
         {
-        case INPUT:  // src to data
-            _callLock = true;
-            dispatchInput();
-            break;
-        case OUTPUT:  // data to src
-            _callLock = true;
-            dispatchOutput();
-            break;
-        case BOTH:
-            _callLock = true;
-            dispatchInput();
-            dispatchOutput();
-            break;
-        case NONE:
-        default:  // nadda
-            break;
+            for (const auto& input : _inputs)
+                input();
         }
-        _callLock = false;
-    }
 
-    template <typename T>
-    void ViewModel<T>::addInput(const Observer& ot)
-    {
-        _inputs.push_back(ot);
-    }
+        void dispatchOutput()
+        {
+            for (const auto& output : _outputs)
+                output();
+        }
 
-    template <typename T>
-    void ViewModel<T>::addOutput(const Observer& ot)
-    {
-        _outputs.push_back(ot);
-    }
+        void invoke(const Direction dir)
+        {
+            if (_callLock)
+                return;
 
-    template <typename T>
-    void ViewModel<T>::clear()
-    {
-        _inputs.clear();
-        _outputs.clear();
-    }
+            switch (dir)
+            {
+            case INPUT:  // src to data
+                _callLock = true;
+                dispatchInput();
+                break;
+            case OUTPUT:  // data to src
+                _callLock = true;
+                dispatchOutput();
+                break;
+            case BOTH:
+                _callLock = true;
+                dispatchInput();
+                dispatchOutput();
+                break;
+            case NONE:
+            default:  // nadda
+                break;
+            }
+            _callLock = false;
+        }
 
-    template <typename T>
-    void ViewModel<T>::dispatch(const Direction& dir)
-    {
-        invoke(dir);
-    }
+    private:
+        ViewModel(const SelfType& rhs) :
+            _inputs(rhs._inputs),
+            _outputs(rhs._outputs)
+        {
+        }
+
+        SelfType& operator=(const SelfType& rhs)
+        {
+            if (&rhs != this)
+            {
+                _inputs  = rhs._inputs;
+                _outputs = rhs._outputs;
+            }
+            return *this;
+        }
+
+    public:
+        ViewModel() = default;
+        virtual ~ViewModel()
+        {
+            clear();
+        }
+
+        void setValue(const Direction dir = INPUT)
+        {
+            invoke(dir);
+        }
+
+        void addInput(const Observer& ot)
+        {
+            _inputs.push_back(ot);
+        }
+
+        void addOutput(const Observer& ot)
+        {
+            _outputs.push_back(ot);
+        }
+
+        void clear()
+        {
+            _inputs.clear();
+            _outputs.clear();
+        }
+
+        void dispatch(const Direction& dir)
+        {
+            invoke(dir);
+        }
+    };
 
     template <typename T>
     using TFunction = std::function<void(const T&)>;

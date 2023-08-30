@@ -24,6 +24,7 @@
 #include <QMouseEvent>
 #include <QWidget>
 #include "States/Flag.h"
+#include "View/LabelView.h"
 #include "View/Qu.h"
 
 namespace Rt2::View
@@ -39,7 +40,10 @@ namespace Rt2::View
 
     void FlagViewItem::construct()
     {
-        _box = Style::Widget::iconLabel(IconNone, Style::Icon::Normal, Style::Icon::Bounds);
+        _box = Style::Widget::iconLabel(
+            IconNone,
+            Style::Icon::Normal,
+            Style::Icon::Bounds);
         _box->setObjectName("FlagViewItem");
         setObjectName("FlagViewItem");
         constructView(_box);

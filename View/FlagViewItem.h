@@ -32,8 +32,8 @@ namespace Rt2::View
     {
         Q_OBJECT
     private:
-        QLabel* _box{nullptr};
-        int     _index{0};
+        LabelView* _box{nullptr};
+        int        _index{0};
     signals:
         void stateChanged(bool state, int index);
 
@@ -51,6 +51,5 @@ namespace Rt2::View
 
         void mouseReleaseEvent(QMouseEvent* event) override;
     };
-
 
 }  // namespace Rt2::View

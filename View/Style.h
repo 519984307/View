@@ -375,16 +375,16 @@ namespace Rt2::View::Style
     class Widget
     {
     public:
-        static QLabel* label();
-        static QLabel* label(const String& text);
-        static QLabel* label(const String& text, int size);
-        static QLabel* label(const String& text, int size, const QColor& color);
-        static QLabel* label(int size);
-        static QLabel* label(int size, const QColor& color);
+        static LabelView* label();
+        static LabelView* label(const String& text);
+        static LabelView* label(const String& text, int size);
+        static LabelView* label(const String& text, int size, const QColor& color);
+        static LabelView* label(int size);
+        static LabelView* label(int size, const QColor& color);
 
-        static QLabel* iconLabel(const IconMap& ico);
-        static QLabel* iconLabel(const IconMap& ico, int size);
-        static QLabel* iconLabel(const IconMap& ico, int size, const QSize& bounds);
+        static LabelView* iconLabel(const IconMap& ico);
+        static LabelView* iconLabel(const IconMap& ico, int size);
+        static LabelView* iconLabel(const IconMap& ico, int size, const QSize& bounds);
 
         static QLabel* centeredLabel(const QSize& bounds);
         static QLabel* centeredLabel(const String& text, const QSize& bounds);
@@ -413,6 +413,9 @@ namespace Rt2::View::Style
         static QLineEdit* lineEdit();
 
         static QGroupBox* groupBox(const String& text);
+
+        static QComboBox* combo();
+        static QComboBox* combo(const StringArray &choices, size_t index = 0);
 
         static QTabWidget* tabWidget();
 

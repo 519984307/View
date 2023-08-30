@@ -81,6 +81,8 @@ namespace Rt2::View
         IconCopy,
         //
         IconsEnd,
+        // Note: additions need to be synchronized
+        // in EmitterUtils::validateIcon 
     };
 
     class Qiu
@@ -88,7 +90,7 @@ namespace Rt2::View
     public:
         static QString to(const IconMap& ico)
         {
-            return QString(QChar(ico));
+            return {QChar(ico)};
         }
     };
 

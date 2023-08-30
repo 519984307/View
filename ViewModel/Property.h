@@ -25,6 +25,7 @@
 
 namespace Rt2::ViewModel
 {
+    using VoidModel       = ViewModel<void>;
     using BoolModel       = ViewModel<bool>;
     using IntModel        = ViewModel<int>;
     using FloatModel      = ViewModel<float>;

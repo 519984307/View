@@ -39,6 +39,7 @@ namespace Rt2::View
 {
     using ObserverDirection = ViewModel::Direction;
 
+    using VoidModel       = ViewModel::VoidModel;
     using BoolModel       = ViewModel::BoolModel;
     using IntModel        = ViewModel::IntModel;
     using FloatModel      = ViewModel::FloatModel;

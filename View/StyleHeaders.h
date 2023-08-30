@@ -10,6 +10,8 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QCheckBox>
+#include <QComboBox>
+#include <QTabWidget>
 #include "View/CheckBoxView.h"
 #include "View/FlagView.h"
 #include "View/IconButtonView.h"
@@ -22,3 +24,4 @@
 #include "View/StyleSheetWriter.h"
 #include "View/TextEditView.h"
 #include "View/TitleListWidget.h"
+#include "View/LabelView.h"

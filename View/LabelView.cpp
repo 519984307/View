@@ -24,24 +24,28 @@
 
 namespace Rt2::View
 {
-    LabelView::LabelView(const QString& text, QWidget* parent) :
-        QLabel(text, parent)
+    LabelView::LabelView(QWidget* parent) :
+        QLabel(parent)
     {
-        _model.setValue(Qsu::from(text));
     }
 
     LabelView::~LabelView() = default;
 
-    void LabelView::changeEvent(QEvent* event)
+    void LabelView::setLabelText(const QString& v)
     {
-        QLabel::changeEvent(event);
-
-        _model.setValue(Qsu::from(text()), ViewModel::OUTPUT);
+        setText(v);
+        emit changed(v);
     }
 
-    void LabelView::addOutput(const StringModel::Observer& ot)
+    void LabelView::mousePressEvent(QMouseEvent* ev)
     {
-        _model.addOutput(ot);
+        QLabel::mousePressEvent(ev);
+        emit pressed();
     }
 
+    void LabelView::mouseReleaseEvent(QMouseEvent* ev)
+    {
+        QLabel::mouseReleaseEvent(ev);
+        emit released();
+    }
 }  // namespace Rt2::View

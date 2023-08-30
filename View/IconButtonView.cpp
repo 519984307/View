@@ -20,6 +20,7 @@
 -------------------------------------------------------------------------------
 */
 #include "View/IconButtonView.h"
+#include "View/LabelView.h"
 #include <QBoxLayout>
 #include <QLabel>
 #include <QMouseEvent>
@@ -44,7 +45,10 @@ namespace Rt2::View
 
     void IconButtonView::construct(const IconMap icon)
     {
-        _icon = Style::Widget::iconLabel(icon, Style::Icon::Normal, Style::Icon::Bounds);
+        _icon = Style::Widget::iconLabel(
+            icon, 
+            Style::Icon::Normal, 
+            Style::Icon::Bounds);
         constructView(_icon);
         Style::Constraint::fixed(this, Style::Icon::Bounds);
         apply(VisualType::Normal);

@@ -21,6 +21,9 @@ class QGuiApplication;
 class QLayout;
 class QPushButton;
 class QCheckBox;
+class QComboBox;
+class QTabWidget;
+
 
 namespace Rt2::View
 {

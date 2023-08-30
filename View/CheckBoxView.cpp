@@ -20,10 +20,10 @@
 -------------------------------------------------------------------------------
 */
 #include "View/CheckBoxView.h"
-#include <QLabel>
 #include <QMouseEvent>
 #include <QWidget>
 #include "View/IconButtonView.h"
+#include "View/LabelView.h"
 #include "View/States/CheckBox.h"
 #include "View/States/Data.h"
 #include "View/States/State.h"
@@ -44,7 +44,10 @@ namespace Rt2::View
 
     void CheckBoxView::construct()
     {
-        _icon = Style::Widget::iconLabel(IconNone, Style::Icon::Normal, Style::Icon::Bounds);
+        _icon = Style::Widget::iconLabel(
+            IconNone,
+            Style::Icon::Normal,
+            Style::Icon::Bounds);
         constructView(_icon);
         setMinimumSize(Style::Icon::Bounds);
         setMaximumSize(Style::Icon::Bounds);
