@@ -111,7 +111,7 @@ namespace Rt2::ViewModel
             clear();
         }
 
-        void setValue(const T& val, Direction dir = INPUT)
+        void setValue(const T& val, const Direction dir = INPUT)
         {
             if (_model.setValue(val))
                 invoke(dir);

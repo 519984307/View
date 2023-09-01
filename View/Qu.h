@@ -32,7 +32,7 @@ namespace Rt2::View
         static void writeStyleSheet(QApplication& app);
 
     public:
-        static void initResources(QApplication& app);
+        static void initResources(QApplication& app, bool writeStyle=true);
 
         static bool isLabel(const QObject* obj);
 

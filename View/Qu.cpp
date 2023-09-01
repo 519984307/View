@@ -43,13 +43,18 @@ static int symbolLink()
 
 namespace Rt2::View
 {
-    void Qu::initResources(QApplication& app)
+    void Qu::initResources(QApplication& app, const bool writeStyle)
     {
         symbolLink();
+
+        // Builtin to the View library
         QFontDatabase::addApplicationFont(":/fonts/IconFont.ttf");
         QFontDatabase::addApplicationFont(":/fonts/JetBrainsMono-Thin.ttf");
-        writeStyleSheet(app);
 
+        if (writeStyle)
+            writeStyleSheet(app);
+
+        // TODO: A builtin default font family....
         QFont fnt(Style::Fonts::DefaultFamily);
         fnt.setPointSize(Style::Points::Pt10);
         QApplication::setFont(fnt);
@@ -176,7 +181,7 @@ namespace Rt2::View
         return wn;
     }
 
-    QString Qsu::wrapStyle(const String& name, const uint8_t *style, size_t len)
+    QString Qsu::wrapStyle(const String& name, const uint8_t* style, size_t len)
     {
         return Qsu::to(Su::join('#', name, '{', String{(char*)style, len}, '}'));
     }

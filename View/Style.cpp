@@ -138,7 +138,7 @@ namespace Rt2::View::Style
     LabelView* Widget::label()
     {
         const auto obj = new LabelView();
-        Common::makeInputStatic(obj);
+        //Common::makeInputStatic(obj);
         Common::clearFrame(obj);
         Common::textStyle(obj, FontSize::Normal, Window::Foreground);
         return obj;
