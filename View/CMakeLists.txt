@@ -6,6 +6,8 @@ set_group(
     Source/States:States/*.cpp
     Header:*.h
     Header/States:States/*.h
+    Content:Icons/Source/*.sfd
+    Content/Source:Icons/Source/*.svg
     Content/Resource:Icons/*.qrc
 )
 
